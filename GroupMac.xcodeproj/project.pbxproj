@@ -13,6 +13,9 @@
 		4C78FD9220D8280F006385B2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4C78FD9020D8280F006385B2 /* Main.storyboard */; };
 		4C78FD9E20D8280F006385B2 /* GroupMacTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C78FD9D20D8280F006385B2 /* GroupMacTests.swift */; };
 		4C78FDA920D8280F006385B2 /* GroupMacUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C78FDA820D8280F006385B2 /* GroupMacUITests.swift */; };
+		4C78FDB720D82C8D006385B2 /* GroupMe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C78FDB620D82C8D006385B2 /* GroupMe.swift */; };
+		4C78FDB820D82C8D006385B2 /* GroupMe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C78FDB620D82C8D006385B2 /* GroupMe.swift */; };
+		4C78FDBA20D82E21006385B2 /* token.txt in Resources */ = {isa = PBXBuildFile; fileRef = 4C78FDB920D82E21006385B2 /* token.txt */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +49,8 @@
 		4C78FDA420D8280F006385B2 /* GroupMacUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GroupMacUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C78FDA820D8280F006385B2 /* GroupMacUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupMacUITests.swift; sourceTree = "<group>"; };
 		4C78FDAA20D8280F006385B2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4C78FDB620D82C8D006385B2 /* GroupMe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupMe.swift; sourceTree = "<group>"; };
+		4C78FDB920D82E21006385B2 /* token.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = token.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +102,7 @@
 			isa = PBXGroup;
 			children = (
 				4C78FD8A20D8280D006385B2 /* AppDelegate.swift */,
+				4C78FDBB20D82E34006385B2 /* GroupMe */,
 				4C78FD8C20D8280D006385B2 /* ViewController.swift */,
 				4C78FD8E20D8280F006385B2 /* Assets.xcassets */,
 				4C78FD9020D8280F006385B2 /* Main.storyboard */,
@@ -122,6 +128,15 @@
 				4C78FDAA20D8280F006385B2 /* Info.plist */,
 			);
 			path = GroupMacUITests;
+			sourceTree = "<group>";
+		};
+		4C78FDBB20D82E34006385B2 /* GroupMe */ = {
+			isa = PBXGroup;
+			children = (
+				4C78FDB620D82C8D006385B2 /* GroupMe.swift */,
+				4C78FDB920D82E21006385B2 /* token.txt */,
+			);
+			path = GroupMe;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -192,6 +207,11 @@
 				TargetAttributes = {
 					4C78FD8620D8280D006385B2 = {
 						CreatedOnToolsVersion = 9.4.1;
+						SystemCapabilities = {
+							com.apple.Sandbox = {
+								enabled = 1;
+							};
+						};
 					};
 					4C78FD9820D8280F006385B2 = {
 						CreatedOnToolsVersion = 9.4.1;
@@ -230,6 +250,7 @@
 			files = (
 				4C78FD8F20D8280F006385B2 /* Assets.xcassets in Resources */,
 				4C78FD9220D8280F006385B2 /* Main.storyboard in Resources */,
+				4C78FDBA20D82E21006385B2 /* token.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -256,6 +277,7 @@
 			files = (
 				4C78FD8D20D8280D006385B2 /* ViewController.swift in Sources */,
 				4C78FD8B20D8280D006385B2 /* AppDelegate.swift in Sources */,
+				4C78FDB720D82C8D006385B2 /* GroupMe.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -264,6 +286,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4C78FD9E20D8280F006385B2 /* GroupMacTests.swift in Sources */,
+				4C78FDB820D82C8D006385B2 /* GroupMe.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
