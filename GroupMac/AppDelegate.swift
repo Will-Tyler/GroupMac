@@ -8,13 +8,21 @@
 
 import Cocoa
 
+
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
 	func applicationDidFinishLaunching(_ aNotification: Notification) {
 		// Insert code here to initialize your application
 
-		_ = GroupMe.groups
+		let groups = GroupMe.Group.groups
+		for group in groups {
+			print(group.name)
+		}
+		let first = groups.first!
+		for member in first.members {
+			print(member.nickname)
+		}
 	}
 
 	func applicationWillTerminate(_ aNotification: Notification) {
