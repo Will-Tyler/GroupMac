@@ -36,26 +36,8 @@ class GroupMe {
 		let shareURL: URL?
 		let shareQRCodeURL: URL?
 		let members: [Member]
-//		let messageInfo: MessageInfo?
+		let messageInfo: MessageInfo
 		let maxMembers: Int
-
-//		init(id: String, name: String, phoneNumber: String, type: String, description: String, imageURL: URL?, creatorUserID: String, createdAt: Int, updatedAt: Int, officeMode: Bool, shareURL: URL?, shareQRCodeURL: URL?, members: [Member],/* messageInfo: MessageInfo?,*/ maxMembers: Int) {
-//			self.id = id
-//			self.name = name
-//			self.phoneNumber = phoneNumber
-//			self.type = type
-//			self.description = description
-//			self.imageURL = imageURL
-//			self.creatorUserID = creatorUserID
-//			self.createdAt = createdAt
-//			self.updatedAt = updatedAt
-//			self.officeMode = officeMode
-//			self.shareURL = shareURL
-//			self.shareQRCodeURL = shareQRCodeURL
-//			self.members = members
-//			self.messageInfo = messageInfo
-//			self.maxMembers = maxMembers
-//		}
 
 		enum CodingKeys: String, CodingKey {
 			case id
@@ -71,7 +53,7 @@ class GroupMe {
 			case shareURL = "share_url"
 			case shareQRCodeURL = "share_qr_code_url"
 			case members
-//			case messageInfo = "messages"
+			case messageInfo = "messages"
 			case maxMembers = "max_members"
 		}
 
@@ -92,27 +74,20 @@ class GroupMe {
 //				case imageURL = "image_url"
 //			}
 //		}
-//
-//		class MessageInfo: Decodable {
-//			let count: Int
-//			let lastMessageID: String
-//			let lastMessageCreatedAt: Int
+
+		class MessageInfo: Decodable {
+			let count: Int
+			let lastMessageID: String
+			let lastMessageCreatedAt: Int
 //			let preview: PreviewMessage?
-//
-//			init(count: Int, lastMessageID: String, lastMessageCreatedAt: Int, preview: PreviewMessage?) {
-//				self.count = count
-//				self.lastMessageID = lastMessageID
-//				self.lastMessageCreatedAt = lastMessageCreatedAt
-//				self.preview = preview
-//			}
-//
-//			enum CodingKeys: String, CodingKey {
-//				case count
-//				case lastMessageID = "last_message_id"
-//				case lastMessageCreatedAt = "last_message_created_at"
+
+			enum CodingKeys: String, CodingKey {
+				case count
+				case lastMessageID = "last_message_id"
+				case lastMessageCreatedAt = "last_message_created_at"
 //				case preview
-//			}
-//		}
+			}
+		}
 
 		class Member: Decodable {
 			let userID: String
@@ -122,16 +97,6 @@ class GroupMe {
 			let isMuted: Bool
 			let isAutokicked: Bool
 			let roles: [String]
-
-//			init(userID: String, nickname: String, imageURL: URL?, id: String, isMuted: Bool, isAutokicked: Bool, roles: [String]) {
-//				self.userID = userID
-//				self.nickname = nickname
-//				self.imageURL = imageURL
-//				self.id = id
-//				self.isMuted = isMuted
-//				self.isAutokicked = isAutokicked
-//				self.roles = roles
-//			}
 
 			enum CodingKeys: String, CodingKey {
 				case userID = "user_id"
