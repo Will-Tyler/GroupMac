@@ -17,7 +17,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
 		let groups = GroupMe.Group.groups
 		for group in groups {
-			print(group.name)
+			print(group.name, group.messageInfo.count)
 		}
 		let first = groups.first!
 		for member in first.members {
