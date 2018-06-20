@@ -57,29 +57,11 @@ class GroupMe {
 			case maxMembers = "max_members"
 		}
 
-//		class PreviewMessage: Decodable {
-//			let nickname: String
-//			let text: String
-//			let imageURL: URL?
-//
-//			init(nickname: String, text: String, imageURL: URL?) {
-//				self.nickname = nickname
-//				self.text = text
-//				self.imageURL = imageURL
-//			}
-//
-//			enum CodingKeys: String, CodingKey {
-//				case nickname
-//				case text
-//				case imageURL = "image_url"
-//			}
-//		}
-
 		class MessageInfo: Decodable {
 			let count: Int
 			let lastMessageID: String
 			let lastMessageCreatedAt: Int
-//			let preview: PreviewMessage?
+//			let preview: Preview?
 
 			enum CodingKeys: String, CodingKey {
 				case count
@@ -87,6 +69,18 @@ class GroupMe {
 				case lastMessageCreatedAt = "last_message_created_at"
 //				case preview
 			}
+
+//			class Preview: Decodable {
+//				let nickname: String
+//				let text: String
+//				let imageURL: URL?
+//
+//				enum CodingKeys: String, CodingKey {
+//					case nickname
+//					case text = "text"
+//					case imageURL = "image_url"
+//				}
+//			}
 		}
 
 		class Member: Decodable {
