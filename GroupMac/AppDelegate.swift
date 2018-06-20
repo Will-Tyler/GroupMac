@@ -21,8 +21,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		window.isMovable = true
 		window.minSize = NSSize(width: 500, height: 300)
 
-		window.makeKeyAndOrderFront(nil)
-		
+		window.contentViewController = GroupsViewController()
+
 		let windowController = NSWindowController(window: window)
 		windowController.shouldCascadeWindows = true
 
@@ -32,7 +32,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	func applicationDidFinishLaunching(_ aNotification: Notification) {
 		// Insert code here to initialize your application
 
-		windowController.window?.makeKeyAndOrderFront(nil)
+		windowController.window!.makeKeyAndOrderFront(nil)
 	}
 
 	func applicationWillTerminate(_ aNotification: Notification) {

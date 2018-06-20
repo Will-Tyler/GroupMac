@@ -63,6 +63,12 @@ class GroupMe {
 			let lastMessageCreatedAt: Int
 //			let preview: Preview?
 
+			init(count: Int, lastMessageID: String, lastMessageCreatedAt: Int) {
+				self.count = count
+				self.lastMessageID = lastMessageID
+				self.lastMessageCreatedAt = lastMessageCreatedAt
+			}
+
 			enum CodingKeys: String, CodingKey {
 				case count
 				case lastMessageID = "last_message_id"
@@ -91,6 +97,16 @@ class GroupMe {
 			let isMuted: Bool
 			let isAutokicked: Bool
 			let roles: [String]
+
+			init(userID: String, nickname: String, imageURL: URL?, id: String, isMuted: Bool, isAutokicked: Bool, roles: [String]) {
+				self.userID = userID
+				self.nickname = nickname
+				self.imageURL = imageURL
+				self.id = id
+				self.isMuted = isMuted
+				self.isAutokicked = isAutokicked
+				self.roles = roles
+			}
 
 			enum CodingKeys: String, CodingKey {
 				case userID = "user_id"
