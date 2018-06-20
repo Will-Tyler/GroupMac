@@ -45,9 +45,41 @@ extension GroupMe {
 			case maxMembers = "max_members"
 		}
 
+		var messages: [GroupMe.Message] {
+			get {
+				let url = URL(string: "\(GroupMe.baseURL.absoluteString)/groups/\(id)/messages?token=\(GroupMe.accessToken)")!
+				let request: URLRequest = {
+					var request = URLRequest(url: url)
+					request.httpMethod = HTTPRequestMethod.get.rawValue
+
+					return request
+				}()
+
+				let results: HTTP.Response = HTTP.syncRequest(request: request)
+
+				guard results.error == nil else {
+					print(results.error!)
+
+					return [GroupMe.Message]()
+				}
+
+				let json = try! JSONSerialization.jsonObject(with: results.data!) as! [String: Any]
+
+				let countAndMessages = json["response"] as! [String: Any]
+
+				let messages: [GroupMe.Message] = {
+					let data = try! JSONSerialization.data(withJSONObject: countAndMessages["messages"]!)
+
+					return try! JSONDecoder().decode([GroupMe.Message].self, from: data)
+				}()
+
+				return messages
+			}
+		}
+
 		static var groups: [Group] {
 			get {
-				let url = URL(string: baseURL.absoluteString + "/groups?token=" + accessToken)!
+				let url = URL(string: "\(baseURL.absoluteString)/groups?token=\(GroupMe.accessToken)")!
 				let request: URLRequest = {
 					var request = URLRequest(url: url)
 					request.httpMethod = HTTPRequestMethod.get.rawValue
@@ -73,14 +105,6 @@ extension GroupMe {
 
 				return groups
 			}
-		}
-	}
-}
-
-extension GroupMe.Group {
-	var messages: [GroupMe.Message] {
-		get {
-			return [GroupMe.Message]()
 		}
 	}
 }
