@@ -21,7 +21,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		window.isMovable = true
 		window.minSize = NSSize(width: 500, height: 300)
 
-		window.contentViewController = GroupsViewController()
+		window.contentViewController = ViewController()
 
 		let windowController = NSWindowController(window: window)
 		windowController.shouldCascadeWindows = true

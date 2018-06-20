@@ -8,21 +8,27 @@
 
 import Cocoa
 
-class GroupsViewController: NSViewController, NSTableViewDataSource {
+class ViewController: NSViewController, NSTableViewDataSource {
 
 	let groups = GroupMe.Group.groups
 	let groupsTableView: NSTableView = {
 		let tableView = NSTableView()
+		tableView.headerView = nil
 
 		let column = NSTableColumn(/*identifier: NSUserInterfaceItemIdentifier("column")*/)
+
 		tableView.addTableColumn(column)
 
 		return tableView
 	}()
 	let scrollView = NSScrollView()
+	let inputTextField: NSTextField = {
+		let textField = NSTextField(string: "Enter your message.")
+
+		return textField
+	}()
 
 	private func setupInitialLayout() {
-		scrollView.documentView = groupsTableView
 		view.addSubview(scrollView)
 
 		scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -31,9 +37,13 @@ class GroupsViewController: NSViewController, NSTableViewDataSource {
 		scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
 		scrollView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3).isActive = true
 
-		for group in groups {
-			print(group.name)
-		}
+		view.addSubview(inputTextField)
+
+		inputTextField.translatesAutoresizingMaskIntoConstraints = false
+		inputTextField.leadingAnchor.constraint(equalTo: scrollView.trailingAnchor).isActive = true
+		inputTextField.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+		inputTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+		inputTextField.heightAnchor.constraint(equalToConstant: inputTextField.intrinsicContentSize.height).isActive = true
 	}
 
 	override func loadView() {
@@ -45,6 +55,7 @@ class GroupsViewController: NSViewController, NSTableViewDataSource {
 		// Do any additional setup after loading the view.
 
 		groupsTableView.dataSource = self
+		scrollView.documentView = groupsTableView
 
 		setupInitialLayout()
 	}
