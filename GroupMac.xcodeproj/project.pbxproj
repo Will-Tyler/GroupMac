@@ -23,7 +23,7 @@
 		4CDC813A20DAD2A9004D8DD0 /* MessageInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDC813920DAD2A9004D8DD0 /* MessageInfo.swift */; };
 		4CDC813C20DAD3BF004D8DD0 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDC813B20DAD3BF004D8DD0 /* Message.swift */; };
 		4CDC813E20DAF9EC004D8DD0 /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDC813D20DAF9EC004D8DD0 /* MessagesViewController.swift */; };
-		4CDC814020DB0F91004D8DD0 /* MessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDC813F20DB0F91004D8DD0 /* MessageCell.swift */; };
+		4CDC814220DB23CB004D8DD0 /* GroupsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDC814120DB23CB004D8DD0 /* GroupsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,7 +66,7 @@
 		4CDC813920DAD2A9004D8DD0 /* MessageInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageInfo.swift; sourceTree = "<group>"; };
 		4CDC813B20DAD3BF004D8DD0 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		4CDC813D20DAF9EC004D8DD0 /* MessagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesViewController.swift; sourceTree = "<group>"; };
-		4CDC813F20DB0F91004D8DD0 /* MessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageCell.swift; sourceTree = "<group>"; };
+		4CDC814120DB23CB004D8DD0 /* GroupsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,7 +129,7 @@
 			children = (
 				4C78FD8A20D8280D006385B2 /* AppDelegate.swift */,
 				4C78FDBB20D82E34006385B2 /* GroupMe */,
-				4CDC813F20DB0F91004D8DD0 /* MessageCell.swift */,
+				4CDC814120DB23CB004D8DD0 /* GroupsViewController.swift */,
 				4CDC813D20DAF9EC004D8DD0 /* MessagesViewController.swift */,
 				4C78FD8C20D8280D006385B2 /* ViewController.swift */,
 				4C78FD8E20D8280F006385B2 /* Assets.xcassets */,
@@ -307,12 +307,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4CDC814020DB0F91004D8DD0 /* MessageCell.swift in Sources */,
 				4CDC813E20DAF9EC004D8DD0 /* MessagesViewController.swift in Sources */,
 				4C500F4A20D976F600C1646D /* HTTP.swift in Sources */,
 				4C500F4820D9579B00C1646D /* HTTPRequestMethod.swift in Sources */,
 				4C78FD8D20D8280D006385B2 /* ViewController.swift in Sources */,
 				4CDC813C20DAD3BF004D8DD0 /* Message.swift in Sources */,
+				4CDC814220DB23CB004D8DD0 /* GroupsViewController.swift in Sources */,
 				4CDC813620DAD169004D8DD0 /* Group.swift in Sources */,
 				4C78FD8B20D8280D006385B2 /* AppDelegate.swift in Sources */,
 				4CDC813A20DAD2A9004D8DD0 /* MessageInfo.swift in Sources */,

@@ -1,5 +1,5 @@
 //
-//  MessagesViewController.swift
+//  GroupsViewController.swift
 //  GroupMac
 //
 //  Created by Will Tyler on 6/20/18.
@@ -9,57 +9,49 @@
 import Cocoa
 
 
-class MessagesViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
+class GroupsViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
 
-	private let messagesTableView: NSTableView = {
+	private let groups = GroupMe.Group.groups
+	private let groupsTableView: NSTableView = {
 		let tableView = NSTableView()
-
 		tableView.headerView = nil
 
 		let column = NSTableColumn(/*identifier: NSUserInterfaceItemIdentifier("column")*/)
+
 		tableView.addTableColumn(column)
 
 		return tableView
 	}()
 	private let scrollView = NSScrollView()
 
-	var messages: [GroupMe.Message]? {
-		didSet {
-			DispatchQueue.main.async {
-				self.messagesTableView.reloadData()
-			}
-			print(messages!.first?.text ?? "")
-		}
-	}
+	var messagesDelegate: MessagesViewController?
 
 	override func loadView() {
 		view = scrollView
 	}
 	override func viewDidLoad() {
-		scrollView.documentView = messagesTableView
-		messagesTableView.delegate = self
-		messagesTableView.dataSource = self
+		scrollView.documentView = groupsTableView
+
+		groupsTableView.delegate = self
+		groupsTableView.dataSource = self
 	}
 
-	//MARK: Tableview
+	//MARK: Table view
 	func numberOfRows(in tableView: NSTableView) -> Int {
-		return messages?.count ?? 0
+		return groups.count
 	}
 	func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
-		if let text = messages?[row].text {
-			let cell = NSCell(textCell: text)
+		let cell = NSCell(textCell: groups[row].name)
 
-			return cell
-		}
-		else {
-			return nil
-		}
+		return cell
 	}
 	func tableView(_ tableView: NSTableView, setObjectValue object: Any?, for tableColumn: NSTableColumn?, row: Int) {
 		return
 	}
 	func tableView(_ tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
-		return false
+		messagesDelegate?.messages = groups[row].messages
+
+		return true
 	}
 
 }
