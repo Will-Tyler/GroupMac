@@ -28,7 +28,6 @@ class MessagesViewController: NSViewController, NSTableViewDelegate, NSTableView
 			DispatchQueue.main.async {
 				self.messagesTableView.reloadData()
 			}
-			print(messages!.first?.text ?? "")
 		}
 	}
 
@@ -47,7 +46,7 @@ class MessagesViewController: NSViewController, NSTableViewDelegate, NSTableView
 		return messages?.count ?? 0
 	}
 	func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
-		if let text = messages?[row].text {
+		if let count = messages?.count, let text = messages?[count-1 - row].text {
 			let cell = NSCell(textCell: text)
 
 			return cell
