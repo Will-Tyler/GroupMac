@@ -37,6 +37,7 @@ class MessagesViewController: NSViewController, NSTableViewDelegate, NSTableView
 	}
 	override func viewDidLoad() {
 		scrollView.documentView = messagesTableView
+		
 		messagesTableView.delegate = self
 		messagesTableView.dataSource = self
 	}
