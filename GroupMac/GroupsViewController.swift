@@ -53,5 +53,8 @@ class GroupsViewController: NSViewController, NSTableViewDelegate, NSTableViewDa
 
 		return true
 	}
+	func tableView(_ tableView: NSTableView, shouldEdit tableColumn: NSTableColumn?, row: Int) -> Bool {
+		return false
+	}
 
 }
