@@ -14,7 +14,9 @@ class GroupsViewController: NSViewController, NSTableViewDelegate, NSTableViewDa
 	private let groups = GroupMe.Group.groups
 	private let groupsTableView: NSTableView = {
 		let tableView = NSTableView()
+
 		tableView.headerView = nil
+		tableView.refusesFirstResponder = true
 
 		let column = NSTableColumn(/*identifier: NSUserInterfaceItemIdentifier("column")*/)
 
