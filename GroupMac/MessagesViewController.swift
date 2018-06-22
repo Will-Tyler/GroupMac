@@ -15,6 +15,7 @@ class MessagesViewController: NSViewController, NSTableViewDelegate, NSTableView
 		let tableView = NSTableView()
 
 		tableView.headerView = nil
+		tableView.refusesFirstResponder = true
 
 		let column = NSTableColumn(/*identifier: NSUserInterfaceItemIdentifier("column")*/)
 		tableView.addTableColumn(column)
