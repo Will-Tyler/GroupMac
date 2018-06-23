@@ -29,13 +29,56 @@ extension GroupMe {
 			case messageCount = "messages_count"
 			case otherUser = "other_user"
 		}
+
+		static var chats: [Chat] {
+			get {
+				let components: URLComponents = {
+					let url = GroupMe.baseURL.appendingPathComponent("/chats")
+					var comps = URLComponents(url: url, resolvingAgainstBaseURL: true)!
+
+					comps.queryItems = [URLQueryItem(name: "token", value: GroupMe.accessToken)]
+
+					return comps
+				}()
+				let request: URLRequest = {
+					var request = URLRequest(url: components.url!)
+
+					request.httpMethod = HTTP.RequestMethod.get.rawValue
+
+					return request
+				}()
+
+				let results = HTTP.syncRequest(request: request)
+
+				guard results.error == nil else {
+					print(results.error!)
+
+					return []
+				}
+				guard let data = results.data else {
+					print("Received nil data...")
+
+					return []
+				}
+
+				let json = try! JSONSerialization.jsonObject(with: data) as! [String: Any]
+
+				let chats: [Chat] = {
+					let data = try! JSONSerialization.data(withJSONObject: json["response"]!)
+
+					return try! JSONDecoder().decode([Chat].self, from: data)
+				}()
+
+				return chats
+			}
+		}
 	}
 }
 
 extension GroupMe.Chat {
 	class OtherUser: Decodable {
 		let avatarURL: URL?
-		let id: Int
+		let id: String
 		let name: String
 
 		private enum CodingKeys: String, CodingKey {
