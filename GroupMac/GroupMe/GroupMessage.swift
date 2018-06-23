@@ -10,7 +10,7 @@ import Foundation
 
 
 extension GroupMe {
-	class Message: Decodable {
+	class GroupMessage: Decodable {
 		let avatarURL: URL?
 		let createdAt: Int
 		let favoritedBy: [String]
@@ -49,11 +49,3 @@ extension GroupMe {
 		}
 	}
 }
-
-//extension GroupMe.Group {
-//	var messages: [Message] {
-//		get {
-//			return [Message]()
-//		}
-//	}
-//}

@@ -10,7 +10,7 @@ import Foundation
 
 
 extension GroupMe {
-	class Group: Decodable {
+	class Group: Decodable, Conversation {
 		let id: String
 		let name: String
 		let phoneNumber: String
@@ -45,7 +45,7 @@ extension GroupMe {
 			case maxMembers = "max_members"
 		}
 
-		var messages: [GroupMe.Message] {
+		var messages: [GroupMe.GroupMessage] {
 			get {
 				let components: URLComponents = {
 					let url = GroupMe.baseURL.appendingPathComponent("/groups/\(id)/messages")
@@ -67,17 +67,17 @@ extension GroupMe {
 				guard results.error == nil else {
 					print(results.error!)
 
-					return [GroupMe.Message]()
+					return [GroupMe.GroupMessage]()
 				}
 
 				let json = try! JSONSerialization.jsonObject(with: results.data!) as! [String: Any]
 
 				let countAndMessages = json["response"] as! [String: Any]
 
-				let messages: [GroupMe.Message] = {
+				let messages: [GroupMe.GroupMessage] = {
 					let data = try! JSONSerialization.data(withJSONObject: countAndMessages["messages"]!)
 
-					return try! JSONDecoder().decode([GroupMe.Message].self, from: data)
+					return try! JSONDecoder().decode([GroupMe.GroupMessage].self, from: data)
 				}()
 
 				return messages

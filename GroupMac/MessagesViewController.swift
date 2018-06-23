@@ -24,7 +24,7 @@ class MessagesViewController: NSViewController, NSTableViewDelegate, NSTableView
 	}()
 	private let scrollView = NSScrollView()
 
-	var messages: [GroupMe.Message]? {
+	var messages: [GroupMe.GroupMessage]? {
 		didSet {
 			DispatchQueue.main.async {
 				self.messagesTableView.reloadData()
