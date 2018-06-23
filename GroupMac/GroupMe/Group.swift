@@ -57,7 +57,7 @@ extension GroupMe {
 				}()
 				let request: URLRequest = {
 					var request = URLRequest(url: components.url!)
-					request.httpMethod = HTTPRequestMethod.get.rawValue
+					request.httpMethod = HTTP.RequestMethod.get.rawValue
 
 					return request
 				}()
@@ -96,7 +96,7 @@ extension GroupMe {
 				}()
 				let request: URLRequest = {
 					var request = URLRequest(url: components.url!)
-					request.httpMethod = HTTPRequestMethod.get.rawValue
+					request.httpMethod = HTTP.RequestMethod.get.rawValue
 
 					return request
 				}()
