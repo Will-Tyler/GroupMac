@@ -47,9 +47,16 @@ extension GroupMe {
 
 		var messages: [GroupMe.Message] {
 			get {
-				let url = URL(string: "\(GroupMe.baseURL.absoluteString)/groups/\(id)/messages?token=\(GroupMe.accessToken)")!
+				let components: URLComponents = {
+					let url = GroupMe.baseURL.appendingPathComponent("/groups/\(id)/messages")
+					var comps = URLComponents(url: url, resolvingAgainstBaseURL: true)!
+
+					comps.queryItems = [URLQueryItem(name: "token", value: GroupMe.accessToken), URLQueryItem(name: "limit", value: "100")]
+
+					return comps
+				}()
 				let request: URLRequest = {
-					var request = URLRequest(url: url)
+					var request = URLRequest(url: components.url!)
 					request.httpMethod = HTTPRequestMethod.get.rawValue
 
 					return request
@@ -79,9 +86,16 @@ extension GroupMe {
 
 		static var groups: [Group] {
 			get {
-				let url = URL(string: "\(baseURL.absoluteString)/groups?token=\(GroupMe.accessToken)")!
+				let components: URLComponents = {
+					let url = GroupMe.baseURL.appendingPathComponent("/groups")
+					var comps = URLComponents(url: url, resolvingAgainstBaseURL: true)!
+
+					comps.queryItems = [URLQueryItem(name: "token", value: GroupMe.accessToken)]
+
+					return comps
+				}()
 				let request: URLRequest = {
-					var request = URLRequest(url: url)
+					var request = URLRequest(url: components.url!)
 					request.httpMethod = HTTPRequestMethod.get.rawValue
 
 					return request
