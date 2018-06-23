@@ -24,15 +24,6 @@ class GroupsViewController: NSViewController, NSTableViewDelegate, NSTableViewDa
 
 		return tableView
 	}()
-	private let chats: [GroupMe.Chat] = {
-		let chats = GroupMe.Chat.chats
-
-		for chat in chats {
-			print(chat.otherUser.name)
-		}
-
-		return chats
-	}()
 	private let scrollView = NSScrollView()
 
 	var messagesDelegate: MessagesViewController?
