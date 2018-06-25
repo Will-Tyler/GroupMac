@@ -13,7 +13,7 @@ extension GroupMe {
 	class Group: Decodable {
 		let id: String
 		let name: String
-		let phoneNumber: String
+		let phoneNumber: String?
 		let type: String
 		let description: String
 		let imageURL: URL?
@@ -24,8 +24,26 @@ extension GroupMe {
 		let shareURL: URL?
 		let shareQRCodeURL: URL?
 		let members: [Group.Member]
-		let messageInfo: Group.MessagesInfo
+		let messagesInfo: Group.MessagesInfo
 		let maxMembers: Int
+
+		private init(id: String, name: String, phoneNumber: String?, type: String, description: String, imageURL: URL?, creatorUserID: String, createdAt: Int, updatedAt: Int, officeMode: Bool, shareURL: URL?, shareQRCodeURL: URL?, members: [Group.Member], messagesInfo: MessagesInfo, maxMembers: Int) {
+			self.id = id
+			self.name = name
+			self.phoneNumber = phoneNumber
+			self.type = type
+			self.description = description
+			self.imageURL = imageURL
+			self.creatorUserID = creatorUserID
+			self.createdAt = createdAt
+			self.updatedAt = updatedAt
+			self.officeMode = officeMode
+			self.shareURL = shareURL
+			self.shareQRCodeURL = shareQRCodeURL
+			self.members = members
+			self.messagesInfo = messagesInfo
+			self.maxMembers = maxMembers
+		}
 
 		private enum CodingKeys: String, CodingKey {
 			case id
@@ -41,7 +59,7 @@ extension GroupMe {
 			case shareURL = "share_url"
 			case shareQRCodeURL = "share_qr_code_url"
 			case members
-			case messageInfo = "messages"
+			case messagesInfo = "messages"
 			case maxMembers = "max_members"
 		}
 
@@ -69,8 +87,13 @@ extension GroupMe {
 
 					return []
 				}
+				guard let data = results.data else {
+					print("Received nil data...")
 
-				let json = try! JSONSerialization.jsonObject(with: results.data!) as! [String: Any]
+					return []
+				}
+
+				let json = try! JSONSerialization.jsonObject(with: data) as! [String: Any]
 
 				let countAndMessages = json["response"] as! [String: Any]
 
@@ -81,43 +104,6 @@ extension GroupMe {
 				}()
 
 				return messages
-			}
-		}
-
-		static var groups: [Group] {
-			get {
-				let components: URLComponents = {
-					let url = GroupMe.baseURL.appendingPathComponent("/groups")
-					var comps = URLComponents(url: url, resolvingAgainstBaseURL: true)!
-
-					comps.queryItems = [URLQueryItem(name: "token", value: GroupMe.accessToken)]
-
-					return comps
-				}()
-				let request: URLRequest = {
-					var request = URLRequest(url: components.url!)
-					request.httpMethod = HTTP.RequestMethod.get.rawValue
-
-					return request
-				}()
-
-				let results: HTTP.Response = HTTP.syncRequest(request: request)
-
-				guard results.error == nil else {
-					print(results.error!)
-
-					return []
-				}
-
-				let json = try! JSONSerialization.jsonObject(with: results.data!) as! [String: Any]
-
-				let groups: [Group] = {
-					let data = try! JSONSerialization.data(withJSONObject: json["response"]!)
-
-					return try! JSONDecoder().decode([Group].self, from: data)
-				}()
-
-				return groups
 			}
 		}
 	}
@@ -175,31 +161,38 @@ extension GroupMe.Group {
 		let count: Int
 		let lastMessageID: String
 		let lastMessageCreatedAt: Int
-//		let preview: Preview?
+		let preview: Preview
 
-		private init(count: Int, lastMessageID: String, lastMessageCreatedAt: Int) {
+		private init(count: Int, lastMessageID: String, lastMessageCreatedAt: Int, preview: Preview) {
 			self.count = count
 			self.lastMessageID = lastMessageID
 			self.lastMessageCreatedAt = lastMessageCreatedAt
+			self.preview = preview
 		}
 
 		private enum CodingKeys: String, CodingKey {
 			case count
 			case lastMessageID = "last_message_id"
 			case lastMessageCreatedAt = "last_message_created_at"
-//			case preview
+			case preview
 		}
 
-//		class Preview: Decodable {
-//			let nickname: String
-//			let text: String
-//			let imageURL: URL?
-//
-//			enum CodingKeys: String, CodingKey {
-//				case nickname
-//				case text = "text"
-//				case imageURL = "image_url"
-//			}
-//		}
+		class Preview: Decodable {
+			let nickname: String
+			let text: String?
+			let imageURL: String?
+
+			private init(nickname: String, text: String?, imageURL: String?) {
+				self.nickname = nickname
+				self.text = text
+				self.imageURL = imageURL
+			}
+
+			private enum CodingKeys: String, CodingKey {
+				case nickname
+				case text
+				case imageURL = "image_url"
+			}
+		}
 	}
 }

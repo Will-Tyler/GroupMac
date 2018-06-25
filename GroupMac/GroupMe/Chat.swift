@@ -16,12 +16,12 @@ extension GroupMe {
 		let messageCount: Int
 		let otherUser: OtherUser
 
-//		private init(createdAt: Int, updatedAt: Int, messageCount: Int, otherUser: OtherUser) {
-//			self.createdAt = createdAt
-//			self.updatedAt = updatedAt
-//			self.messageCount = messageCount
-//			self.otherUser = otherUser
-//		}
+		private init(createdAt: Int, updatedAt: Int, messageCount: Int, otherUser: OtherUser) {
+			self.createdAt = createdAt
+			self.updatedAt = updatedAt
+			self.messageCount = messageCount
+			self.otherUser = otherUser
+		}
 
 		private enum CodingKeys: String, CodingKey {
 			case createdAt = "created_at"
@@ -77,49 +77,6 @@ extension GroupMe {
 				return messages
 			}
 		}
-
-		static var chats: [Chat] {
-			get {
-				let components: URLComponents = {
-					let url = GroupMe.baseURL.appendingPathComponent("/chats")
-					var comps = URLComponents(url: url, resolvingAgainstBaseURL: true)!
-
-					comps.queryItems = [URLQueryItem(name: "token", value: GroupMe.accessToken)]
-
-					return comps
-				}()
-				let request: URLRequest = {
-					var request = URLRequest(url: components.url!)
-
-					request.httpMethod = HTTP.RequestMethod.get.rawValue
-
-					return request
-				}()
-
-				let results = HTTP.syncRequest(request: request)
-
-				guard results.error == nil else {
-					print(results.error!)
-
-					return []
-				}
-				guard let data = results.data else {
-					print("Received nil data...")
-
-					return []
-				}
-
-				let json = try! JSONSerialization.jsonObject(with: data) as! [String: Any]
-
-				let chats: [Chat] = {
-					let data = try! JSONSerialization.data(withJSONObject: json["response"]!)
-
-					return try! JSONDecoder().decode([Chat].self, from: data)
-				}()
-
-				return chats
-			}
-		}
 	}
 }
 
@@ -128,6 +85,12 @@ extension GroupMe.Chat {
 		let avatarURL: URL?
 		let id: String
 		let name: String
+
+		private init (avatarURL: URL?, id: String, name: String) {
+			self.avatarURL = avatarURL
+			self.id = id
+			self.name = name
+		}
 
 		private enum CodingKeys: String, CodingKey {
 			case avatarURL = "avatar_url"
