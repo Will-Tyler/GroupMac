@@ -32,8 +32,8 @@ extension GroupMe {
 
 		var messages: [Chat.Message] {
 			get {
-				let params = ["token": GroupMe.accessToken, "other_user_id": otherUser.id]
-				let responseData = try! GroupMe.apiRequest(pathComponent: "/direct_messages", parameters: params)
+				let params = ["other_user_id": otherUser.id]
+				let responseData = try! GroupMe.apiRequest(pathComponent: "/direct_messages", additionalParameters: params)
 				let countAndMessages = try! JSONSerialization.jsonObject(with: responseData) as! [String: Any]
 
 				let messages: [Chat.Message] = {
