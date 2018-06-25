@@ -65,37 +65,8 @@ extension GroupMe {
 
 		var messages: [GroupMe.Group.Message] {
 			get {
-				let components: URLComponents = {
-					let url = GroupMe.baseURL.appendingPathComponent("/groups/\(id)/messages")
-					var comps = URLComponents(url: url, resolvingAgainstBaseURL: true)!
-
-					comps.queryItems = [URLQueryItem(name: "token", value: GroupMe.accessToken), URLQueryItem(name: "limit", value: "100")]
-
-					return comps
-				}()
-				let request: URLRequest = {
-					var request = URLRequest(url: components.url!)
-					request.httpMethod = HTTP.RequestMethod.get.rawValue
-
-					return request
-				}()
-
-				let results: HTTP.Response = HTTP.syncRequest(request: request)
-
-				guard results.error == nil else {
-					print(results.error!)
-
-					return []
-				}
-				guard let data = results.data else {
-					print("Received nil data...")
-
-					return []
-				}
-
-				let json = try! JSONSerialization.jsonObject(with: data) as! [String: Any]
-
-				let countAndMessages = json["response"] as! [String: Any]
+				let responseData = try! GroupMe.apiRequest(pathComponent: "/groups/\(id)/messages", parameters: ["token": GroupMe.accessToken, "limit": "100"])
+				let countAndMessages = try! JSONSerialization.jsonObject(with: responseData) as! [String: Any]
 
 				let messages: [Group.Message] = {
 					let data = try! JSONSerialization.data(withJSONObject: countAndMessages["messages"]!)
