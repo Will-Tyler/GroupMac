@@ -10,17 +10,11 @@ import Foundation
 
 
 extension GroupMe {
-	class Chat: Decodable, Conversation {
+	class Chat: Decodable {
 		let createdAt: Int
 		let updatedAt: Int
 		let messageCount: Int
 		let otherUser: OtherUser
-
-		var name: String {
-			get {
-				return otherUser.name
-			}
-		}
 
 //		private init(createdAt: Int, updatedAt: Int, messageCount: Int, otherUser: OtherUser) {
 //			self.createdAt = createdAt
@@ -36,7 +30,7 @@ extension GroupMe {
 			case otherUser = "other_user"
 		}
 
-		var messages: [GroupMe.ChatMessage] {
+		var messages: [Chat.Message] {
 			get {
 				let components: URLComponents = {
 					let url = GroupMe.baseURL.appendingPathComponent("/direct_messages")
@@ -74,10 +68,10 @@ extension GroupMe {
 
 				let countAndMessages = json["response"] as! [String: Any]
 
-				let messages: [GroupMe.ChatMessage] = {
+				let messages: [Chat.Message] = {
 					let data = try! JSONSerialization.data(withJSONObject: countAndMessages["direct_messages"]!)
 
-					return try! JSONDecoder().decode([GroupMe.ChatMessage].self, from: data)
+					return try! JSONDecoder().decode([Chat.Message].self, from: data)
 				}()
 
 				return messages
@@ -139,6 +133,44 @@ extension GroupMe.Chat {
 			case avatarURL = "avatar_url"
 			case id
 			case name
+		}
+	}
+}
+
+extension GroupMe.Chat {
+	class Message: Decodable {
+		let id: String
+		let sourceGUID: String
+		let recipientID: String
+		let userID: String
+		let createdAt: Int
+		let name: String
+		let avatarURL: URL?
+		let text: String?
+		let favoritedBy: [String]
+
+		private init(id: String, sourceGUID: String, recipientID: String, userID: String, createdAt: Int, name: String, avatarURL: URL?, text: String?, favoritedBy: [String]) {
+			self.id = id
+			self.sourceGUID = sourceGUID
+			self.recipientID = recipientID
+			self.userID = userID
+			self.createdAt = createdAt
+			self.name = name
+			self.avatarURL = avatarURL
+			self.text = text
+			self.favoritedBy = favoritedBy
+		}
+
+		private enum CodingKeys: String, CodingKey {
+			case id
+			case sourceGUID = "source_guid"
+			case recipientID = "recipient_id"
+			case userID = "user_id"
+			case createdAt = "created_at"
+			case name
+			case avatarURL = "avatar_url"
+			case text
+			case favoritedBy = "favorited_by"
 		}
 	}
 }
