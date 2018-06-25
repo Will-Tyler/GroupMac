@@ -10,7 +10,7 @@ import Foundation
 
 
 extension GroupMe {
-	class ChatMessage: Decodable {
+	class ChatMessage: Decodable, Message {
 		let id: String
 		let sourceGUID: String
 		let recipientID: String
