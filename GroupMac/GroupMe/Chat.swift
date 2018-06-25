@@ -32,41 +32,9 @@ extension GroupMe {
 
 		var messages: [Chat.Message] {
 			get {
-				let components: URLComponents = {
-					let url = GroupMe.baseURL.appendingPathComponent("/direct_messages")
-					var comps = URLComponents(url: url, resolvingAgainstBaseURL: true)!
-
-					comps.queryItems = [
-						URLQueryItem(name: "token", value: GroupMe.accessToken),
-						URLQueryItem(name: "other_user_id", value: otherUser.id)
-					]
-
-					return comps
-				}()
-				let request: URLRequest = {
-					var request = URLRequest(url: components.url!)
-
-					request.httpMethod = HTTP.RequestMethod.get.rawValue
-
-					return request
-				}()
-
-				let results = HTTP.syncRequest(request: request)
-
-				guard results.error == nil else {
-					print(results.error!)
-
-					return []
-				}
-				guard let data = results.data else {
-					print("Received nil data...")
-
-					return []
-				}
-
-				let json = try! JSONSerialization.jsonObject(with: data) as! [String: Any]
-
-				let countAndMessages = json["response"] as! [String: Any]
+				let params = ["token": GroupMe.accessToken, "other_user_id": otherUser.id]
+				let responseData = try! GroupMe.apiRequest(pathComponent: "/direct_messages", parameters: params)
+				let countAndMessages = try! JSONSerialization.jsonObject(with: responseData) as! [String: Any]
 
 				let messages: [Chat.Message] = {
 					let data = try! JSONSerialization.data(withJSONObject: countAndMessages["direct_messages"]!)

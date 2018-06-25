@@ -6,7 +6,7 @@
 //  Copyright © 2018 Will Tyler. All rights reserved.
 //
 
-import Cocoa
+import Foundation
 
 
 class GroupMe {
@@ -59,36 +59,8 @@ class GroupMe {
 
 	static var groups: [Group] {
 		get {
-//			let components: URLComponents = {
-//				let url = GroupMe.baseURL.appendingPathComponent("/groups")
-//				var comps = URLComponents(url: url, resolvingAgainstBaseURL: true)!
-//
-//				comps.queryItems = [URLQueryItem(name: "token", value: GroupMe.accessToken)]
-//
-//				return comps
-//			}()
-//			let request: URLRequest = {
-//				var request = URLRequest(url: components.url!)
-//				request.httpMethod = HTTP.RequestMethod.get.rawValue
-//
-//				return request
-//			}()
-//
-//			let results: HTTP.Response = HTTP.syncRequest(request: request)
-//
-//			guard results.error == nil else {
-//				print(results.error!)
-//
-//				return []
-//			}
-//
-//			let json = try! JSONSerialization.jsonObject(with: results.data!) as! [String: Any]
-
-			let groups: [Group] = {
-				let data = try! apiRequest(pathComponent: "/groups")
-
-				return try! JSONDecoder().decode([Group].self, from: data)
-			}()
+			let data = try! apiRequest(pathComponent: "/groups")
+			let groups: [Group] = try! JSONDecoder().decode([Group].self, from: data)
 
 			return groups
 		}
@@ -96,42 +68,8 @@ class GroupMe {
 
 	static var formerGroups: [Group] {
 		get {
-			let components: URLComponents = {
-				let url = baseURL.appendingPathComponent("/groups/former")
-				var comps = URLComponents(url: url, resolvingAgainstBaseURL: true)!
-
-				comps.queryItems = [URLQueryItem(name: "token", value: accessToken)]
-
-				return comps
-			}()
-			let request: URLRequest = {
-				var request = URLRequest(url: components.url!)
-
-				request.httpMethod = HTTP.RequestMethod.get.rawValue
-
-				return request
-			}()
-
-			let results = HTTP.syncRequest(request: request)
-
-			guard results.error == nil else {
-				print(results.error!)
-
-				return []
-			}
-			guard let data = results.data else {
-				print("Received nil data...")
-
-				return []
-			}
-
-			let json = try! JSONSerialization.jsonObject(with: data) as! [String: Any]
-
-			let formerGroups: [Group] = {
-				let data = try! JSONSerialization.data(withJSONObject: json["response"]!)
-
-				return try! JSONDecoder().decode([Group].self, from: data)
-			}()
+			let responseData = try! apiRequest(pathComponent: "/groups/former")
+			let formerGroups = try! JSONDecoder().decode([Group].self, from: responseData)
 
 			return formerGroups
 		}
@@ -139,42 +77,8 @@ class GroupMe {
 
 	static var chats: [Chat] {
 		get {
-			let components: URLComponents = {
-				let url = GroupMe.baseURL.appendingPathComponent("/chats")
-				var comps = URLComponents(url: url, resolvingAgainstBaseURL: true)!
-
-				comps.queryItems = [URLQueryItem(name: "token", value: GroupMe.accessToken)]
-
-				return comps
-			}()
-			let request: URLRequest = {
-				var request = URLRequest(url: components.url!)
-
-				request.httpMethod = HTTP.RequestMethod.get.rawValue
-
-				return request
-			}()
-
-			let results = HTTP.syncRequest(request: request)
-
-			guard results.error == nil else {
-				print(results.error!)
-
-				return []
-			}
-			guard let data = results.data else {
-				print("Received nil data...")
-
-				return []
-			}
-
-			let json = try! JSONSerialization.jsonObject(with: data) as! [String: Any]
-
-			let chats: [Chat] = {
-				let data = try! JSONSerialization.data(withJSONObject: json["response"]!)
-
-				return try! JSONDecoder().decode([Chat].self, from: data)
-			}()
+			let responseData = try! apiRequest(pathComponent: "/chats")
+			let chats: [Chat] = try! JSONDecoder().decode([Chat].self, from: responseData)
 
 			return chats
 		}
