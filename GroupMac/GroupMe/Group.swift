@@ -65,7 +65,7 @@ extension GroupMe {
 
 		var messages: [GroupMe.Group.Message] {
 			get {
-				let responseData = try! GroupMe.apiRequest(pathComponent: "/groups/\(id)/messages", parameters: ["token": GroupMe.accessToken, "limit": "100"])
+				let responseData = try! GroupMe.apiRequestReceivingData(pathComponent: "/groups/\(id)/messages", additionalParameters: ["limit": "100"])
 				let countAndMessages = try! JSONSerialization.jsonObject(with: responseData) as! [String: Any]
 
 				let messages: [Group.Message] = {
@@ -76,6 +76,70 @@ extension GroupMe {
 
 				return messages
 			}
+		}
+
+		func update(name: String? = nil, description: String? = nil, imageURL: URL? = nil, officeMode: Bool? = nil, share: Bool? = nil) -> Group? {
+			if name == nil, description == nil, imageURL == nil, officeMode == nil, share == nil { return nil }
+
+			let jsonDict: [String: Any] = {
+				var dict: [String: Any] = [:]
+
+				if let name = name {
+					dict["name"] = name
+				}
+				if let desc = description {
+					dict["description"] = desc
+				}
+				if let imageURL = imageURL {
+					dict["image_url"] = imageURL.absoluteString
+				}
+				if let office = officeMode {
+					dict["office_mode"] = office
+				}
+				if let share = share {
+					dict["share"] = share
+				}
+
+				return dict
+			}()
+			let jsonData = try! JSONSerialization.data(withJSONObject: jsonDict)
+
+			let responseData = try! GroupMe.apiRequestReceivingData(pathComponent: "/groups/\(id)/update", requestMethod: .post, httpBody: jsonData)
+			let group = try! JSONDecoder().decode(Group.self, from: responseData)
+
+			return group
+		}
+
+		func destroy() {
+			GroupMe.apiRequest(pathComponent: "/groups/\(id)/destroy")
+		}
+
+		static func show(id: String) -> Group {
+			let responseData = try! GroupMe.apiRequestReceivingData(pathComponent: "/groups/\(id)")
+			let group = try! JSONDecoder().decode(Group.self, from: responseData)
+
+			return group
+		}
+
+		static func create(name: String, description: String? = nil, imageURL: URL? = nil, share: Bool = false) -> Group {
+			let jsonDict: [String: Any] = {
+				var dict: [String: Any] = ["name": name, "share": share]
+
+				if let desc = description {
+					dict["description"] = desc
+				}
+				if let imageURL = imageURL {
+					dict["image_url"] = imageURL.absoluteString
+				}
+
+				return dict
+			}()
+			let jsonData = try! JSONSerialization.data(withJSONObject: jsonDict)
+
+			let responseData = try! GroupMe.apiRequestReceivingData(pathComponent: "/groups", requestMethod: .post, httpBody: jsonData)
+			let group = try! JSONDecoder().decode(Group.self, from: responseData)
+
+			return group
 		}
 	}
 }
