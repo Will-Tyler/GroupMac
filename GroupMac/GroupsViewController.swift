@@ -11,7 +11,7 @@ import Cocoa
 
 class GroupsViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
 
-	private let groups = GroupMe.Group.groups
+	private let groups = GroupMe.groups
 	private let groupsTableView: NSTableView = {
 		let tableView = NSTableView()
 
