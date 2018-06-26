@@ -21,11 +21,11 @@ class GroupMe {
 		return token
 	}()
 
-	static func apiRequest(pathComponent: String, requestMethod: HTTP.RequestMethod = .post) {
+	static func apiContact(pathComponent: String, requestMethod: HTTP.RequestMethod = .post) {
 		let request = URLRequest(url: baseURL.appendingPathComponent(pathComponent))
 		URLSession.shared.dataTask(with: request)
 	}
-	static func apiRequestReceivingData(pathComponent: String, additionalParameters: [String: String] = ["token": accessToken], requestMethod: HTTP.RequestMethod = .get, httpBody: Data? = nil) throws -> Data {
+	static func apiRequest(pathComponent: String, additionalParameters: [String: String] = [:], requestMethod: HTTP.RequestMethod = .get, httpBody: Data? = nil) throws -> Data {
 		let components: URLComponents = {
 			let url = baseURL.appendingPathComponent(pathComponent)
 			var comps = URLComponents(url: url, resolvingAgainstBaseURL: true)!
@@ -68,7 +68,7 @@ class GroupMe {
 
 	static var groups: [Group] {
 		get {
-			let data = try! apiRequestReceivingData(pathComponent: "/groups")
+			let data = try! apiRequest(pathComponent: "/groups")
 			let groups: [Group] = try! JSONDecoder().decode([Group].self, from: data)
 
 			return groups
@@ -77,7 +77,7 @@ class GroupMe {
 
 	static var formerGroups: [Group] {
 		get {
-			let responseData = try! apiRequestReceivingData(pathComponent: "/groups/former")
+			let responseData = try! apiRequest(pathComponent: "/groups/former")
 			let formerGroups = try! JSONDecoder().decode([Group].self, from: responseData)
 
 			return formerGroups
@@ -86,7 +86,7 @@ class GroupMe {
 
 	static var chats: [Chat] {
 		get {
-			let responseData = try! apiRequestReceivingData(pathComponent: "/chats")
+			let responseData = try! apiRequest(pathComponent: "/chats")
 			let chats: [Chat] = try! JSONDecoder().decode([Chat].self, from: responseData)
 
 			return chats
