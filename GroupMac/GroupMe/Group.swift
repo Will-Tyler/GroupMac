@@ -65,7 +65,7 @@ extension GroupMe {
 
 		var messages: [GroupMe.Group.Message] {
 			get {
-				let responseData = try! GroupMe.apiRequestReceivingData(pathComponent: "/groups/\(id)/messages", additionalParameters: ["limit": "100"])
+				let responseData = try! GroupMe.apiRequest(pathComponent: "/groups/\(id)/messages", additionalParameters: ["limit": "100"])
 				let countAndMessages = try! JSONSerialization.jsonObject(with: responseData) as! [String: Any]
 
 				let messages: [Group.Message] = {
@@ -104,18 +104,18 @@ extension GroupMe {
 			}()
 			let jsonData = try! JSONSerialization.data(withJSONObject: jsonDict)
 
-			let responseData = try! GroupMe.apiRequestReceivingData(pathComponent: "/groups/\(id)/update", requestMethod: .post, httpBody: jsonData)
+			let responseData = try! GroupMe.apiRequest(pathComponent: "/groups/\(id)/update", requestMethod: .post, httpBody: jsonData)
 			let group = try! JSONDecoder().decode(Group.self, from: responseData)
 
 			return group
 		}
 
 		func destroy() {
-			GroupMe.apiRequest(pathComponent: "/groups/\(id)/destroy")
+			GroupMe.apiContact(pathComponent: "/groups/\(id)/destroy")
 		}
 
 		static func show(id: String) -> Group {
-			let responseData = try! GroupMe.apiRequestReceivingData(pathComponent: "/groups/\(id)")
+			let responseData = try! GroupMe.apiRequest(pathComponent: "/groups/\(id)")
 			let group = try! JSONDecoder().decode(Group.self, from: responseData)
 
 			return group
@@ -136,7 +136,7 @@ extension GroupMe {
 			}()
 			let jsonData = try! JSONSerialization.data(withJSONObject: jsonDict)
 
-			let responseData = try! GroupMe.apiRequestReceivingData(pathComponent: "/groups", requestMethod: .post, httpBody: jsonData)
+			let responseData = try! GroupMe.apiRequest(pathComponent: "/groups", requestMethod: .post, httpBody: jsonData)
 			let group = try! JSONDecoder().decode(Group.self, from: responseData)
 
 			return group
@@ -228,6 +228,38 @@ extension GroupMe.Group {
 				case text
 				case imageURL = "image_url"
 			}
+		}
+	}
+}
+
+extension GroupMe.Group {
+	class Member: Decodable {
+		let userID: String
+		let nickname: String
+		let imageURL: URL?
+		let id: String
+		let isMuted: Bool
+		let isAutokicked: Bool
+		let roles: [String]
+
+		private init(userID: String, nickname: String, imageURL: URL?, id: String, isMuted: Bool, isAutokicked: Bool, roles: [String]) {
+			self.userID = userID
+			self.nickname = nickname
+			self.imageURL = imageURL
+			self.id = id
+			self.isMuted = isMuted
+			self.isAutokicked = isAutokicked
+			self.roles = roles
+		}
+
+		private enum CodingKeys: String, CodingKey {
+			case userID = "user_id"
+			case nickname
+			case imageURL = "image_url"
+			case id
+			case isMuted = "muted"
+			case isAutokicked = "autokicked"
+			case roles
 		}
 	}
 }
