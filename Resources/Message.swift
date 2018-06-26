@@ -11,7 +11,7 @@ import Foundation
 
 protocol GroupMeMessage {
 	var name: String { get }
-	var text: String { get }
+	var text: String? { get }
 }
 
 extension GroupMe.Chat.Message: GroupMeMessage {}

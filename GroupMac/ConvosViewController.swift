@@ -59,7 +59,7 @@ class ConvosViewController: NSViewController, NSTableViewDelegate, NSTableViewDa
 		return
 	}
 	func tableView(_ tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
-//		messagesDelegate?.messages = conversations[row].messages
+		messagesDelegate?.messages = conversations[row].blandMessages
 
 		return true
 	}

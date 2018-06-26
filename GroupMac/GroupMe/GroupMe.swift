@@ -153,10 +153,10 @@ class GroupMe {
 			let senderType: String
 			let sourceGUID: String
 			let isSystem: Bool
-			let text: String
+			let text: String?
 			let userID: String
 
-			private init(avatarURL: URL?, createdAt: Int, favoritedBy: [String], groupID: String, id: String, name: String, senderID: String, senderType: String, sourceGUID: String, isSystem: Bool, text: String, userID: String) {
+			private init(avatarURL: URL?, createdAt: Int, favoritedBy: [String], groupID: String, id: String, name: String, senderID: String, senderType: String, sourceGUID: String, isSystem: Bool, text: String?, userID: String) {
 				self.avatarURL = avatarURL
 				self.createdAt = createdAt
 				self.favoritedBy = favoritedBy
