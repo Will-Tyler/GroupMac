@@ -17,24 +17,24 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
 
 		return textField
 	}()
-	let groupsViewController = ConvosViewController()
+	let convosViewController = ConvosViewController()
 	let messagesViewController = MessagesViewController()
 
 	private func setupInitialLayout() {
-		let groupsView = groupsViewController.view
+		let convosView = convosViewController.view
 
-		view.addSubview(groupsView)
+		view.addSubview(convosView)
 
-		groupsView.translatesAutoresizingMaskIntoConstraints = false
-		groupsView.topAnchor.constraint(equalTo: view.topAnchor, constant: 4).isActive = true
-		groupsView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -4).isActive = true
-		groupsView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 4).isActive = true
-		groupsView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3).isActive = true
+		convosView.translatesAutoresizingMaskIntoConstraints = false
+		convosView.topAnchor.constraint(equalTo: view.topAnchor, constant: 4).isActive = true
+		convosView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -4).isActive = true
+		convosView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 4).isActive = true
+		convosView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3).isActive = true
 
 		view.addSubview(inputTextField)
 
 		inputTextField.translatesAutoresizingMaskIntoConstraints = false
-		inputTextField.leadingAnchor.constraint(equalTo: groupsView.trailingAnchor, constant: 4).isActive = true
+		inputTextField.leadingAnchor.constraint(equalTo: convosView.trailingAnchor, constant: 4).isActive = true
 		inputTextField.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -4).isActive = true
 		inputTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -4).isActive = true
 		inputTextField.heightAnchor.constraint(equalToConstant: inputTextField.intrinsicContentSize.height).isActive = true
@@ -45,7 +45,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
 
 		messageView.translatesAutoresizingMaskIntoConstraints = false
 		messageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 4).isActive = true
-		messageView.leadingAnchor.constraint(equalTo: groupsView.trailingAnchor, constant: 4).isActive = true
+		messageView.leadingAnchor.constraint(equalTo: convosView.trailingAnchor, constant: 4).isActive = true
 		messageView.bottomAnchor.constraint(equalTo: inputTextField.topAnchor, constant: -4).isActive = true
 		messageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -4).isActive = true
 	}
@@ -58,7 +58,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
 		super.viewDidLoad()
 		// Do any additional setup after loading the view.
 
-		groupsViewController.messagesDelegate = messagesViewController
+		convosViewController.messagesDelegate = messagesViewController
 
 		setupInitialLayout()
 	}
