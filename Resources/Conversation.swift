@@ -13,3 +13,13 @@ protocol Conversation {
 	var name: String { get }
 	var updatedAt: Int { get }
 }
+
+extension GroupMe.Chat: Conversation {
+	var name: String {
+		get {
+			return otherUser.name
+		}
+	}
+}
+
+extension GroupMe.Group: Conversation {}

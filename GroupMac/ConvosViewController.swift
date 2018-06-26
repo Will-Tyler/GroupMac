@@ -18,7 +18,7 @@ class ConvosViewController: NSViewController, NSTableViewDelegate, NSTableViewDa
 
 		return convos
 	}()
-	private let groupsTableView: NSTableView = {
+	private let convosTableView: NSTableView = {
 		let tableView = NSTableView()
 
 		tableView.headerView = nil
@@ -38,10 +38,10 @@ class ConvosViewController: NSViewController, NSTableViewDelegate, NSTableViewDa
 		view = scrollView
 	}
 	override func viewDidLoad() {
-		scrollView.documentView = groupsTableView
+		scrollView.documentView = convosTableView
 
-		groupsTableView.delegate = self
-		groupsTableView.dataSource = self
+		convosTableView.delegate = self
+		convosTableView.dataSource = self
 	}
 
 	//MARK: Table view
@@ -50,6 +50,8 @@ class ConvosViewController: NSViewController, NSTableViewDelegate, NSTableViewDa
 	}
 	func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
 		let cell = NSCell(textCell: conversations[row].name)
+
+		cell.wraps = false
 
 		return cell
 	}

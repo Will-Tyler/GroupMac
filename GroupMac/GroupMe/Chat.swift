@@ -10,17 +10,11 @@ import Foundation
 
 
 extension GroupMe {
-	class Chat: Decodable, Conversation {
+	class Chat: Decodable {
 		let createdAt: Int
 		let updatedAt: Int
 		let messageCount: Int
 		let otherUser: OtherUser
-
-		var name: String {
-			get {
-				return otherUser.name
-			}
-		}
 
 		private init(createdAt: Int, updatedAt: Int, messageCount: Int, otherUser: OtherUser) {
 			self.createdAt = createdAt
@@ -83,10 +77,10 @@ extension GroupMe.Chat {
 		let createdAt: Int
 		let name: String
 		let avatarURL: URL?
-		let text: String?
+		let text: String
 		let favoritedBy: [String]
 
-		private init(id: String, sourceGUID: String, recipientID: String, userID: String, createdAt: Int, name: String, avatarURL: URL?, text: String?, favoritedBy: [String]) {
+		private init(id: String, sourceGUID: String, recipientID: String, userID: String, createdAt: Int, name: String, avatarURL: URL?, text: String, favoritedBy: [String]) {
 			self.id = id
 			self.sourceGUID = sourceGUID
 			self.recipientID = recipientID
