@@ -1,5 +1,5 @@
 //
-//  GroupsViewController.swift
+//  ConvosViewController.swift
 //  GroupMac
 //
 //  Created by Will Tyler on 6/20/18.
@@ -9,9 +9,15 @@
 import Cocoa
 
 
-class GroupsViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
+class ConvosViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
 
-	private let groups = GroupMe.groups
+	private let conversations: [Conversation] = {
+		var convos = GroupMe.groups as [Conversation] + GroupMe.chats as [Conversation]
+
+		convos.sort(by: { return $0.updatedAt > $1.updatedAt })
+
+		return convos
+	}()
 	private let groupsTableView: NSTableView = {
 		let tableView = NSTableView()
 
@@ -40,10 +46,10 @@ class GroupsViewController: NSViewController, NSTableViewDelegate, NSTableViewDa
 
 	//MARK: Table view
 	func numberOfRows(in tableView: NSTableView) -> Int {
-		return groups.count
+		return conversations.count
 	}
 	func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
-		let cell = NSCell(textCell: groups[row].name)
+		let cell = NSCell(textCell: conversations[row].name)
 
 		return cell
 	}
@@ -51,7 +57,7 @@ class GroupsViewController: NSViewController, NSTableViewDelegate, NSTableViewDa
 		return
 	}
 	func tableView(_ tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
-		messagesDelegate?.messages = groups[row].messages
+//		messagesDelegate?.messages = conversations[row].messages
 
 		return true
 	}

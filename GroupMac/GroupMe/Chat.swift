@@ -10,11 +10,17 @@ import Foundation
 
 
 extension GroupMe {
-	class Chat: Decodable {
+	class Chat: Decodable, Conversation {
 		let createdAt: Int
 		let updatedAt: Int
 		let messageCount: Int
 		let otherUser: OtherUser
+
+		var name: String {
+			get {
+				return otherUser.name
+			}
+		}
 
 		private init(createdAt: Int, updatedAt: Int, messageCount: Int, otherUser: OtherUser) {
 			self.createdAt = createdAt

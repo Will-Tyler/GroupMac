@@ -12,11 +12,12 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
 
 	let inputTextField: NSTextField = {
 		let textField = NSTextField()
+
 		textField.placeholderString = "Enter your message."
 
 		return textField
 	}()
-	let groupsViewController = GroupsViewController()
+	let groupsViewController = ConvosViewController()
 	let messagesViewController = MessagesViewController()
 
 	private func setupInitialLayout() {
