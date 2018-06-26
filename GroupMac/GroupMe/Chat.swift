@@ -77,10 +77,10 @@ extension GroupMe.Chat {
 		let createdAt: Int
 		let name: String
 		let avatarURL: URL?
-		let text: String
+		let text: String?
 		let favoritedBy: [String]
 
-		private init(id: String, sourceGUID: String, recipientID: String, userID: String, createdAt: Int, name: String, avatarURL: URL?, text: String, favoritedBy: [String]) {
+		private init(id: String, sourceGUID: String, recipientID: String, userID: String, createdAt: Int, name: String, avatarURL: URL?, text: String?, favoritedBy: [String]) {
 			self.id = id
 			self.sourceGUID = sourceGUID
 			self.recipientID = recipientID

@@ -12,6 +12,7 @@ import Foundation
 protocol Conversation {
 	var name: String { get }
 	var updatedAt: Int { get }
+	var blandMessages: [GroupMeMessage] { get }
 }
 
 extension GroupMe.Chat: Conversation {
@@ -20,6 +21,17 @@ extension GroupMe.Chat: Conversation {
 			return otherUser.name
 		}
 	}
+	var blandMessages: [GroupMeMessage] {
+		get {
+			return messages as [GroupMeMessage]
+		}
+	}
 }
 
-extension GroupMe.Group: Conversation {}
+extension GroupMe.Group: Conversation {
+	var blandMessages: [GroupMeMessage] {
+		get {
+			return messages as [GroupMeMessage]
+		}
+	}
+}
