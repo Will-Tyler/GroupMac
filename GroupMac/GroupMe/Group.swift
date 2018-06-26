@@ -10,7 +10,7 @@ import Foundation
 
 
 extension GroupMe {
-	class Group: Decodable {
+	class Group: Decodable, Conversation {
 		let id: String
 		let name: String
 		let phoneNumber: String?
