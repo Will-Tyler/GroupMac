@@ -56,8 +56,7 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 		let item = collectionView.makeItem(withIdentifier: messageCellIdentifier, for: indexPath) as! MessageCell
 		let message = messages![indexPath.item]
 
-		item.name = message.name
-		item.text = message.text
+		item.nameLabel.stringValue = message.name
 
 		return item
 	}
@@ -68,13 +67,68 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 }
 
 final fileprivate class MessageCell: NSCollectionViewItem {
-	var name: String!
-	var text: String?
+	let nameLabel: NSTextField = {
+		let field = NSTextField()
+
+		field.isEditable = false
+
+		return field
+	}()
+	let textLabel: NSTextField = {
+		let field = NSTextField()
+
+		field.isEditable = false
+
+		return field
+	}()
+
+	private func setupInitialLayout() {
+		view.addSubview(nameLabel)
+
+		nameLabel.translatesAutoresizingMaskIntoConstraints = false
+		nameLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 4).isActive = true
+		nameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 4).isActive = true
+		nameLabel.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -4).isActive = true
+		nameLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -4).isActive = true
+	}
 
 	override func loadView() {
 		view = NSView()
-
+	}
+	override func viewDidLoad() {
 		view.wantsLayer = true
-		view.layer!.backgroundColor = NSColor.blue.cgColor
+		view.layer?.backgroundColor = NSColor.lightGray.cgColor
+
+		setupInitialLayout()
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
