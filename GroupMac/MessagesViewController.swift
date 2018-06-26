@@ -9,25 +9,30 @@
 import Cocoa
 
 
-class MessagesViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
+class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayout, NSCollectionViewDataSource {
 
-	private let messagesTableView: NSTableView = {
-		let tableView = NSTableView()
+	private let messageCellIdentifier = NSUserInterfaceItemIdentifier(rawValue: "MessageCell")
+	private let messagesCollectionView: NSCollectionView = {
+		let collectionView = NSCollectionView()
+		let flowLayout: NSCollectionViewFlowLayout = {
+			let flow = NSCollectionViewFlowLayout()
 
-		tableView.headerView = nil
-		tableView.refusesFirstResponder = true
+			flow.minimumLineSpacing = 4
 
-		let column = NSTableColumn(/*identifier: NSUserInterfaceItemIdentifier("column")*/)
-		tableView.addTableColumn(column)
+			return flow
+		}()
 
-		return tableView
+		collectionView.collectionViewLayout = flowLayout
+		collectionView.isSelectable = false
+
+		return collectionView
 	}()
 	private let scrollView = NSScrollView()
 
 	var messages: [GroupMeMessage]? {
 		didSet {
 			DispatchQueue.main.async {
-				self.messagesTableView.reloadData()
+				self.messagesCollectionView.reloadData()
 			}
 		}
 	}
@@ -36,31 +41,40 @@ class MessagesViewController: NSViewController, NSTableViewDelegate, NSTableView
 		view = scrollView
 	}
 	override func viewDidLoad() {
-		scrollView.documentView = messagesTableView
+		scrollView.documentView = messagesCollectionView
 		
-		messagesTableView.delegate = self
-		messagesTableView.dataSource = self
+		messagesCollectionView.delegate = self
+		messagesCollectionView.dataSource = self
+		messagesCollectionView.register(MessageCell.self, forItemWithIdentifier: messageCellIdentifier)
 	}
 
-	//MARK: Tableview
-	func numberOfRows(in tableView: NSTableView) -> Int {
+	//MARK: Collection view
+	func collectionView(_ collectionView: NSCollectionView, numberOfItemsInSection section: Int) -> Int {
 		return messages?.count ?? 0
 	}
-	func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
-		if let count = messages?.count, let text = messages?[count-1 - row].text {
-			let cell = NSCell(textCell: text)
+	func collectionView(_ collectionView: NSCollectionView, itemForRepresentedObjectAt indexPath: IndexPath) -> NSCollectionViewItem {
+		let item = collectionView.makeItem(withIdentifier: messageCellIdentifier, for: indexPath) as! MessageCell
+		let message = messages![indexPath.item]
 
-			return cell
-		}
-		else {
-			return nil
-		}
+		item.name = message.name
+		item.text = message.text
+
+		return item
 	}
-	func tableView(_ tableView: NSTableView, setObjectValue object: Any?, for tableColumn: NSTableColumn?, row: Int) {
-		return
-	}
-	func tableView(_ tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
-		return false
+	func collectionView(_ collectionView: NSCollectionView, layout collectionViewLayout: NSCollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> NSSize {
+		return NSSize(width: collectionView.bounds.width, height: 40)
 	}
 
+}
+
+final fileprivate class MessageCell: NSCollectionViewItem {
+	var name: String!
+	var text: String?
+
+	override func loadView() {
+		view = NSView()
+
+		view.wantsLayer = true
+		view.layer!.backgroundColor = NSColor.blue.cgColor
+	}
 }
