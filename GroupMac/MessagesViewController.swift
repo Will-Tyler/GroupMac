@@ -11,7 +11,6 @@ import Cocoa
 
 class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayout, NSCollectionViewDataSource {
 
-	private let messageCellIdentifier = NSUserInterfaceItemIdentifier(rawValue: "MessageCell")
 	private let messagesCollectionView: NSCollectionView = {
 		let collectionView = NSCollectionView()
 		let flowLayout: NSCollectionViewFlowLayout = {
@@ -45,7 +44,7 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 		
 		messagesCollectionView.delegate = self
 		messagesCollectionView.dataSource = self
-		messagesCollectionView.register(MessageCell.self, forItemWithIdentifier: messageCellIdentifier)
+		messagesCollectionView.register(MessageCell.self, forItemWithIdentifier: MessageCell.cellIdentifier)
 	}
 
 	//MARK: Collection view
@@ -53,34 +52,54 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 		return messages?.count ?? 0
 	}
 	func collectionView(_ collectionView: NSCollectionView, itemForRepresentedObjectAt indexPath: IndexPath) -> NSCollectionViewItem {
-		let item = collectionView.makeItem(withIdentifier: messageCellIdentifier, for: indexPath) as! MessageCell
-		let message = messages![indexPath.item]
+		let item = collectionView.makeItem(withIdentifier: MessageCell.cellIdentifier, for: indexPath) as! MessageCell
+		let count = messages!.count
+		let message = messages![count-1 - indexPath.item]
 
-		item.nameLabel.stringValue = message.name
+		(item.name, item.text) = (message.name, message.text)
 
 		return item
 	}
 	func collectionView(_ collectionView: NSCollectionView, layout collectionViewLayout: NSCollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> NSSize {
-		return NSSize(width: collectionView.bounds.width, height: 40)
+		// Layout usually occurs before cell creation.
+		return NSSize(width: collectionView.bounds.width, height: 100)
 	}
 
 }
 
 final fileprivate class MessageCell: NSCollectionViewItem {
-	let nameLabel: NSTextField = {
+	static let cellIdentifier = NSUserInterfaceItemIdentifier(rawValue: "MessageCell")
+	private let nameLabel: NSTextField = {
 		let field = NSTextField()
 
 		field.isEditable = false
 
 		return field
 	}()
-	let textLabel: NSTextField = {
+	private let textLabel: NSTextField = {
 		let field = NSTextField()
 
 		field.isEditable = false
 
 		return field
 	}()
+
+	var name: String {
+		get { return nameLabel.stringValue }
+		set { nameLabel.stringValue = newValue }
+	}
+	var text: String? {
+		get { return textLabel.stringValue }
+		set {
+			guard let value = newValue else { return }
+			textLabel.stringValue = value
+		}
+	}
+	var desiredHeight: CGFloat {
+		get {
+			return nameLabel.intrinsicContentSize.height + textLabel.intrinsicContentSize.height
+		}
+	}
 
 	private func setupInitialLayout() {
 		view.addSubview(nameLabel)
@@ -88,17 +107,29 @@ final fileprivate class MessageCell: NSCollectionViewItem {
 		nameLabel.translatesAutoresizingMaskIntoConstraints = false
 		nameLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 4).isActive = true
 		nameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 4).isActive = true
-		nameLabel.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -4).isActive = true
+		nameLabel.heightAnchor.constraint(equalToConstant: nameLabel.intrinsicContentSize.height)
 		nameLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -4).isActive = true
+
+		view.addSubview(textLabel)
+
+		textLabel.translatesAutoresizingMaskIntoConstraints = false
+		textLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 4).isActive = true
+		textLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 4).isActive = true
+		textLabel.heightAnchor.constraint(equalToConstant: textLabel.intrinsicContentSize.height)
+		textLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -4).isActive = true
 	}
 
 	override func loadView() {
-		view = NSView()
+		view = {
+			let view = NSView()
+
+			view.wantsLayer = true
+			view.layer?.backgroundColor = NSColor.lightGray.cgColor
+
+			return view
+		}()
 	}
 	override func viewDidLoad() {
-		view.wantsLayer = true
-		view.layer?.backgroundColor = NSColor.lightGray.cgColor
-
 		setupInitialLayout()
 	}
 }
