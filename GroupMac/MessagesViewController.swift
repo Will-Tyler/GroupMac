@@ -9,25 +9,29 @@
 import Cocoa
 
 
-class MessagesViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
+class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayout, NSCollectionViewDataSource {
 
-	private let messagesTableView: NSTableView = {
-		let tableView = NSTableView()
+	private let messagesCollectionView: NSCollectionView = {
+		let collectionView = NSCollectionView()
+		let flowLayout: NSCollectionViewFlowLayout = {
+			let flow = NSCollectionViewFlowLayout()
 
-		tableView.headerView = nil
-		tableView.refusesFirstResponder = true
+			flow.minimumLineSpacing = 4
 
-		let column = NSTableColumn(/*identifier: NSUserInterfaceItemIdentifier("column")*/)
-		tableView.addTableColumn(column)
+			return flow
+		}()
 
-		return tableView
+		collectionView.collectionViewLayout = flowLayout
+		collectionView.isSelectable = false
+
+		return collectionView
 	}()
 	private let scrollView = NSScrollView()
 
 	var messages: [GroupMeMessage]? {
 		didSet {
 			DispatchQueue.main.async {
-				self.messagesTableView.reloadData()
+				self.messagesCollectionView.reloadData()
 			}
 		}
 	}
@@ -36,31 +40,126 @@ class MessagesViewController: NSViewController, NSTableViewDelegate, NSTableView
 		view = scrollView
 	}
 	override func viewDidLoad() {
-		scrollView.documentView = messagesTableView
+		scrollView.documentView = messagesCollectionView
 		
-		messagesTableView.delegate = self
-		messagesTableView.dataSource = self
+		messagesCollectionView.delegate = self
+		messagesCollectionView.dataSource = self
+		messagesCollectionView.register(MessageCell.self, forItemWithIdentifier: MessageCell.cellIdentifier)
 	}
 
-	//MARK: Tableview
-	func numberOfRows(in tableView: NSTableView) -> Int {
+	//MARK: Collection view
+	func collectionView(_ collectionView: NSCollectionView, numberOfItemsInSection section: Int) -> Int {
 		return messages?.count ?? 0
 	}
-	func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
-		if let count = messages?.count, let text = messages?[count-1 - row].text {
-			let cell = NSCell(textCell: text)
+	func collectionView(_ collectionView: NSCollectionView, itemForRepresentedObjectAt indexPath: IndexPath) -> NSCollectionViewItem {
+		let item = collectionView.makeItem(withIdentifier: MessageCell.cellIdentifier, for: indexPath) as! MessageCell
+		let count = messages!.count
+		let message = messages![count-1 - indexPath.item]
 
-			return cell
-		}
-		else {
-			return nil
-		}
+		(item.name, item.text) = (message.name, message.text)
+
+		return item
 	}
-	func tableView(_ tableView: NSTableView, setObjectValue object: Any?, for tableColumn: NSTableColumn?, row: Int) {
-		return
-	}
-	func tableView(_ tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
-		return false
+	func collectionView(_ collectionView: NSCollectionView, layout collectionViewLayout: NSCollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> NSSize {
+		// Layout usually occurs before cell creation.
+		return NSSize(width: collectionView.bounds.width, height: 100)
 	}
 
 }
+
+final fileprivate class MessageCell: NSCollectionViewItem {
+	static let cellIdentifier = NSUserInterfaceItemIdentifier(rawValue: "MessageCell")
+	private let nameLabel: NSTextField = {
+		let field = NSTextField()
+
+		field.isEditable = false
+
+		return field
+	}()
+	private let textLabel: NSTextField = {
+		let field = NSTextField()
+
+		field.isEditable = false
+
+		return field
+	}()
+
+	var name: String {
+		get { return nameLabel.stringValue }
+		set { nameLabel.stringValue = newValue }
+	}
+	var text: String? {
+		get { return textLabel.stringValue }
+		set {
+			guard let value = newValue else { return }
+			textLabel.stringValue = value
+		}
+	}
+	var desiredHeight: CGFloat {
+		get {
+			return nameLabel.intrinsicContentSize.height + textLabel.intrinsicContentSize.height
+		}
+	}
+
+	private func setupInitialLayout() {
+		view.addSubview(nameLabel)
+
+		nameLabel.translatesAutoresizingMaskIntoConstraints = false
+		nameLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 4).isActive = true
+		nameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 4).isActive = true
+		nameLabel.heightAnchor.constraint(equalToConstant: nameLabel.intrinsicContentSize.height)
+		nameLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -4).isActive = true
+
+		view.addSubview(textLabel)
+
+		textLabel.translatesAutoresizingMaskIntoConstraints = false
+		textLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 4).isActive = true
+		textLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 4).isActive = true
+		textLabel.heightAnchor.constraint(equalToConstant: textLabel.intrinsicContentSize.height)
+		textLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -4).isActive = true
+	}
+
+	override func loadView() {
+		view = {
+			let view = NSView()
+
+			view.wantsLayer = true
+			view.layer?.backgroundColor = NSColor.lightGray.cgColor
+
+			return view
+		}()
+	}
+	override func viewDidLoad() {
+		setupInitialLayout()
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
