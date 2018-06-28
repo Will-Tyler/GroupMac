@@ -62,7 +62,27 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 	}
 	func collectionView(_ collectionView: NSCollectionView, layout collectionViewLayout: NSCollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> NSSize {
 		// Layout usually occurs before cell creation.
-		return NSSize(width: collectionView.bounds.width, height: 100)
+		// Create a cell to determine the correct height
+		// Creating a cell doesn't work. Recreate labels to get estimated desired height
+
+		let desiredHeight: CGFloat = {
+			let createLabel: ()->NSTextField = {
+				let field = NSTextField()
+
+				field.isEditable = false
+
+				return field
+			}
+			let nameLabel = createLabel()
+			let textLabel = createLabel()
+			guard let count = messages?.count, let message = messages?[count-1 - indexPath.item] else { return 0 }
+
+			(nameLabel.stringValue, textLabel.stringValue) = (message.name, message.text ?? "")
+
+			return nameLabel.intrinsicContentSize.height + textLabel.intrinsicContentSize.height + 12
+		}()
+
+		return NSSize(width: collectionView.bounds.width, height: desiredHeight)
 	}
 
 }
@@ -93,11 +113,6 @@ final fileprivate class MessageCell: NSCollectionViewItem {
 		set {
 			guard let value = newValue else { return }
 			textLabel.stringValue = value
-		}
-	}
-	var desiredHeight: CGFloat {
-		get {
-			return nameLabel.intrinsicContentSize.height + textLabel.intrinsicContentSize.height
 		}
 	}
 
