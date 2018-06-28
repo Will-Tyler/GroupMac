@@ -75,7 +75,7 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 			}
 			let nameLabel = createLabel()
 			let textLabel = createLabel()
-			guard let count = messages?.count, let message = messages?[count-1 - indexPath.item] else { return 0 }
+			guard let count = messages?.count, let message = messages?[count-1 - indexPath.item] else { return 10 }
 
 			(nameLabel.stringValue, textLabel.stringValue) = (message.name, message.text ?? "")
 
