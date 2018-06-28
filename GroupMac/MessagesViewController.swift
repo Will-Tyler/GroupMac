@@ -66,20 +66,19 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 		// Creating a cell doesn't work. Recreate labels to get estimated desired height
 
 		let desiredHeight: CGFloat = {
-			let createLabel: ()->NSTextField = {
-				let field = NSTextField()
+			let restrictionSize = CGSize(width: collectionView.bounds.width-8, height: .greatestFiniteMagnitude)
+			let drawingOptions = NSString.DrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
+			let labels: (name: NSString, text: NSString?) = {
+				let count = messages!.count
+				let message = messages![count-1 - indexPath.item]
 
-				field.isEditable = false
+				return (name: message.name as NSString, text: message.text as NSString?)
+			}()
 
-				return field
-			}
-			let nameLabel = createLabel()
-			let textLabel = createLabel()
-			guard let count = messages?.count, let message = messages?[count-1 - indexPath.item] else { return 10 }
+			let nameEstimate: CGRect = labels.name.boundingRect(with: restrictionSize, options: drawingOptions, attributes: [NSAttributedStringKey.font: NSTextField().font!])
+			let textEstimate: CGRect? = labels.text?.boundingRect(with: restrictionSize, options: drawingOptions, attributes: nil)
 
-			(nameLabel.stringValue, textLabel.stringValue) = (message.name, message.text ?? "")
-
-			return nameLabel.intrinsicContentSize.height + textLabel.intrinsicContentSize.height + 12
+			return nameEstimate.height + (textEstimate?.height ?? 0) + 24
 		}()
 
 		return NSSize(width: collectionView.bounds.width, height: desiredHeight)
