@@ -56,7 +56,7 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 		let count = messages!.count
 		let message = messages![count-1 - indexPath.item]
 
-		(item.name, item.text) = (message.name, message.text)
+		item.message = message
 
 		return item
 	}
@@ -92,7 +92,8 @@ final fileprivate class MessageCell: NSCollectionViewItem {
 		let field = NSTextField()
 
 		field.isEditable = false
-		field.font = NSFont(name: "Segoe UI", size: 13)
+		field.isBezeled = false
+		field.font = NSFont(name: "Segoe UI Bold", size: NSFont.smallSystemFontSize)
 		field.textColor = NSColor(red: 0x62 / 255, green: 0x6f / 255, blue: 0x82 / 255, alpha: 1)
 
 		return field
@@ -101,20 +102,18 @@ final fileprivate class MessageCell: NSCollectionViewItem {
 		let field = NSTextField()
 
 		field.isEditable = false
+		field.isBezeled = false
 		field.font = NSFont(name: "Segoe UI", size: NSFont.systemFontSize(for: NSControl.ControlSize.regular))
 
 		return field
 	}()
 
-	var name: String {
-		get { return nameLabel.stringValue }
-		set { nameLabel.stringValue = newValue }
-	}
-	var text: String? {
-		get { return textLabel.stringValue }
-		set {
-			guard let value = newValue else { return }
-			textLabel.stringValue = value
+	var message: GMMessage! {
+		didSet {
+			nameLabel.stringValue = message.name
+			if let text = message.text {
+				textLabel.stringValue = text
+			}
 		}
 	}
 
@@ -140,7 +139,7 @@ final fileprivate class MessageCell: NSCollectionViewItem {
 			let view = NSView()
 
 			view.wantsLayer = true
-			view.layer?.backgroundColor = NSColor.lightGray.cgColor
+			view.layer?.backgroundColor = CGColor(red: 0xe5 / 255, green: 0xf1 / 255, blue: 0xf6 / 255, alpha: 1)
 
 			return view
 		}()
