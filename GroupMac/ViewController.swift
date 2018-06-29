@@ -13,7 +13,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
 	let inputTextField: NSTextField = {
 		let textField = NSTextField()
 
-		textField.placeholderString = "Enter your message."
+		textField.placeholderString = "Send Message..."
 
 		return textField
 	}()

@@ -75,6 +75,7 @@ final fileprivate class ConversationCell: NSCollectionViewItem {
 		let field = NSTextField()
 
 		field.isEditable = false
+		field.isBezeled = false
 		field.font = NSFont(name: "Segoe UI", size: NSFont.systemFontSize(for: .regular))
 
 		return field
@@ -98,7 +99,14 @@ final fileprivate class ConversationCell: NSCollectionViewItem {
 	}
 
 	override func loadView() {
-		view = NSView()
+		view = {
+			let view = NSView()
+
+			view.wantsLayer = true
+			view.layer!.backgroundColor = CGColor(red: 0xe5 / 255, green: 0xf1 / 255, blue: 0xf6 / 255, alpha: 1)
+
+			return view
+		}()
 	}
 	override func viewDidLoad() {
 		setupInitialLayout()
