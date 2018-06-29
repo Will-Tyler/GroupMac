@@ -11,8 +11,8 @@ import Cocoa
 
 class ConvosViewController: NSViewController, NSCollectionViewDelegateFlowLayout, NSCollectionViewDataSource {
 
-	private let conversations: [Conversation] = {
-		var convos = GroupMe.groups as [Conversation] + GroupMe.chats as [Conversation]
+	private let conversations: [GMConversation] = {
+		var convos = GroupMe.groups as [GMConversation] + GroupMe.chats as [GMConversation]
 
 		convos.sort(by: { return $0.updatedAt > $1.updatedAt })
 
@@ -62,7 +62,7 @@ class ConvosViewController: NSViewController, NSCollectionViewDelegateFlowLayout
 	}
 	func collectionView(_ collectionView: NSCollectionView, didSelectItemsAt indexPaths: Set<IndexPath>) {
 		let indexPath = indexPaths.first!
-		let conversation: Conversation! = (collectionView.item(at: indexPath) as! ConversationCell).conversation
+		let conversation: GMConversation! = (collectionView.item(at: indexPath) as! ConversationCell).conversation
 
 		messagesDelegate?.messages = conversation.blandMessages
 	}
@@ -81,7 +81,7 @@ final fileprivate class ConversationCell: NSCollectionViewItem {
 	}()
 	private let previewLabel = NSTextField()
 
-	var conversation: Conversation! {
+	var conversation: GMConversation! {
 		didSet {
 			nameLabel.stringValue = conversation.name
 		}
