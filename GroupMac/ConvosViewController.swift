@@ -9,7 +9,7 @@
 import Cocoa
 
 
-class ConvosViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
+class ConvosViewController: NSViewController, NSCollectionViewDelegateFlowLayout, NSCollectionViewDataSource {
 
 	private let conversations: [Conversation] = {
 		var convos = GroupMe.groups as [Conversation] + GroupMe.chats as [Conversation]
@@ -18,17 +18,18 @@ class ConvosViewController: NSViewController, NSTableViewDelegate, NSTableViewDa
 
 		return convos
 	}()
-	private let convosTableView: NSTableView = {
-		let tableView = NSTableView()
+	private let convosCollectionView: NSCollectionView = {
+		let collectionView = NSCollectionView()
+		let flowLayout: NSCollectionViewFlowLayout = {
+			let flow = NSCollectionViewFlowLayout()
 
-		tableView.headerView = nil
-		tableView.refusesFirstResponder = true
+			return flow
+		}()
 
-		let column = NSTableColumn(/*identifier: NSUserInterfaceItemIdentifier("column")*/)
+		collectionView.collectionViewLayout = flowLayout
+		collectionView.isSelectable = true
 
-		tableView.addTableColumn(column)
-
-		return tableView
+		return collectionView
 	}()
 	private let scrollView = NSScrollView()
 
@@ -38,33 +39,116 @@ class ConvosViewController: NSViewController, NSTableViewDelegate, NSTableViewDa
 		view = scrollView
 	}
 	override func viewDidLoad() {
-		scrollView.documentView = convosTableView
+		scrollView.documentView = convosCollectionView
 
-		convosTableView.delegate = self
-		convosTableView.dataSource = self
+		convosCollectionView.delegate = self
+		convosCollectionView.dataSource = self
+		convosCollectionView.register(ConversationCell.self, forItemWithIdentifier: ConversationCell.cellIdentifier)
 	}
 
-	//MARK: Table view
-	func numberOfRows(in tableView: NSTableView) -> Int {
+	//MARK: Collection view
+	func collectionView(_ collectionView: NSCollectionView, numberOfItemsInSection section: Int) -> Int {
 		return conversations.count
 	}
-	func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
-		let cell = NSCell(textCell: conversations[row].name)
+	func collectionView(_ collectionView: NSCollectionView, itemForRepresentedObjectAt indexPath: IndexPath) -> NSCollectionViewItem {
+		let cell = collectionView.makeItem(withIdentifier: ConversationCell.cellIdentifier, for: indexPath) as! ConversationCell
 
-		cell.wraps = false
+		cell.conversation = conversations[indexPath.item]
 
 		return cell
 	}
-	func tableView(_ tableView: NSTableView, setObjectValue object: Any?, for tableColumn: NSTableColumn?, row: Int) {
-		return
+	func collectionView(_ collectionView: NSCollectionView, layout collectionViewLayout: NSCollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> NSSize {
+		return NSSize(width: collectionView.bounds.width, height: 40)
 	}
-	func tableView(_ tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
-		messagesDelegate?.messages = conversations[row].blandMessages
+	func collectionView(_ collectionView: NSCollectionView, didSelectItemsAt indexPaths: Set<IndexPath>) {
+		let indexPath = indexPaths.first!
+		let conversation: Conversation! = (collectionView.item(at: indexPath) as! ConversationCell).conversation
 
-		return true
-	}
-	func tableView(_ tableView: NSTableView, shouldEdit tableColumn: NSTableColumn?, row: Int) -> Bool {
-		return false
+		messagesDelegate?.messages = conversation.blandMessages
 	}
 
 }
+
+final fileprivate class ConversationCell: NSCollectionViewItem {
+	static let cellIdentifier = NSUserInterfaceItemIdentifier(rawValue: "ConversationCell")
+	private let nameLabel: NSTextField = {
+		let field = NSTextField()
+
+		field.isEditable = false
+		field.font = NSFont(name: "Segoe UI", size: NSFont.systemFontSize(for: .regular))
+
+		return field
+	}()
+	private let previewLabel = NSTextField()
+
+	var conversation: Conversation! {
+		didSet {
+			nameLabel.stringValue = conversation.name
+		}
+	}
+
+	private func setupInitialLayout() {
+		view.addSubview(nameLabel)
+
+		nameLabel.translatesAutoresizingMaskIntoConstraints = false
+		nameLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 4).isActive = true
+		nameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 4).isActive = true
+		nameLabel.heightAnchor.constraint(equalToConstant: nameLabel.intrinsicContentSize.height).isActive = true
+		nameLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -4).isActive = true
+	}
+
+	override func loadView() {
+		view = NSView()
+	}
+	override func viewDidLoad() {
+		setupInitialLayout()
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
