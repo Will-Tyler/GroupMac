@@ -66,7 +66,7 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 		// Creating a cell doesn't work. Recreate labels to get estimated desired height
 
 		let desiredHeight: CGFloat = {
-			let restrictionSize = CGSize(width: collectionView.bounds.width-8, height: .greatestFiniteMagnitude)
+			let restrictedSize = CGSize(width: collectionView.bounds.width-8, height: .greatestFiniteMagnitude)
 			let drawingOptions = NSString.DrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
 			let labels: (name: NSString, text: NSString?) = {
 				let count = messages!.count
@@ -75,8 +75,8 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 				return (name: message.name as NSString, text: message.text as NSString?)
 			}()
 
-			let nameEstimate: CGRect = labels.name.boundingRect(with: restrictionSize, options: drawingOptions, attributes: [NSAttributedStringKey.font: NSTextField().font!])
-			let textEstimate: CGRect? = labels.text?.boundingRect(with: restrictionSize, options: drawingOptions, attributes: nil)
+			let nameEstimate: CGRect = labels.name.boundingRect(with: restrictedSize, options: drawingOptions, attributes: [NSAttributedStringKey.font: NSTextField().font!])
+			let textEstimate: CGRect? = labels.text?.boundingRect(with: restrictedSize, options: drawingOptions, attributes: nil)
 
 			return nameEstimate.height + (textEstimate?.height ?? 0) + 24
 		}()
@@ -92,6 +92,8 @@ final fileprivate class MessageCell: NSCollectionViewItem {
 		let field = NSTextField()
 
 		field.isEditable = false
+		field.font = NSFont(name: "Segoe UI", size: NSFont.smallSystemFontSize)
+		field.textColor = NSColor(white: 0.5, alpha: 1)
 
 		return field
 	}()
@@ -99,6 +101,7 @@ final fileprivate class MessageCell: NSCollectionViewItem {
 		let field = NSTextField()
 
 		field.isEditable = false
+		field.font = NSFont(name: "Segoe UI", size: NSFont.systemFontSize(for: NSControl.ControlSize.regular))
 
 		return field
 	}()
@@ -120,17 +123,16 @@ final fileprivate class MessageCell: NSCollectionViewItem {
 
 		nameLabel.translatesAutoresizingMaskIntoConstraints = false
 		nameLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 4).isActive = true
-		nameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 4).isActive = true
-		nameLabel.heightAnchor.constraint(equalToConstant: nameLabel.intrinsicContentSize.height)
-		nameLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -4).isActive = true
+		nameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+		nameLabel.heightAnchor.constraint(equalToConstant: nameLabel.intrinsicContentSize.height).isActive = true
+		nameLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
 
 		view.addSubview(textLabel)
 
 		textLabel.translatesAutoresizingMaskIntoConstraints = false
-		textLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 4).isActive = true
-		textLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 4).isActive = true
-		textLabel.heightAnchor.constraint(equalToConstant: textLabel.intrinsicContentSize.height)
-		textLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -4).isActive = true
+		textLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor).isActive = true
+		textLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+		textLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
 	}
 
 	override func loadView() {
