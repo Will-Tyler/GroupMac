@@ -1,5 +1,5 @@
 //
-//  Message.swift
+//  GMMessage.swift
 //  GroupMac
 //
 //  Created by Will Tyler on 6/26/18.
@@ -9,10 +9,10 @@
 import Foundation
 
 
-protocol GroupMeMessage {
+protocol GMMessage {
 	var name: String { get }
 	var text: String? { get }
 }
 
-extension GroupMe.Chat.Message: GroupMeMessage {}
-extension GroupMe.Group.Message: GroupMeMessage {}
+extension GroupMe.Chat.Message: GMMessage {}
+extension GroupMe.Group.Message: GMMessage {}

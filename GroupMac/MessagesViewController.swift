@@ -28,7 +28,7 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 	}()
 	private let scrollView = NSScrollView()
 
-	var messages: [GroupMeMessage]? {
+	var messages: [GMMessage]? {
 		didSet {
 			DispatchQueue.main.async {
 				self.messagesCollectionView.reloadData()
@@ -92,8 +92,8 @@ final fileprivate class MessageCell: NSCollectionViewItem {
 		let field = NSTextField()
 
 		field.isEditable = false
-		field.font = NSFont(name: "Segoe UI", size: NSFont.smallSystemFontSize)
-		field.textColor = NSColor(white: 0.5, alpha: 1)
+		field.font = NSFont(name: "Segoe UI", size: 13)
+		field.textColor = NSColor(red: 0x62 / 255, green: 0x6f / 255, blue: 0x82 / 255, alpha: 1)
 
 		return field
 	}()
