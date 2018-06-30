@@ -193,8 +193,6 @@ class GroupMe {
 		let path = Bundle.main.path(forResource: "token", ofType: "txt")!
 		let token = try! String(contentsOfFile: path).trimmingCharacters(in: .whitespacesAndNewlines)
 
-		print("Access Token: \"\(token)\"")
-
 		return token
 	}()
 

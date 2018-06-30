@@ -14,6 +14,7 @@ protocol GMConversation {
 	var updatedAt: Int { get }
 	var blandMessages: [GMMessage] { get }
 	var conversationType: GMConversationType { get }
+	var firstMessage: GMMessage { get }
 }
 
 extension GroupMe.Chat: GMConversation {
@@ -26,6 +27,9 @@ extension GroupMe.Chat: GMConversation {
 	var conversationType: GMConversationType {
 		get { return .chat }
 	}
+	var firstMessage: GMMessage {
+		get { return blandMessages.first! }
+	}
 }
 
 extension GroupMe.Group: GMConversation {
@@ -34,5 +38,8 @@ extension GroupMe.Group: GMConversation {
 	}
 	var conversationType: GMConversationType {
 		get { return .group }
+	}
+	var firstMessage: GMMessage {
+		get { return blandMessages.first! }
 	}
 }

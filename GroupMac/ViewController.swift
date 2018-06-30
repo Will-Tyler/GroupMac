@@ -8,17 +8,35 @@
 
 import Cocoa
 
-class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
 
-	let inputTextField: NSTextField = {
-		let textField = NSTextField()
+class ViewController: NSViewController {
 
-		textField.placeholderString = "Send Message..."
+	private let mainView = NSView()
+	private let welcomeLabel: NSTextField = {
+		let welcome =
+		"""
+		You look great today.
+		Pop open a chat to start the conversation.
+		"""
+		let field = NSTextField(wrappingLabelWithString: welcome)
 
-		return textField
+		field.isEditable = false
+		field.alignment = .center
+		field.font = NSFont(name: "Segoe UI", size: 18)
+		field.textColor = NSColor(red: 0x3b / 255, green: 0x3b / 255, blue: 0x3b / 255, alpha: 1)
+
+		return field
 	}()
-	let convosViewController = ConvosViewController()
-	let messagesViewController = MessagesViewController()
+	private let inputTextField: NSTextField = {
+		let field = NSTextField()
+
+		field.font = NSFont(name: "Segoe UI", size: NSFont.systemFontSize(for: .regular))
+		field.placeholderString = "Send Message..."
+
+		return field
+	}()
+	private let convosViewController = ConvosViewController()
+	private let messagesViewController = MessagesViewController()
 
 	private func setupInitialLayout() {
 		let convosView = convosViewController.view
@@ -31,36 +49,56 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
 		convosView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 4).isActive = true
 		convosView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3).isActive = true
 
-		view.addSubview(inputTextField)
+		view.addSubview(mainView)
 
-		inputTextField.translatesAutoresizingMaskIntoConstraints = false
-		inputTextField.leadingAnchor.constraint(equalTo: convosView.trailingAnchor, constant: 4).isActive = true
-		inputTextField.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -4).isActive = true
-		inputTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -4).isActive = true
-		inputTextField.heightAnchor.constraint(equalToConstant: inputTextField.intrinsicContentSize.height).isActive = true
+		mainView.translatesAutoresizingMaskIntoConstraints = false
+		mainView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+		mainView.leadingAnchor.constraint(equalTo: convosView.trailingAnchor).isActive = true
+		mainView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+		mainView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
 
-		let messageView = messagesViewController.view
+		mainView.addSubview(welcomeLabel)
 
-		view.addSubview(messageView)
-
-		messageView.translatesAutoresizingMaskIntoConstraints = false
-		messageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 4).isActive = true
-		messageView.leadingAnchor.constraint(equalTo: convosView.trailingAnchor, constant: 4).isActive = true
-		messageView.bottomAnchor.constraint(equalTo: inputTextField.topAnchor, constant: -4).isActive = true
-		messageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -4).isActive = true
+		welcomeLabel.translatesAutoresizingMaskIntoConstraints = false
+		welcomeLabel.heightAnchor.constraint(equalToConstant: welcomeLabel.intrinsicContentSize.height).isActive = true
+		welcomeLabel.widthAnchor.constraint(equalToConstant: welcomeLabel.intrinsicContentSize.width).isActive = true
+		welcomeLabel.centerXAnchor.constraint(equalTo: mainView.centerXAnchor).isActive = true
+		welcomeLabel.centerYAnchor.constraint(equalTo: mainView.centerYAnchor).isActive = true
 	}
 
 	override func loadView() {
 		self.view = NSView()
 	}
-
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		// Do any additional setup after loading the view.
 
 		convosViewController.messagesDelegate = messagesViewController
+		convosViewController.viewDelegate = self
 
 		setupInitialLayout()
+	}
+
+	func hasSelectedConversation() {
+		mainView.subviews.forEach({ $0.removeFromSuperview() })
+
+		mainView.addSubview(inputTextField)
+
+		inputTextField.translatesAutoresizingMaskIntoConstraints = false
+		inputTextField.leadingAnchor.constraint(equalTo: mainView.leadingAnchor, constant: 4).isActive = true
+		inputTextField.bottomAnchor.constraint(equalTo: mainView.bottomAnchor, constant: -4).isActive = true
+		inputTextField.trailingAnchor.constraint(equalTo: mainView.trailingAnchor, constant: -4).isActive = true
+		inputTextField.heightAnchor.constraint(equalToConstant: inputTextField.intrinsicContentSize.height).isActive = true
+
+		let messageView = messagesViewController.view
+
+		mainView.addSubview(messageView)
+
+		messageView.translatesAutoresizingMaskIntoConstraints = false
+		messageView.topAnchor.constraint(equalTo: mainView.topAnchor, constant: 4).isActive = true
+		messageView.leadingAnchor.constraint(equalTo: mainView.leadingAnchor, constant: 4).isActive = true
+		messageView.bottomAnchor.constraint(equalTo: inputTextField.topAnchor, constant: -4).isActive = true
+		messageView.trailingAnchor.constraint(equalTo: mainView.trailingAnchor, constant: -4).isActive = true
 	}
 	
 }
