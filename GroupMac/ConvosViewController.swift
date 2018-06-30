@@ -20,7 +20,7 @@ class ConvosViewController: NSViewController, NSCollectionViewDelegateFlowLayout
 	}()
 	private let convosCollectionView: NSCollectionView = {
 		let collectionView = NSCollectionView()
-		let flowLayout = NSCollectionViewFlowLayout()
+		let flowLayout = CollectionLayout()
 
 		collectionView.collectionViewLayout = flowLayout
 		collectionView.isSelectable = true
@@ -37,11 +37,18 @@ class ConvosViewController: NSViewController, NSCollectionViewDelegateFlowLayout
 		view = scrollView
 	}
 	override func viewDidLoad() {
+		super.viewDidLoad()
+
 		scrollView.documentView = convosCollectionView
 
 		convosCollectionView.delegate = self
 		convosCollectionView.dataSource = self
 		convosCollectionView.register(ConversationCell.self, forItemWithIdentifier: ConversationCell.cellIdentifier)
+	}
+	override func viewWillLayout() {
+		super.viewWillLayout()
+
+		(convosCollectionView.collectionViewLayout! as! CollectionLayout).invalidateLayout()
 	}
 
 	//MARK: Collection view
@@ -71,6 +78,12 @@ class ConvosViewController: NSViewController, NSCollectionViewDelegateFlowLayout
 		messagesDelegate?.messages = conversation.blandMessages
 	}
 
+}
+
+final fileprivate class CollectionLayout: NSCollectionViewFlowLayout {
+	override func shouldInvalidateLayout(forBoundsChange newBounds: NSRect) -> Bool {
+		return true
+	}
 }
 
 final fileprivate class ConversationCell: NSCollectionViewItem {
@@ -150,17 +163,19 @@ final fileprivate class ConversationCell: NSCollectionViewItem {
 		}()
 	}
 	override func viewDidLoad() {
+		super.viewDidLoad()
+
 		setupInitialLayout()
 
-		let options = NSTrackingArea.Options.mouseEnteredAndExited.union(.activeAlways)
-		let trackingArea = NSTrackingArea(rect: view.frame, options: options, owner: self, userInfo: nil)
-
-		view.addTrackingArea(trackingArea)
+//		let options = NSTrackingArea.Options.mouseEnteredAndExited.union(.activeAlways)
+//		let trackingArea = NSTrackingArea(rect: view.frame, options: options, owner: self, userInfo: nil)
+//
+//		view.addTrackingArea(trackingArea)
 	}
-	override func mouseEntered(with event: NSEvent) {
-		super.mouseEntered(with: event)
-		print("Mouse entered...")
-	}
+//	override func mouseEntered(with event: NSEvent) {
+//		super.mouseEntered(with: event)
+//		print("Mouse entered...")
+//	}
 }
 
 
