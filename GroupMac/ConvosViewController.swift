@@ -106,11 +106,30 @@ final fileprivate class ConversationCell: NSCollectionViewItem {
 
 		return field
 	}()
+	private let groupImageView: NSImageView = {
+		let view = NSImageView()
+
+		view.image = #imageLiteral(resourceName: "Group Default Image")
+		view.imageScaling = NSImageScaling.scaleAxesIndependently
+
+		return view
+	}()
 
 	var conversation: GMConversation! {
 		didSet {
 			nameLabel.stringValue = conversation.name
 			previewLabel.stringValue = conversation.firstMessage.text ?? ""
+
+			if let url = conversation.imageURL {
+				URLSession.shared.dataTask(with: url) { (data: Data?, response: URLResponse?, error: Error?) in
+					guard error == nil, let data = data else { return }
+
+					let image = NSImage(data: data) ?? #imageLiteral(resourceName: "Group Default Image")
+					DispatchQueue.main.async {
+						self.groupImageView.image = image
+					}
+				}.resume()
+			}
 		}
 	}
 
@@ -130,16 +149,24 @@ final fileprivate class ConversationCell: NSCollectionViewItem {
 		separator.translatesAutoresizingMaskIntoConstraints = false
 		separator.heightAnchor.constraint(equalToConstant: 1).isActive = true
 		separator.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-		separator.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+		separator.leftAnchor.constraint(equalTo: groupImageView.leftAnchor).isActive = true
 		separator.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
 	}
 
 	private func setupInitialLayout() {
+		view.addSubview(groupImageView)
+
+		groupImageView.translatesAutoresizingMaskIntoConstraints = false
+		groupImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 4).isActive = true
+		groupImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 4).isActive = true
+		groupImageView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -4).isActive = true
+		groupImageView.widthAnchor.constraint(equalTo: groupImageView.heightAnchor).isActive = true
+
 		view.addSubview(nameLabel)
 
 		nameLabel.translatesAutoresizingMaskIntoConstraints = false
 		nameLabel.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-		nameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+		nameLabel.leadingAnchor.constraint(equalTo: groupImageView.trailingAnchor, constant: 4).isActive = true
 		nameLabel.heightAnchor.constraint(equalToConstant: nameLabel.intrinsicContentSize.height).isActive = true
 		nameLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
 
@@ -147,7 +174,7 @@ final fileprivate class ConversationCell: NSCollectionViewItem {
 
 		previewLabel.translatesAutoresizingMaskIntoConstraints = false
 		previewLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor).isActive = true
-		previewLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+		previewLabel.leadingAnchor.constraint(equalTo: groupImageView.trailingAnchor, constant: 4).isActive = true
 		previewLabel.heightAnchor.constraint(equalToConstant: 2 * previewLabel.intrinsicContentSize.height).isActive = true
 		previewLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
 	}
@@ -157,7 +184,7 @@ final fileprivate class ConversationCell: NSCollectionViewItem {
 			let view = NSView()
 
 			view.wantsLayer = true
-			view.layer!.backgroundColor = CGColor(red: 0xe5 / 255, green: 0xf1 / 255, blue: 0xf6 / 255, alpha: 1)
+			view.layer!.backgroundColor = NSColor.systemPink.cgColor
 
 			return view
 		}()

@@ -15,6 +15,7 @@ protocol GMConversation {
 	var blandMessages: [GMMessage] { get }
 	var conversationType: GMConversationType { get }
 	var firstMessage: GMMessage { get }
+	var imageURL: URL? { get }
 }
 
 extension GroupMe.Chat: GMConversation {
@@ -29,6 +30,9 @@ extension GroupMe.Chat: GMConversation {
 	}
 	var firstMessage: GMMessage {
 		get { return blandMessages.first! }
+	}
+	var imageURL: URL? {
+		get { return otherUser.avatarURL }
 	}
 }
 

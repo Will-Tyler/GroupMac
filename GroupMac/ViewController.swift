@@ -22,7 +22,7 @@ class ViewController: NSViewController {
 
 		field.isEditable = false
 		field.alignment = .center
-		field.font = NSFont(name: "Segoe UI", size: 18)
+		field.font = Fonts.large
 		field.textColor = NSColor(red: 0x3b / 255, green: 0x3b / 255, blue: 0x3b / 255, alpha: 1)
 
 		return field
