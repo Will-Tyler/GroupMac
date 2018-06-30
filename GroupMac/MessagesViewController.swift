@@ -82,10 +82,10 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 				return (name: message.name as NSString, text: message.text as NSString?)
 			}()
 
-			let nameEstimate: CGRect = labels.name.boundingRect(with: restrictedSize, options: drawingOptions, attributes: [NSAttributedStringKey.font: NSTextField().font!])
-			let textEstimate: CGRect? = labels.text?.boundingRect(with: restrictedSize, options: drawingOptions, attributes: nil)
+			let nameEstimate: CGRect = labels.name.boundingRect(with: restrictedSize, options: drawingOptions, attributes: [.font: Fonts.boldSmall])
+			let textEstimate: CGRect? = labels.text?.boundingRect(with: restrictedSize, options: drawingOptions, attributes: [.font: Fonts.regular])
 
-			return nameEstimate.height + (textEstimate?.height ?? 0) + 24
+			return nameEstimate.height + (textEstimate?.height ?? 0)
 		}()
 
 		return NSSize(width: collectionView.bounds.width, height: desiredHeight)
@@ -128,7 +128,7 @@ final fileprivate class MessageCell: NSCollectionViewItem {
 		view.addSubview(nameLabel)
 
 		nameLabel.translatesAutoresizingMaskIntoConstraints = false
-		nameLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 4).isActive = true
+		nameLabel.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
 		nameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
 		nameLabel.heightAnchor.constraint(equalToConstant: nameLabel.intrinsicContentSize.height).isActive = true
 		nameLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
@@ -146,7 +146,8 @@ final fileprivate class MessageCell: NSCollectionViewItem {
 			let view = NSView()
 
 			view.wantsLayer = true
-			view.layer?.backgroundColor = CGColor(red: 0xe5 / 255, green: 0xf1 / 255, blue: 0xf6 / 255, alpha: 1)
+//			view.layer?.backgroundColor = CGColor(red: 0xe5 / 255, green: 0xf1 / 255, blue: 0xf6 / 255, alpha: 1)
+			view.layer?.backgroundColor = NSColor.systemPink.cgColor
 
 			return view
 		}()
