@@ -40,11 +40,18 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 		view = scrollView
 	}
 	override func viewDidLoad() {
+		super.viewDidLoad()
+
 		scrollView.documentView = messagesCollectionView
 		
 		messagesCollectionView.delegate = self
 		messagesCollectionView.dataSource = self
 		messagesCollectionView.register(MessageCell.self, forItemWithIdentifier: MessageCell.cellIdentifier)
+	}
+	override func viewWillLayout() {
+		super.viewWillLayout()
+		
+		messagesCollectionView.collectionViewLayout!.invalidateLayout()
 	}
 
 	//MARK: Collection view
@@ -145,6 +152,8 @@ final fileprivate class MessageCell: NSCollectionViewItem {
 		}()
 	}
 	override func viewDidLoad() {
+		super.viewDidLoad()
+
 		setupInitialLayout()
 	}
 }
