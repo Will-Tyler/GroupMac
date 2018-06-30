@@ -10,7 +10,14 @@ import Cocoa
 
 
 struct Fonts {
-	static let regular = NSFont(name: "Segoe UI", size: NSFont.systemFontSize(for: .regular))!
-	static let regularSmall = NSFont(name: "Segoe UI", size: NSFont.smallSystemFontSize)!
-	static let bold = NSFont(name: "Segoe UI Bold", size: NSFont.systemFontSize(for: .regular))!
+	private struct names {
+		static let regular = "Segoe UI"
+		static let bold = "Segoe UI Bold"
+	}
+
+	static let regular = NSFont(name: names.regular, size: NSFont.systemFontSize(for: .regular))!
+	static let regularSmall = NSFont(name: names.regular, size: NSFont.smallSystemFontSize)!
+	static let bold = NSFont(name: names.bold, size: NSFont.systemFontSize(for: .regular))!
+	static let boldSmall = NSFont(name: names.bold, size: NSFont.smallSystemFontSize)!
+	static let large = NSFont(name: names.regular, size: 18)
 }

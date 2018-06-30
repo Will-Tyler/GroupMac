@@ -100,7 +100,7 @@ final fileprivate class MessageCell: NSCollectionViewItem {
 
 		field.isEditable = false
 		field.isBezeled = false
-		field.font = NSFont(name: "Segoe UI Bold", size: NSFont.smallSystemFontSize)
+		field.font = Fonts.boldSmall
 		field.textColor = NSColor(red: 0x62 / 255, green: 0x6f / 255, blue: 0x82 / 255, alpha: 1)
 
 		return field
@@ -110,7 +110,7 @@ final fileprivate class MessageCell: NSCollectionViewItem {
 
 		field.isEditable = false
 		field.isBezeled = false
-		field.font = NSFont(name: "Segoe UI", size: NSFont.systemFontSize(for: NSControl.ControlSize.regular))
+		field.font = Fonts.regular
 
 		return field
 	}()
