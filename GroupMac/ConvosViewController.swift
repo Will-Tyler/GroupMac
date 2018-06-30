@@ -20,11 +20,7 @@ class ConvosViewController: NSViewController, NSCollectionViewDelegateFlowLayout
 	}()
 	private let convosCollectionView: NSCollectionView = {
 		let collectionView = NSCollectionView()
-		let flowLayout: NSCollectionViewFlowLayout = {
-			let flow = NSCollectionViewFlowLayout()
-
-			return flow
-		}()
+		let flowLayout = NSCollectionViewFlowLayout()
 
 		collectionView.collectionViewLayout = flowLayout
 		collectionView.isSelectable = true
@@ -32,8 +28,10 @@ class ConvosViewController: NSViewController, NSCollectionViewDelegateFlowLayout
 		return collectionView
 	}()
 	private let scrollView = NSScrollView()
+	private var didNotifyViewDelegate = false
 
 	var messagesDelegate: MessagesViewController?
+	var viewDelegate: ViewController?
 
 	override func loadView() {
 		view = scrollView
@@ -54,15 +52,21 @@ class ConvosViewController: NSViewController, NSCollectionViewDelegateFlowLayout
 		let cell = collectionView.makeItem(withIdentifier: ConversationCell.cellIdentifier, for: indexPath) as! ConversationCell
 
 		cell.conversation = conversations[indexPath.item]
+		if indexPath.item != 0 { cell.addSeparatorToTop() }
 
 		return cell
 	}
 	func collectionView(_ collectionView: NSCollectionView, layout collectionViewLayout: NSCollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> NSSize {
-		return NSSize(width: collectionView.bounds.width, height: 40)
+		return NSSize(width: collectionView.bounds.width, height: 59)
 	}
 	func collectionView(_ collectionView: NSCollectionView, didSelectItemsAt indexPaths: Set<IndexPath>) {
 		let indexPath = indexPaths.first!
 		let conversation: GMConversation! = (collectionView.item(at: indexPath) as! ConversationCell).conversation
+
+		if !didNotifyViewDelegate {
+			viewDelegate?.hasSelectedConversation()
+			didNotifyViewDelegate = true
+		}
 
 		messagesDelegate?.messages = conversation.blandMessages
 	}
@@ -76,26 +80,63 @@ final fileprivate class ConversationCell: NSCollectionViewItem {
 
 		field.isEditable = false
 		field.isBezeled = false
-		field.font = NSFont(name: "Segoe UI", size: NSFont.systemFontSize(for: .regular))
+		field.font = Fonts.regular
 
 		return field
 	}()
-	private let previewLabel = NSTextField()
+	private let previewLabel: NSTextField = {
+		let field = NSTextField()
+
+		field.isEditable = false
+		field.isBezeled = false
+		field.font = Fonts.regularSmall
+
+		return field
+	}()
 
 	var conversation: GMConversation! {
 		didSet {
 			nameLabel.stringValue = conversation.name
+			previewLabel.stringValue = conversation.firstMessage.text ?? ""
 		}
+	}
+
+	func addSeparatorToTop() {
+		let separator: NSView = {
+			let view = NSView()
+
+			view.wantsLayer = true
+			let color: CGFloat = 230 / 255
+			view.layer!.backgroundColor = CGColor(red: color, green: color, blue: color, alpha: 1)
+
+			return view
+		}()
+
+		view.addSubview(separator)
+
+		separator.translatesAutoresizingMaskIntoConstraints = false
+		separator.heightAnchor.constraint(equalToConstant: 1).isActive = true
+		separator.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+		separator.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+		separator.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
 	}
 
 	private func setupInitialLayout() {
 		view.addSubview(nameLabel)
 
 		nameLabel.translatesAutoresizingMaskIntoConstraints = false
-		nameLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 4).isActive = true
-		nameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 4).isActive = true
+		nameLabel.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+		nameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
 		nameLabel.heightAnchor.constraint(equalToConstant: nameLabel.intrinsicContentSize.height).isActive = true
-		nameLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -4).isActive = true
+		nameLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+
+		view.addSubview(previewLabel)
+
+		previewLabel.translatesAutoresizingMaskIntoConstraints = false
+		previewLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor).isActive = true
+		previewLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+		previewLabel.heightAnchor.constraint(equalToConstant: 2 * previewLabel.intrinsicContentSize.height).isActive = true
+		previewLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
 	}
 
 	override func loadView() {
@@ -110,6 +151,15 @@ final fileprivate class ConversationCell: NSCollectionViewItem {
 	}
 	override func viewDidLoad() {
 		setupInitialLayout()
+
+		let options = NSTrackingArea.Options.mouseEnteredAndExited.union(.activeAlways)
+		let trackingArea = NSTrackingArea(rect: view.frame, options: options, owner: self, userInfo: nil)
+
+		view.addTrackingArea(trackingArea)
+	}
+	override func mouseEntered(with event: NSEvent) {
+		super.mouseEntered(with: event)
+		print("Mouse entered...")
 	}
 }
 
