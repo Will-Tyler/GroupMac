@@ -70,7 +70,7 @@ class ConvosViewController: NSViewController, NSCollectionViewDelegateFlowLayout
 		return cell
 	}
 	func collectionView(_ collectionView: NSCollectionView, layout collectionViewLayout: NSCollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> NSSize {
-		return NSSize(width: collectionView.bounds.width, height: 59)
+		return NSSize(width: collectionView.bounds.width, height: 64)
 	}
 	func collectionView(_ collectionView: NSCollectionView, didSelectItemsAt indexPaths: Set<IndexPath>) {
 		let indexPath = indexPaths.first!
@@ -172,9 +172,9 @@ final fileprivate class ConversationCell: NSCollectionViewItem {
 		view.addSubview(groupImageView)
 
 		groupImageView.translatesAutoresizingMaskIntoConstraints = false
-		groupImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 4).isActive = true
 		groupImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 4).isActive = true
-		groupImageView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -4).isActive = true
+		groupImageView.heightAnchor.constraint(equalToConstant: 50).isActive = true
+		groupImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
 		groupImageView.widthAnchor.constraint(equalTo: groupImageView.heightAnchor).isActive = true
 
 		view.addSubview(nameLabel)
@@ -200,6 +200,7 @@ final fileprivate class ConversationCell: NSCollectionViewItem {
 
 			view.wantsLayer = true
 			view.layer!.backgroundColor = CGColor(red: 247 / 255, green: 247 / 255, blue: 247 / 255, alpha: 1)
+//			view.layer!.backgroundColor = NSColor.systemPink.cgColor
 
 			return view
 		}()
