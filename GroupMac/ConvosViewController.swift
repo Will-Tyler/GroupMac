@@ -130,6 +130,14 @@ final fileprivate class ConversationCell: NSCollectionViewItem {
 					}
 				}.resume()
 			}
+
+			if conversation.conversationType == .chat {
+				DispatchQueue.main.async {
+					self.groupImageView.wantsLayer = true
+					self.groupImageView.layer!.cornerRadius = (self.view.bounds.height - 8) / 2
+					self.groupImageView.layer!.masksToBounds = true
+				}
+			}
 		}
 	}
 

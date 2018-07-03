@@ -12,6 +12,7 @@ import Foundation
 protocol GMMessage {
 	var name: String { get }
 	var text: String? { get }
+	var avatarURL: URL? { get }
 }
 
 extension GroupMe.Chat.Message: GMMessage {}
