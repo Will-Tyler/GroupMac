@@ -20,7 +20,13 @@ class ConvosViewController: NSViewController, NSCollectionViewDelegateFlowLayout
 	}()
 	private let convosCollectionView: NSCollectionView = {
 		let collectionView = NSCollectionView()
-		let flowLayout = CollectionLayout()
+		let flowLayout: CollectionLayout = {
+			let layout = CollectionLayout()
+
+			layout.minimumLineSpacing = 0
+
+			return layout
+		}()
 
 		collectionView.collectionViewLayout = flowLayout
 		collectionView.isSelectable = true
@@ -93,6 +99,7 @@ final fileprivate class ConversationCell: NSCollectionViewItem {
 		field.isEditable = false
 		field.isBezeled = false
 		field.font = Fonts.regular
+		field.backgroundColor = .clear
 
 		return field
 	}()
@@ -102,6 +109,7 @@ final fileprivate class ConversationCell: NSCollectionViewItem {
 		field.isEditable = false
 		field.isBezeled = false
 		field.font = Fonts.regularSmall
+		field.backgroundColor = .clear
 
 		return field
 	}()
@@ -190,8 +198,8 @@ final fileprivate class ConversationCell: NSCollectionViewItem {
 		view = {
 			let view = NSView()
 
-//			view.wantsLayer = true
-//			view.layer!.backgroundColor = NSColor.systemPink.cgColor
+			view.wantsLayer = true
+			view.layer!.backgroundColor = CGColor(red: 247 / 255, green: 247 / 255, blue: 247 / 255, alpha: 1)
 
 			return view
 		}()
