@@ -17,7 +17,8 @@ struct Fonts {
 
 	static let regular = NSFont(name: names.regular, size: NSFont.systemFontSize(for: .regular))!
 	static let regularSmall = NSFont(name: names.regular, size: NSFont.smallSystemFontSize)!
+	static let regularLarge = NSFont(name: names.regular, size: 18)!
 	static let bold = NSFont(name: names.bold, size: NSFont.systemFontSize(for: .regular))!
 	static let boldSmall = NSFont(name: names.bold, size: NSFont.smallSystemFontSize)!
-	static let large = NSFont(name: names.regular, size: 18)
+	static let boldLarge = NSFont(name: names.bold, size: 18)!
 }

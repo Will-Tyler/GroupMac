@@ -11,12 +11,23 @@ import Cocoa
 
 class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayout, NSCollectionViewDataSource {
 
+	private let containerView = NSView()
+	private let titleView = NSView()
+	private let titleLabel: NSTextField = {
+		let field = NSTextField()
+
+		field.isEditable = false
+		field.isBezeled = false
+		field.font = Fonts.boldLarge
+
+		return field
+	}()
 	private let messagesCollectionView: NSCollectionView = {
 		let collectionView = NSCollectionView()
 		let flowLayout: NSCollectionViewFlowLayout = {
 			let flow = NSCollectionViewFlowLayout()
 
-			flow.minimumLineSpacing = 4
+			flow.minimumLineSpacing = 0
 
 			return flow
 		}()
@@ -28,9 +39,36 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 	}()
 	private let scrollView = NSScrollView()
 
+	private func setupInitialLayout() {
+		titleView.addSubview(titleLabel)
+
+		titleLabel.translatesAutoresizingMaskIntoConstraints = false
+		titleLabel.heightAnchor.constraint(equalToConstant: titleLabel.intrinsicContentSize.height).isActive = true
+		titleLabel.leadingAnchor.constraint(equalTo: titleView.leadingAnchor).isActive = true
+		titleLabel.trailingAnchor.constraint(equalTo: titleView.trailingAnchor).isActive = true
+		titleLabel.topAnchor.constraint(equalTo: titleView.topAnchor).isActive = true
+
+		containerView.addSubview(titleView)
+
+		titleView.translatesAutoresizingMaskIntoConstraints = false
+		titleView.topAnchor.constraint(equalTo: containerView.topAnchor).isActive = true
+		titleView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor).isActive = true
+		titleView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor).isActive = true
+		titleView.heightAnchor.constraint(equalToConstant: titleLabel.intrinsicContentSize.height + 4).isActive = true
+
+		containerView.addSubview(scrollView)
+
+		scrollView.translatesAutoresizingMaskIntoConstraints = false
+		scrollView.topAnchor.constraint(equalTo: titleView.bottomAnchor).isActive = true
+		scrollView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor).isActive = true
+		scrollView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor).isActive = true
+		scrollView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor).isActive = true
+	}
+
 	var conversation: GMConversation! {
 		didSet {
 			messages = conversation.blandMessages
+			titleLabel.stringValue = conversation.name
 		}
 	}
 	private var messages: [GMMessage]? {
@@ -42,7 +80,7 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 	}
 
 	override func loadView() {
-		view = scrollView
+		view = containerView
 	}
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -52,6 +90,8 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 		messagesCollectionView.delegate = self
 		messagesCollectionView.dataSource = self
 		messagesCollectionView.register(MessageCell.self, forItemWithIdentifier: MessageCell.cellIdentifier)
+
+		setupInitialLayout()
 	}
 	override func viewWillLayout() {
 		super.viewWillLayout()
