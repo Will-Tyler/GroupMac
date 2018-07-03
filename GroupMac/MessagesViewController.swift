@@ -28,6 +28,7 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 		field.isEditable = false
 		field.isBezeled = false
 		field.font = Fonts.boldLarge
+		field.textColor = Colors.title
 		field.backgroundColor = .clear
 
 		return field
@@ -68,6 +69,9 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 
 	private func setupInitialLayout() {
 		titleView.addSubview(titleLabel)
+		containerView.addSubview(scrollView)
+		containerView.addSubview(titleView)
+		containerView.addSubview(inputTextField)
 
 		titleLabel.translatesAutoresizingMaskIntoConstraints = false
 		titleLabel.heightAnchor.constraint(equalToConstant: titleLabel.intrinsicContentSize.height).isActive = true
@@ -75,19 +79,14 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 		titleLabel.trailingAnchor.constraint(equalTo: titleView.trailingAnchor).isActive = true
 		titleLabel.centerYAnchor.constraint(equalTo: titleView.centerYAnchor).isActive = true
 
-		containerView.addSubview(titleView)
-
 		titleView.translatesAutoresizingMaskIntoConstraints = false
 		titleView.topAnchor.constraint(equalTo: containerView.topAnchor).isActive = true
 		titleView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor).isActive = true
 		titleView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor).isActive = true
 		titleView.heightAnchor.constraint(equalToConstant: titleLabel.intrinsicContentSize.height + 4).isActive = true
 
-		containerView.addSubview(scrollView)
-		containerView.addSubview(inputTextField)
-
 		scrollView.translatesAutoresizingMaskIntoConstraints = false
-		scrollView.topAnchor.constraint(equalTo: titleView.bottomAnchor, constant: -1).isActive = true // provide overlap on borders
+		scrollView.topAnchor.constraint(equalTo: titleView.bottomAnchor, constant: -1).isActive = true // overlap borders
 		scrollView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor).isActive = true
 		scrollView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor).isActive = true
 		scrollView.bottomAnchor.constraint(equalTo: inputTextField.topAnchor).isActive = true
@@ -180,7 +179,7 @@ final fileprivate class MessageCell: NSCollectionViewItem {
 		view.image = #imageLiteral(resourceName: "Person Default Image")
 		view.imageScaling = NSImageScaling.scaleAxesIndependently
 		view.wantsLayer = true
-		view.layer!.cornerRadius = 12
+		view.layer!.cornerRadius = 15
 		view.layer!.masksToBounds = true
 
 		return view
@@ -213,7 +212,6 @@ final fileprivate class MessageCell: NSCollectionViewItem {
 			if let text = message.text {
 				textLabel.stringValue = text
 			}
-
 			if let url = message.avatarURL {
 				URLSession.shared.dataTask(with: url) { (data: Data?, response: URLResponse?, error: Error?) in
 					guard error == nil, let data = data else { return }
@@ -233,7 +231,7 @@ final fileprivate class MessageCell: NSCollectionViewItem {
 		avatarImageView.translatesAutoresizingMaskIntoConstraints = false
 		avatarImageView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
 		avatarImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 4).isActive = true
-		avatarImageView.heightAnchor.constraint(equalToConstant: 24).isActive = true
+		avatarImageView.heightAnchor.constraint(equalToConstant: 30).isActive = true
 		avatarImageView.heightAnchor.constraint(equalTo: avatarImageView.widthAnchor).isActive = true
 
 		view.addSubview(nameLabel)
