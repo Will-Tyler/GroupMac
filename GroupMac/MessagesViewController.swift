@@ -28,7 +28,12 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 	}()
 	private let scrollView = NSScrollView()
 
-	var messages: [GMMessage]? {
+	var conversation: GMConversation! {
+		didSet {
+			messages = conversation.blandMessages
+		}
+	}
+	private var messages: [GMMessage]? {
 		didSet {
 			DispatchQueue.main.async {
 				self.messagesCollectionView.reloadData()
@@ -113,6 +118,7 @@ final fileprivate class MessageCell: NSCollectionViewItem {
 		field.isBezeled = false
 		field.font = Fonts.boldSmall
 		field.textColor = NSColor(red: 0x62 / 255, green: 0x6f / 255, blue: 0x82 / 255, alpha: 1)
+		field.backgroundColor = .clear
 
 		return field
 	}()
@@ -122,6 +128,7 @@ final fileprivate class MessageCell: NSCollectionViewItem {
 		field.isEditable = false
 		field.isBezeled = false
 		field.font = Fonts.regular
+		field.backgroundColor = NSColor.clear
 
 		return field
 	}()
@@ -176,7 +183,11 @@ final fileprivate class MessageCell: NSCollectionViewItem {
 			let view = NSView()
 
 			view.wantsLayer = true
-			view.layer?.backgroundColor = NSColor.systemPink.cgColor
+			view.layer!.backgroundColor = {
+				let value: CGFloat = 247 / 255
+
+				return CGColor(red: value, green: value, blue: value, alpha: 1)
+			}()
 
 			return view
 		}()

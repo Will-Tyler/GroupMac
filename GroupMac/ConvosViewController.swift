@@ -75,7 +75,7 @@ class ConvosViewController: NSViewController, NSCollectionViewDelegateFlowLayout
 			didNotifyViewDelegate = true
 		}
 
-		messagesDelegate?.messages = conversation.blandMessages
+		messagesDelegate?.conversation = conversation
 	}
 
 }
@@ -191,8 +191,8 @@ final fileprivate class ConversationCell: NSCollectionViewItem {
 		view = {
 			let view = NSView()
 
-			view.wantsLayer = true
-			view.layer!.backgroundColor = NSColor.systemPink.cgColor
+//			view.wantsLayer = true
+//			view.layer!.backgroundColor = NSColor.systemPink.cgColor
 
 			return view
 		}()
