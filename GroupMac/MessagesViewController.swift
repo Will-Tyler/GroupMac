@@ -12,13 +12,23 @@ import Cocoa
 class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayout, NSCollectionViewDataSource {
 
 	private let containerView = NSView()
-	private let titleView = NSView()
+	private let titleView: NSView = {
+		let view = NSView()
+
+		view.wantsLayer = true
+		view.layer!.backgroundColor = .white
+		view.layer!.borderWidth = 1
+		view.layer!.borderColor = Colors.border
+
+		return view
+	}()
 	private let titleLabel: NSTextField = {
 		let field = NSTextField()
 
 		field.isEditable = false
 		field.isBezeled = false
 		field.font = Fonts.boldLarge
+		field.backgroundColor = .clear
 
 		return field
 	}()
@@ -35,6 +45,10 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 		collectionView.collectionViewLayout = flowLayout
 		collectionView.isSelectable = false
 
+		collectionView.wantsLayer = true
+		collectionView.layer!.borderWidth = 1
+		collectionView.layer!.borderColor = Colors.border
+
 		return collectionView
 	}()
 	private let scrollView = NSScrollView()
@@ -43,6 +57,11 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 
 		field.font = NSFont(name: "Segoe UI", size: NSFont.systemFontSize(for: .regular))
 		field.placeholderString = "Send Message..."
+		field.isBezeled = false
+
+		field.wantsLayer = true
+		field.layer!.borderWidth = 1
+		field.layer!.borderColor = Colors.border
 
 		return field
 	}()
@@ -54,7 +73,7 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 		titleLabel.heightAnchor.constraint(equalToConstant: titleLabel.intrinsicContentSize.height).isActive = true
 		titleLabel.leadingAnchor.constraint(equalTo: titleView.leadingAnchor).isActive = true
 		titleLabel.trailingAnchor.constraint(equalTo: titleView.trailingAnchor).isActive = true
-		titleLabel.topAnchor.constraint(equalTo: titleView.topAnchor).isActive = true
+		titleLabel.centerYAnchor.constraint(equalTo: titleView.centerYAnchor).isActive = true
 
 		containerView.addSubview(titleView)
 
@@ -68,7 +87,7 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 		containerView.addSubview(inputTextField)
 
 		scrollView.translatesAutoresizingMaskIntoConstraints = false
-		scrollView.topAnchor.constraint(equalTo: titleView.bottomAnchor).isActive = true
+		scrollView.topAnchor.constraint(equalTo: titleView.bottomAnchor, constant: -1).isActive = true // provide overlap on borders
 		scrollView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor).isActive = true
 		scrollView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor).isActive = true
 		scrollView.bottomAnchor.constraint(equalTo: inputTextField.topAnchor).isActive = true
@@ -145,10 +164,10 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 			let nameEstimate: CGRect = labels.name.boundingRect(with: restrictedSize, options: drawingOptions, attributes: [.font: Fonts.boldSmall])
 			let textEstimate: CGRect? = labels.text?.boundingRect(with: restrictedSize, options: drawingOptions, attributes: [.font: Fonts.regular])
 
-			return nameEstimate.height + (textEstimate?.height ?? 0) + 1
+			return nameEstimate.height + (textEstimate?.height ?? 0)
 		}()
 
-		return NSSize(width: collectionView.bounds.width, height: desiredHeight)
+		return NSSize(width: collectionView.bounds.width-2, height: desiredHeight)
 	}
 
 }
