@@ -28,7 +28,7 @@ class ConvosViewController: NSViewController, NSCollectionViewDelegateFlowLayout
 		return collectionView
 	}()
 	private let scrollView = NSScrollView()
-	private var didNotifyViewDelegate = false
+	private var hasNotifiedViewController = false
 
 	var messagesDelegate: MessagesViewController?
 	var viewDelegate: ViewController?
@@ -70,12 +70,11 @@ class ConvosViewController: NSViewController, NSCollectionViewDelegateFlowLayout
 		let indexPath = indexPaths.first!
 		let conversation: GMConversation! = (collectionView.item(at: indexPath) as! ConversationCell).conversation
 
-		if !didNotifyViewDelegate {
-			viewDelegate?.hasSelectedConversation()
-			didNotifyViewDelegate = true
-		}
-
 		messagesDelegate?.conversation = conversation
+		if !hasNotifiedViewController {
+			viewDelegate?.hasSelectedConversation()
+			hasNotifiedViewController = true
+		}
 	}
 
 }

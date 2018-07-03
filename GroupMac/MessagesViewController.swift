@@ -38,6 +38,14 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 		return collectionView
 	}()
 	private let scrollView = NSScrollView()
+	private let inputTextField: NSTextField = {
+		let field = NSTextField()
+
+		field.font = NSFont(name: "Segoe UI", size: NSFont.systemFontSize(for: .regular))
+		field.placeholderString = "Send Message..."
+
+		return field
+	}()
 
 	private func setupInitialLayout() {
 		titleView.addSubview(titleLabel)
@@ -57,12 +65,19 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 		titleView.heightAnchor.constraint(equalToConstant: titleLabel.intrinsicContentSize.height + 4).isActive = true
 
 		containerView.addSubview(scrollView)
+		containerView.addSubview(inputTextField)
 
 		scrollView.translatesAutoresizingMaskIntoConstraints = false
 		scrollView.topAnchor.constraint(equalTo: titleView.bottomAnchor).isActive = true
 		scrollView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor).isActive = true
 		scrollView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor).isActive = true
-		scrollView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor).isActive = true
+		scrollView.bottomAnchor.constraint(equalTo: inputTextField.topAnchor).isActive = true
+
+		inputTextField.translatesAutoresizingMaskIntoConstraints = false
+		inputTextField.heightAnchor.constraint(equalToConstant: inputTextField.intrinsicContentSize.height).isActive = true
+		inputTextField.leadingAnchor.constraint(equalTo: containerView.leadingAnchor).isActive = true
+		inputTextField.trailingAnchor.constraint(equalTo: containerView.trailingAnchor).isActive = true
+		inputTextField.bottomAnchor.constraint(equalTo: containerView.bottomAnchor).isActive = true
 	}
 
 	var conversation: GMConversation! {

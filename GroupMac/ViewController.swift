@@ -27,14 +27,6 @@ class ViewController: NSViewController {
 
 		return field
 	}()
-	private let inputTextField: NSTextField = {
-		let field = NSTextField()
-
-		field.font = NSFont(name: "Segoe UI", size: NSFont.systemFontSize(for: .regular))
-		field.placeholderString = "Send Message..."
-
-		return field
-	}()
 	private let convosViewController = ConvosViewController()
 	private let messagesViewController = MessagesViewController()
 
@@ -82,14 +74,6 @@ class ViewController: NSViewController {
 	func hasSelectedConversation() {
 		mainView.subviews.forEach({ $0.removeFromSuperview() })
 
-		mainView.addSubview(inputTextField)
-
-		inputTextField.translatesAutoresizingMaskIntoConstraints = false
-		inputTextField.leadingAnchor.constraint(equalTo: mainView.leadingAnchor, constant: 4).isActive = true
-		inputTextField.bottomAnchor.constraint(equalTo: mainView.bottomAnchor, constant: -4).isActive = true
-		inputTextField.trailingAnchor.constraint(equalTo: mainView.trailingAnchor, constant: -4).isActive = true
-		inputTextField.heightAnchor.constraint(equalToConstant: inputTextField.intrinsicContentSize.height).isActive = true
-
 		let messageView = messagesViewController.view
 
 		mainView.addSubview(messageView)
@@ -97,7 +81,7 @@ class ViewController: NSViewController {
 		messageView.translatesAutoresizingMaskIntoConstraints = false
 		messageView.topAnchor.constraint(equalTo: mainView.topAnchor, constant: 4).isActive = true
 		messageView.leadingAnchor.constraint(equalTo: mainView.leadingAnchor, constant: 4).isActive = true
-		messageView.bottomAnchor.constraint(equalTo: inputTextField.topAnchor, constant: -4).isActive = true
+		messageView.bottomAnchor.constraint(equalTo: mainView.bottomAnchor, constant: -4).isActive = true
 		messageView.trailingAnchor.constraint(equalTo: mainView.trailingAnchor, constant: -4).isActive = true
 	}
 	
