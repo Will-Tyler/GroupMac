@@ -20,4 +20,10 @@ struct Colors {
 
 		return NSColor(red: value, green: value, blue: value, alpha: 1)
 	}()
+	static let background: CGColor = CGColor(red: 247 / 255, green: 247 / 255, blue: 247 / 255, alpha: 1)
+	static let separator: CGColor = {
+		let value: CGFloat = 230 / 255
+
+		return CGColor(red: value, green: value, blue: value, alpha: 1)
+	}()
 }

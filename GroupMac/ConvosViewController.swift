@@ -40,8 +40,8 @@ class ConvosViewController: NSViewController, NSCollectionViewDelegateFlowLayout
 	private let scrollView = NSScrollView()
 	private var hasNotifiedViewController = false
 
-	var messagesDelegate: MessagesViewController?
-	var viewDelegate: ViewController?
+	var messagesDelegate: MessagesViewController!
+	var viewDelegate: ViewController!
 
 	override func loadView() {
 		view = scrollView
@@ -55,10 +55,10 @@ class ConvosViewController: NSViewController, NSCollectionViewDelegateFlowLayout
 		convosCollectionView.dataSource = self
 		convosCollectionView.register(ConversationCell.self, forItemWithIdentifier: ConversationCell.cellIdentifier)
 	}
-	override func viewWillLayout() {
-		super.viewWillLayout()
+	override func viewDidLayout() {
+		super.viewDidLayout()
 
-		(convosCollectionView.collectionViewLayout! as! CollectionLayout).invalidateLayout()
+		convosCollectionView.collectionViewLayout!.invalidateLayout()
 	}
 
 	//MARK: Collection view
@@ -74,25 +74,20 @@ class ConvosViewController: NSViewController, NSCollectionViewDelegateFlowLayout
 		return cell
 	}
 	func collectionView(_ collectionView: NSCollectionView, layout collectionViewLayout: NSCollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> NSSize {
-		return NSSize(width: collectionView.bounds.width, height: 64)
+		// It is likely more efficient to hard code height than calculate it.
+		return NSSize(width: collectionView.bounds.width, height: 65)
 	}
 	func collectionView(_ collectionView: NSCollectionView, didSelectItemsAt indexPaths: Set<IndexPath>) {
 		let indexPath = indexPaths.first!
 		let conversation: GMConversation! = (collectionView.item(at: indexPath) as! ConversationCell).conversation
 
-		messagesDelegate?.conversation = conversation
+		messagesDelegate.conversation = conversation
 		if !hasNotifiedViewController {
-			viewDelegate?.hasSelectedConversation()
+			viewDelegate.hasSelectedConversation()
 			hasNotifiedViewController = true
 		}
 	}
 
-}
-
-final fileprivate class CollectionLayout: NSCollectionViewFlowLayout {
-	override func shouldInvalidateLayout(forBoundsChange newBounds: NSRect) -> Bool {
-		return true
-	}
 }
 
 final fileprivate class ConversationCell: NSCollectionViewItem {
@@ -131,16 +126,11 @@ final fileprivate class ConversationCell: NSCollectionViewItem {
 			nameLabel.stringValue = conversation.name
 			previewLabel.stringValue = conversation.firstMessage.text ?? ""
 
-			if let url = conversation.imageURL {
-				URLSession.shared.dataTask(with: url) { (data: Data?, response: URLResponse?, error: Error?) in
-					guard error == nil, let data = data else { return }
-
-					let image = NSImage(data: data) ?? #imageLiteral(resourceName: "Group Default Image")
-					DispatchQueue.main.async {
-						self.groupImageView.image = image
-					}
-				}.resume()
-			}
+			HTTP.handleImage(at: conversation.imageURL, with: { (image: NSImage) in
+				DispatchQueue.main.async {
+					self.groupImageView.image = image
+				}
+			})
 
 			if conversation.conversationType == .chat {
 				DispatchQueue.main.async {
@@ -150,26 +140,6 @@ final fileprivate class ConversationCell: NSCollectionViewItem {
 				}
 			}
 		}
-	}
-
-	func addSeparatorToTop() {
-		let separator: NSView = {
-			let view = NSView()
-
-			view.wantsLayer = true
-			let color: CGFloat = 230 / 255
-			view.layer!.backgroundColor = CGColor(red: color, green: color, blue: color, alpha: 1)
-
-			return view
-		}()
-
-		view.addSubview(separator)
-
-		separator.translatesAutoresizingMaskIntoConstraints = false
-		separator.heightAnchor.constraint(equalToConstant: 1).isActive = true
-		separator.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-		separator.leftAnchor.constraint(equalTo: groupImageView.leftAnchor).isActive = true
-		separator.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
 	}
 
 	private func setupInitialLayout() {
@@ -198,13 +168,31 @@ final fileprivate class ConversationCell: NSCollectionViewItem {
 		previewLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
 	}
 
+	fileprivate func addSeparatorToTop() {
+		let separator: NSView = {
+			let view = NSView()
+
+			view.wantsLayer = true
+			view.layer!.backgroundColor = Colors.separator
+
+			return view
+		}()
+
+		view.addSubview(separator)
+
+		separator.translatesAutoresizingMaskIntoConstraints = false
+		separator.heightAnchor.constraint(equalToConstant: 1).isActive = true
+		separator.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+		separator.leftAnchor.constraint(equalTo: groupImageView.leftAnchor).isActive = true
+		separator.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+	}
+
 	override func loadView() {
 		view = {
 			let view = NSView()
 
 			view.wantsLayer = true
-			view.layer!.backgroundColor = CGColor(red: 247 / 255, green: 247 / 255, blue: 247 / 255, alpha: 1)
-//			view.layer!.backgroundColor = NSColor.systemPink.cgColor
+			view.layer!.backgroundColor = Colors.background
 
 			return view
 		}()
