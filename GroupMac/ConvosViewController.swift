@@ -18,6 +18,15 @@ class ConvosViewController: NSViewController, NSCollectionViewDelegateFlowLayout
 
 		return convos
 	}()
+	private let borderView: NSView = {
+		let view = NSView()
+
+		view.wantsLayer = true
+		view.layer!.borderWidth = 1
+		view.layer!.borderColor = Colors.border
+
+		return view
+	}()
 	private let convosCollectionView: NSCollectionView = {
 		let collectionView = NSCollectionView()
 		let flowLayout: CollectionLayout = {
@@ -31,20 +40,26 @@ class ConvosViewController: NSViewController, NSCollectionViewDelegateFlowLayout
 		collectionView.collectionViewLayout = flowLayout
 		collectionView.isSelectable = true
 
-		collectionView.wantsLayer = true
-		collectionView.layer!.borderWidth = 1
-		collectionView.layer!.borderColor = Colors.border
-
 		return collectionView
 	}()
 	private let scrollView = NSScrollView()
 	private var hasNotifiedViewController = false
 
+	private func setupInitialLayout() {
+		view.addSubview(scrollView)
+
+		scrollView.translatesAutoresizingMaskIntoConstraints = false
+		scrollView.topAnchor.constraint(equalTo: view.topAnchor, constant: 1).isActive = true
+		scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 1).isActive = true
+		scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -1).isActive = true
+		scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -1).isActive = true
+	}
+
 	var messagesDelegate: MessagesViewController!
 	var viewDelegate: ViewController!
 
 	override func loadView() {
-		view = scrollView
+		view = borderView
 	}
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -54,6 +69,8 @@ class ConvosViewController: NSViewController, NSCollectionViewDelegateFlowLayout
 		convosCollectionView.delegate = self
 		convosCollectionView.dataSource = self
 		convosCollectionView.register(ConversationCell.self, forItemWithIdentifier: ConversationCell.cellIdentifier)
+
+		setupInitialLayout()
 	}
 	override func viewDidLayout() {
 		super.viewDidLayout()
