@@ -31,6 +31,10 @@ class ConvosViewController: NSViewController, NSCollectionViewDelegateFlowLayout
 		collectionView.collectionViewLayout = flowLayout
 		collectionView.isSelectable = true
 
+		collectionView.wantsLayer = true
+		collectionView.layer!.borderWidth = 1
+		collectionView.layer!.borderColor = Colors.border
+
 		return collectionView
 	}()
 	private let scrollView = NSScrollView()

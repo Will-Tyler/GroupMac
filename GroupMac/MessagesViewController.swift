@@ -33,6 +33,14 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 
 		return field
 	}()
+	private let groupImageView: NSImageView = {
+		let image = NSImageView()
+
+		image.imageScaling = NSImageScaling.scaleAxesIndependently
+		image.image = #imageLiteral(resourceName: "Group Default Image")
+
+		return image
+	}()
 	private let messagesCollectionView: NSCollectionView = {
 		let collectionView = NSCollectionView()
 		let flowLayout: NSCollectionViewFlowLayout = {
@@ -56,7 +64,7 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 	private let inputTextField: NSTextField = {
 		let field = NSTextField()
 
-		field.font = NSFont(name: "Segoe UI", size: NSFont.systemFontSize(for: .regular))
+		field.font = Fonts.regular
 		field.placeholderString = "Send Message..."
 		field.isBezeled = false
 
@@ -68,22 +76,32 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 	}()
 
 	private func setupInitialLayout() {
+		titleView.addSubview(groupImageView)
 		titleView.addSubview(titleLabel)
+
 		containerView.addSubview(scrollView)
 		containerView.addSubview(titleView)
 		containerView.addSubview(inputTextField)
 
+		groupImageView.translatesAutoresizingMaskIntoConstraints = false
+		groupImageView.heightAnchor.constraint(equalToConstant: 30).isActive = true
+		groupImageView.heightAnchor.constraint(equalTo: groupImageView.widthAnchor).isActive = true
+		groupImageView.centerYAnchor.constraint(equalTo: titleView.centerYAnchor).isActive = true
+		groupImageView.leadingAnchor.constraint(equalTo: titleView.leadingAnchor, constant: 4).isActive = true
+		groupImageView.topAnchor.constraint(equalTo: titleView.topAnchor, constant: 4).isActive = true
+		groupImageView.bottomAnchor.constraint(equalTo: titleView.bottomAnchor, constant: -4).isActive = true
+
 		titleLabel.translatesAutoresizingMaskIntoConstraints = false
 		titleLabel.heightAnchor.constraint(equalToConstant: titleLabel.intrinsicContentSize.height).isActive = true
-		titleLabel.leadingAnchor.constraint(equalTo: titleView.leadingAnchor).isActive = true
-		titleLabel.trailingAnchor.constraint(equalTo: titleView.trailingAnchor).isActive = true
+		titleLabel.leadingAnchor.constraint(equalTo: groupImageView.trailingAnchor, constant: 4).isActive = true
+		titleLabel.trailingAnchor.constraint(equalTo: titleView.trailingAnchor, constant: -4).isActive = true
 		titleLabel.centerYAnchor.constraint(equalTo: titleView.centerYAnchor).isActive = true
 
 		titleView.translatesAutoresizingMaskIntoConstraints = false
 		titleView.topAnchor.constraint(equalTo: containerView.topAnchor).isActive = true
 		titleView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor).isActive = true
 		titleView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor).isActive = true
-		titleView.heightAnchor.constraint(equalToConstant: titleLabel.intrinsicContentSize.height + 4).isActive = true
+		titleView.heightAnchor.constraint(equalToConstant: titleLabel.intrinsicContentSize.height + 8).isActive = true
 
 		scrollView.translatesAutoresizingMaskIntoConstraints = false
 		scrollView.topAnchor.constraint(equalTo: titleView.bottomAnchor, constant: -1).isActive = true // overlap borders
@@ -102,6 +120,22 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 		didSet {
 			messages = conversation.blandMessages
 			titleLabel.stringValue = conversation.name
+			if let url = conversation.imageURL {
+				URLSession.shared.dataTask(with: url) { (data: Data?, response: URLResponse?, error: Error?) in
+					guard error == nil, let data = data else { return }
+
+					if let image = NSImage(data: data) {
+						DispatchQueue.main.async {
+							self.groupImageView.image = image
+							if self.conversation.conversationType == .chat {
+								self.groupImageView.wantsLayer = true
+								self.groupImageView.layer!.cornerRadius = self.groupImageView.bounds.width / 2
+								self.groupImageView.layer!.masksToBounds = true
+							}
+						}
+					}
+				}.resume()
+			}
 		}
 	}
 	private var messages: [GMMessage]? {
@@ -215,6 +249,15 @@ final fileprivate class MessageCell: NSCollectionViewItem {
 			if let url = message.avatarURL {
 				URLSession.shared.dataTask(with: url) { (data: Data?, response: URLResponse?, error: Error?) in
 					guard error == nil, let data = data else { return }
+
+					if self.message.senderType == "system" {
+						print("Got System")
+						DispatchQueue.main.async {
+							self.avatarImageView.image = #imageLiteral(resourceName: "System Default Image")
+						}
+
+						return
+					}
 
 					let image = NSImage(data: data) ?? #imageLiteral(resourceName: "Person Default Image")
 					DispatchQueue.main.async {
