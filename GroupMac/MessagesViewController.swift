@@ -197,22 +197,23 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 		// Creating a cell doesn't work. Recreate labels to get estimated desired height
 
 		let desiredHeight: CGFloat = {
-			let restrictedSize = CGSize(width: collectionView.bounds.width - (12+24), height: .greatestFiniteMagnitude)
-			let drawingOptions = NSString.DrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
-			let labels: (name: NSString, text: NSString?) = {
+			let message: GMMessage = {
 				let count = messages!.count
-				let message = messages![count-1 - indexPath.item]
 
-				return (name: message.name as NSString, text: message.text as NSString?)
+				return messages![count-1 - indexPath.item]
 			}()
 
-			let nameEstimate: CGRect = labels.name.boundingRect(with: restrictedSize, options: drawingOptions, attributes: [.font: Fonts.boldSmall])
-			let textEstimate: CGRect? = labels.text?.boundingRect(with: restrictedSize, options: drawingOptions, attributes: [.font: Fonts.regular])
-
-			if labels.name == "GroupMe" {
+			if message.isSystem {
 				return 42
 			}
 			else {
+				let labels = (name: message.name as NSString, text: message.text as NSString?)
+				let restrictedSize = CGSize(width: collectionView.bounds.width - (12+24), height: .greatestFiniteMagnitude)
+				let drawingOptions = NSString.DrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
+
+				let nameEstimate: CGRect = labels.name.boundingRect(with: restrictedSize, options: drawingOptions, attributes: [.font: Fonts.boldSmall])
+				let textEstimate: CGRect? = labels.text?.boundingRect(with: restrictedSize, options: drawingOptions, attributes: [.font: Fonts.regular])
+
 				return nameEstimate.height + (textEstimate?.height ?? 0)
 			}
 		}()
