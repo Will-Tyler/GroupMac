@@ -11,7 +11,7 @@ import Cocoa
 
 class ViewController: NSViewController {
 
-	private let mainView = NSView()
+	private let detailView = NSView()
 	private let welcomeLabel: NSTextField = {
 		let welcome =
 		"""
@@ -31,9 +31,13 @@ class ViewController: NSViewController {
 	private let messagesViewController = MessagesViewController()
 
 	private func setupInitialLayout() {
+		addChildViewController(convosViewController)
+		
 		let convosView = convosViewController.view
 
 		view.addSubview(convosView)
+		detailView.addSubview(welcomeLabel)
+		view.addSubview(detailView)
 
 		convosView.translatesAutoresizingMaskIntoConstraints = false
 		convosView.topAnchor.constraint(equalTo: view.topAnchor, constant: 4).isActive = true
@@ -41,21 +45,17 @@ class ViewController: NSViewController {
 		convosView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 4).isActive = true
 		convosView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3).isActive = true
 
-		view.addSubview(mainView)
-
-		mainView.translatesAutoresizingMaskIntoConstraints = false
-		mainView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-		mainView.leadingAnchor.constraint(equalTo: convosView.trailingAnchor).isActive = true
-		mainView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-		mainView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-
-		mainView.addSubview(welcomeLabel)
+		detailView.translatesAutoresizingMaskIntoConstraints = false
+		detailView.topAnchor.constraint(equalTo: view.topAnchor, constant: 4).isActive = true
+		detailView.leadingAnchor.constraint(equalTo: convosView.trailingAnchor, constant: 4).isActive = true
+		detailView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -4).isActive = true
+		detailView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -4).isActive = true
 
 		welcomeLabel.translatesAutoresizingMaskIntoConstraints = false
 		welcomeLabel.heightAnchor.constraint(equalToConstant: welcomeLabel.intrinsicContentSize.height).isActive = true
 		welcomeLabel.widthAnchor.constraint(equalToConstant: welcomeLabel.intrinsicContentSize.width).isActive = true
-		welcomeLabel.centerXAnchor.constraint(equalTo: mainView.centerXAnchor).isActive = true
-		welcomeLabel.centerYAnchor.constraint(equalTo: mainView.centerYAnchor).isActive = true
+		welcomeLabel.centerXAnchor.constraint(equalTo: detailView.centerXAnchor).isActive = true
+		welcomeLabel.centerYAnchor.constraint(equalTo: detailView.centerYAnchor).isActive = true
 	}
 
 	override func loadView() {
@@ -72,17 +72,17 @@ class ViewController: NSViewController {
 	}
 
 	func hasSelectedConversation() {
-		mainView.subviews.forEach({ $0.removeFromSuperview() })
+		addChildViewController(messagesViewController)
 
-		let messageView = messagesViewController.view
+		let conversationView = messagesViewController.view
 
-		mainView.addSubview(messageView)
+		detailView.addSubview(conversationView)
 
-		messageView.translatesAutoresizingMaskIntoConstraints = false
-		messageView.topAnchor.constraint(equalTo: mainView.topAnchor, constant: 4).isActive = true
-		messageView.leadingAnchor.constraint(equalTo: mainView.leadingAnchor, constant: 4).isActive = true
-		messageView.bottomAnchor.constraint(equalTo: mainView.bottomAnchor, constant: -4).isActive = true
-		messageView.trailingAnchor.constraint(equalTo: mainView.trailingAnchor, constant: -4).isActive = true
+		conversationView.translatesAutoresizingMaskIntoConstraints = false
+		conversationView.topAnchor.constraint(equalTo: detailView.topAnchor).isActive = true
+		conversationView.leadingAnchor.constraint(equalTo: detailView.leadingAnchor).isActive = true
+		conversationView.bottomAnchor.constraint(equalTo: detailView.bottomAnchor).isActive = true
+		conversationView.trailingAnchor.constraint(equalTo: detailView.trailingAnchor).isActive = true
 	}
 	
 }

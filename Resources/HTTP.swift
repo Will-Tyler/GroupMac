@@ -6,7 +6,7 @@
 //  Copyright © 2018 Will Tyler. All rights reserved.
 //
 
-import Foundation
+import Cocoa
 
 
 class HTTP {
@@ -33,6 +33,15 @@ class HTTP {
 		semaphore.wait()
 
 		return results
+	}
+
+	static func handleImage(at url: URL?, with handler: @escaping (NSImage)->Void) {
+		if let url = url {
+			URLSession.shared.dataTask(with: url, completionHandler: { (data: Data?, response: URLResponse?, error: Error?) in
+				guard error == nil, let data = data, let image = NSImage(data: data) else { return }
+				handler(image)
+			}).resume()
+		}
 	}
 
 }

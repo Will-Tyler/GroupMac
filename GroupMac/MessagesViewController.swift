@@ -23,7 +23,7 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 		return view
 	}()
 	private let titleLabel: NSTextField = {
-		let field = NSTextField()
+		let field = NSTextField(wrappingLabelWithString: "")
 
 		field.isEditable = false
 		field.isBezeled = false
@@ -120,22 +120,20 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 		didSet {
 			messages = conversation.blandMessages
 			titleLabel.stringValue = conversation.name
-			if let url = conversation.imageURL {
-				URLSession.shared.dataTask(with: url) { (data: Data?, response: URLResponse?, error: Error?) in
-					guard error == nil, let data = data else { return }
 
-					if let image = NSImage(data: data) {
-						DispatchQueue.main.async {
-							self.groupImageView.image = image
-							if self.conversation.conversationType == .chat {
-								self.groupImageView.wantsLayer = true
-								self.groupImageView.layer!.cornerRadius = self.groupImageView.bounds.width / 2
-								self.groupImageView.layer!.masksToBounds = true
-							}
-						}
+			HTTP.handleImage(at: conversation.imageURL, with: { (image: NSImage) in
+				DispatchQueue.main.async {
+					self.groupImageView.image = image
+				}
+
+				if self.conversation.conversationType == .chat {
+					DispatchQueue.main.async {
+						self.groupImageView.wantsLayer = true
+						self.groupImageView.layer!.cornerRadius = self.groupImageView.bounds.width / 2
+						self.groupImageView.layer!.masksToBounds = true
 					}
-				}.resume()
-			}
+				}
+			})
 		}
 	}
 	private var messages: [GMMessage]? {
@@ -160,9 +158,9 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 
 		setupInitialLayout()
 	}
-	override func viewWillLayout() {
-		super.viewWillLayout()
-		
+	override func viewDidLayout() {
+		super.viewDidLayout()
+
 		messagesCollectionView.collectionViewLayout!.invalidateLayout()
 	}
 
@@ -246,24 +244,18 @@ final fileprivate class MessageCell: NSCollectionViewItem {
 			if let text = message.text {
 				textLabel.stringValue = text
 			}
-			if let url = message.avatarURL {
-				URLSession.shared.dataTask(with: url) { (data: Data?, response: URLResponse?, error: Error?) in
-					guard error == nil, let data = data else { return }
 
-					if self.message.senderType == "system" {
-						print("Got System")
-						DispatchQueue.main.async {
-							self.avatarImageView.image = #imageLiteral(resourceName: "System Default Image")
-						}
-
-						return
-					}
-
-					let image = NSImage(data: data) ?? #imageLiteral(resourceName: "Person Default Image")
+			if message.senderType == "system" { // system message
+				DispatchQueue.main.async {
+					self.avatarImageView.image = #imageLiteral(resourceName: "System Default Image")
+				}
+			}
+			else {
+				HTTP.handleImage(at: message.avatarURL, with: { (image: NSImage) in
 					DispatchQueue.main.async {
 						self.avatarImageView.image = image
 					}
-				}.resume()
+				})
 			}
 		}
 	}
@@ -298,11 +290,7 @@ final fileprivate class MessageCell: NSCollectionViewItem {
 			let view = NSView()
 
 			view.wantsLayer = true
-			view.layer!.backgroundColor = {
-				let value: CGFloat = 247 / 255
-
-				return CGColor(red: value, green: value, blue: value, alpha: 1)
-			}()
+			view.layer!.backgroundColor = Colors.background
 
 			return view
 		}()
