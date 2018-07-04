@@ -155,6 +155,7 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 		messagesCollectionView.delegate = self
 		messagesCollectionView.dataSource = self
 		messagesCollectionView.register(MessageCell.self, forItemWithIdentifier: MessageCell.cellIdentifier)
+		messagesCollectionView.register(SystemMessageCell.self, forItemWithIdentifier: SystemMessageCell.cellIdentifier)
 
 		setupInitialLayout()
 	}
@@ -169,13 +170,23 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 		return messages?.count ?? 0
 	}
 	func collectionView(_ collectionView: NSCollectionView, itemForRepresentedObjectAt indexPath: IndexPath) -> NSCollectionViewItem {
-		let item = collectionView.makeItem(withIdentifier: MessageCell.cellIdentifier, for: indexPath) as! MessageCell
-		let count = messages!.count
-		let message = messages![count-1 - indexPath.item]
+		let message: GMMessage = {
+			let count = messages!.count
 
-		item.message = message
+			return messages![count-1 - indexPath.item]
+		}()
+		if message.isSystem {
+			let item = collectionView.makeItem(withIdentifier: SystemMessageCell.cellIdentifier, for: indexPath) as! SystemMessageCell
 
-		return item
+			return item
+		}
+		else {
+			let item = collectionView.makeItem(withIdentifier: MessageCell.cellIdentifier, for: indexPath) as! MessageCell
+
+			item.message = message
+
+			return item
+		}
 	}
 	func collectionView(_ collectionView: NSCollectionView, layout collectionViewLayout: NSCollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> NSSize {
 		// Layout usually occurs before cell creation.
@@ -195,110 +206,15 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 			let nameEstimate: CGRect = labels.name.boundingRect(with: restrictedSize, options: drawingOptions, attributes: [.font: Fonts.boldSmall])
 			let textEstimate: CGRect? = labels.text?.boundingRect(with: restrictedSize, options: drawingOptions, attributes: [.font: Fonts.regular])
 
-			return nameEstimate.height + (textEstimate?.height ?? 0)
+			if labels.name == "GroupMe" {
+				return 42
+			}
+			else {
+				return nameEstimate.height + (textEstimate?.height ?? 0)
+			}
 		}()
 
 		return NSSize(width: collectionView.bounds.width-2, height: desiredHeight)
-	}
-
-}
-
-final fileprivate class MessageCell: NSCollectionViewItem {
-	static let cellIdentifier = NSUserInterfaceItemIdentifier(rawValue: "MessageCell")
-	private let avatarImageView: NSImageView = {
-		let view = NSImageView()
-
-		view.image = #imageLiteral(resourceName: "Person Default Image")
-		view.imageScaling = NSImageScaling.scaleAxesIndependently
-		view.wantsLayer = true
-		view.layer!.cornerRadius = 15
-		view.layer!.masksToBounds = true
-
-		return view
-	}()
-	private let nameLabel: NSTextField = {
-		let field = NSTextField()
-
-		field.isEditable = false
-		field.isBezeled = false
-		field.font = Fonts.boldSmall
-		field.textColor = NSColor(red: 0x62 / 255, green: 0x6f / 255, blue: 0x82 / 255, alpha: 1)
-		field.backgroundColor = .clear
-
-		return field
-	}()
-	private let textLabel: NSTextField = {
-		let field = NSTextField()
-
-		field.isEditable = false
-		field.isBezeled = false
-		field.font = Fonts.regular
-		field.backgroundColor = NSColor.clear
-
-		return field
-	}()
-
-	var message: GMMessage! {
-		didSet {
-			nameLabel.stringValue = message.name
-			if let text = message.text {
-				textLabel.stringValue = text
-			}
-
-			if message.senderType == "system" { // system message
-				DispatchQueue.main.async {
-					self.avatarImageView.image = #imageLiteral(resourceName: "System Default Image")
-				}
-			}
-			else {
-				HTTP.handleImage(at: message.avatarURL, with: { (image: NSImage) in
-					DispatchQueue.main.async {
-						self.avatarImageView.image = image
-					}
-				})
-			}
-		}
-	}
-
-	private func setupInitialLayout() {
-		view.addSubview(avatarImageView)
-
-		avatarImageView.translatesAutoresizingMaskIntoConstraints = false
-		avatarImageView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-		avatarImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 4).isActive = true
-		avatarImageView.heightAnchor.constraint(equalToConstant: 30).isActive = true
-		avatarImageView.heightAnchor.constraint(equalTo: avatarImageView.widthAnchor).isActive = true
-
-		view.addSubview(nameLabel)
-
-		nameLabel.translatesAutoresizingMaskIntoConstraints = false
-		nameLabel.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-		nameLabel.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: 4).isActive = true
-		nameLabel.heightAnchor.constraint(equalToConstant: nameLabel.intrinsicContentSize.height).isActive = true
-		nameLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-
-		view.addSubview(textLabel)
-
-		textLabel.translatesAutoresizingMaskIntoConstraints = false
-		textLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor).isActive = true
-		textLabel.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: 4).isActive = true
-		textLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-	}
-
-	override func loadView() {
-		view = {
-			let view = NSView()
-
-			view.wantsLayer = true
-			view.layer!.backgroundColor = Colors.background
-
-			return view
-		}()
-	}
-	override func viewDidLoad() {
-		super.viewDidLoad()
-
-		setupInitialLayout()
 	}
 }
 

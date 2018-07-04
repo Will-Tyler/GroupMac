@@ -13,8 +13,14 @@ protocol GMMessage {
 	var name: String { get }
 	var text: String? { get }
 	var avatarURL: URL? { get }
-	var senderType: String { get }
+	var isSystem: Bool { get }
 }
 
-extension GroupMe.Chat.Message: GMMessage {}
+extension GroupMe.Chat.Message: GMMessage {
+	var isSystem: Bool {
+		get {
+			return false
+		}
+	}
+}
 extension GroupMe.Group.Message: GMMessage {}
