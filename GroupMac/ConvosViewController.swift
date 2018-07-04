@@ -141,7 +141,7 @@ final fileprivate class ConversationCell: NSCollectionViewItem {
 	var conversation: GMConversation! {
 		didSet {
 			nameLabel.stringValue = conversation.name
-			previewLabel.stringValue = conversation.firstMessage.text ?? ""
+			previewLabel.stringValue = conversation.previewText ?? ""
 
 			HTTP.handleImage(at: conversation.imageURL, with: { (image: NSImage) in
 				DispatchQueue.main.async {
