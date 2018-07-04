@@ -154,7 +154,7 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 		
 		messagesCollectionView.delegate = self
 		messagesCollectionView.dataSource = self
-		messagesCollectionView.register(MessageCell.self, forItemWithIdentifier: MessageCell.cellIdentifier)
+		messagesCollectionView.register(UserMessageCell.self, forItemWithIdentifier: UserMessageCell.cellIdentifier)
 		messagesCollectionView.register(SystemMessageCell.self, forItemWithIdentifier: SystemMessageCell.cellIdentifier)
 
 		setupInitialLayout()
@@ -175,13 +175,16 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 
 			return messages![count-1 - indexPath.item]
 		}()
+		
 		if message.isSystem {
 			let item = collectionView.makeItem(withIdentifier: SystemMessageCell.cellIdentifier, for: indexPath) as! SystemMessageCell
+
+			item.message = message
 
 			return item
 		}
 		else {
-			let item = collectionView.makeItem(withIdentifier: MessageCell.cellIdentifier, for: indexPath) as! MessageCell
+			let item = collectionView.makeItem(withIdentifier: UserMessageCell.cellIdentifier, for: indexPath) as! UserMessageCell
 
 			item.message = message
 
