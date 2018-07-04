@@ -13,6 +13,7 @@ protocol GMMessage {
 	var name: String { get }
 	var text: String? { get }
 	var avatarURL: URL? { get }
+	var senderType: String { get }
 }
 
 extension GroupMe.Chat.Message: GMMessage {}

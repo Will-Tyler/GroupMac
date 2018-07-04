@@ -211,6 +211,7 @@ class GroupMe {
 
 			return comps
 		}()
+		print(components.url!)
 		let request: URLRequest = {
 			var request = URLRequest(url: components.url!)
 

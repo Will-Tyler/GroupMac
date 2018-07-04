@@ -74,23 +74,24 @@ extension GroupMe.Chat {
 		let sourceGUID: String
 		let recipientID: String
 		let userID: String
+		let senderType: String
 		let createdAt: Int
 		let name: String
 		let avatarURL: URL?
 		let text: String?
 		let favoritedBy: [String]
 
-		private init(id: String, sourceGUID: String, recipientID: String, userID: String, createdAt: Int, name: String, avatarURL: URL?, text: String?, favoritedBy: [String]) {
-			self.id = id
-			self.sourceGUID = sourceGUID
-			self.recipientID = recipientID
-			self.userID = userID
-			self.createdAt = createdAt
-			self.name = name
-			self.avatarURL = avatarURL
-			self.text = text
-			self.favoritedBy = favoritedBy
-		}
+//		private init(id: String, sourceGUID: String, recipientID: String, userID: String, createdAt: Int, name: String, avatarURL: URL?, text: String?, favoritedBy: [String]) {
+//			self.id = id
+//			self.sourceGUID = sourceGUID
+//			self.recipientID = recipientID
+//			self.userID = userID
+//			self.createdAt = createdAt
+//			self.name = name
+//			self.avatarURL = avatarURL
+//			self.text = text
+//			self.favoritedBy = favoritedBy
+//		}
 
 		private enum CodingKeys: String, CodingKey {
 			case id
@@ -99,6 +100,7 @@ extension GroupMe.Chat {
 			case userID = "user_id"
 			case createdAt = "created_at"
 			case name
+			case senderType = "sender_type"
 			case avatarURL = "avatar_url"
 			case text
 			case favoritedBy = "favorited_by"
