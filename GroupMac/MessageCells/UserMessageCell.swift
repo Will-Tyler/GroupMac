@@ -1,5 +1,5 @@
 //
-//  MessageCell.swift
+//  UserMessageCell.swift
 //  GroupMac
 //
 //  Created by Will Tyler on 7/4/18.
@@ -9,7 +9,7 @@
 import Cocoa
 
 
-final class MessageCell: NSCollectionViewItem {
+final class UserMessageCell: NSCollectionViewItem {
 
 	static let cellIdentifier = NSUserInterfaceItemIdentifier(rawValue: "MessageCell")
 	private let avatarImageView: NSImageView = {
@@ -40,7 +40,7 @@ final class MessageCell: NSCollectionViewItem {
 		field.isEditable = false
 		field.isBezeled = false
 		field.font = Fonts.regular
-		field.backgroundColor = NSColor.clear
+		field.backgroundColor = .clear
 
 		return field
 	}()
