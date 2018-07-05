@@ -13,6 +13,7 @@ struct Fonts {
 	private struct names {
 		static let regular = "Segoe UI"
 		static let bold = "Segoe UI Bold"
+		static let groupMe = "icomoon"
 	}
 
 	static let regular = NSFont(name: names.regular, size: 15)!
@@ -21,4 +22,5 @@ struct Fonts {
 	static let bold = NSFont(name: names.bold, size: NSFont.systemFontSize(for: .regular))!
 	static let boldSmall = NSFont(name: names.bold, size: 13)!
 	static let boldLarge = NSFont(name: names.bold, size: 18)!
+	static let groupMeSymbols = NSFont(name: names.groupMe, size: NSFont.systemFontSize(for: .regular))!
 }

@@ -45,9 +45,23 @@ final class UserMessageCell: NSCollectionViewItem {
 
 		return field
 	}()
+	private let heartLabel: NSTextField = {
+		let field = NSTextField()
+
+		field.isEditable = false
+		field.isBezeled = false
+		field.backgroundColor = .clear
+		field.font = Fonts.groupMeSymbols
+		field.stringValue = "\u{e618}"
+
+		return field
+	}()
 
 	private func setupInitialLayout() {
 		view.addSubview(avatarImageView)
+		view.addSubview(nameLabel)
+		view.addSubview(textLabel)
+		view.addSubview(heartLabel)
 
 		avatarImageView.translatesAutoresizingMaskIntoConstraints = false
 		avatarImageView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
@@ -55,20 +69,22 @@ final class UserMessageCell: NSCollectionViewItem {
 		avatarImageView.heightAnchor.constraint(equalToConstant: 30).isActive = true
 		avatarImageView.heightAnchor.constraint(equalTo: avatarImageView.widthAnchor).isActive = true
 
-		view.addSubview(nameLabel)
-
 		nameLabel.translatesAutoresizingMaskIntoConstraints = false
 		nameLabel.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
 		nameLabel.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: 4).isActive = true
 		nameLabel.heightAnchor.constraint(equalToConstant: nameLabel.intrinsicContentSize.height).isActive = true
-		nameLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-
-		view.addSubview(textLabel)
+		nameLabel.trailingAnchor.constraint(equalTo: heartLabel.leadingAnchor, constant: -4).isActive = true
 
 		textLabel.translatesAutoresizingMaskIntoConstraints = false
 		textLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor).isActive = true
 		textLabel.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: 4).isActive = true
-		textLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+		textLabel.trailingAnchor.constraint(equalTo: heartLabel.leadingAnchor, constant: -4).isActive = true
+
+		heartLabel.translatesAutoresizingMaskIntoConstraints = false
+		heartLabel.heightAnchor.constraint(equalToConstant: 22).isActive = true
+		heartLabel.heightAnchor.constraint(equalTo: heartLabel.widthAnchor).isActive = true
+		heartLabel.topAnchor.constraint(equalTo: textLabel.topAnchor, constant: 5).isActive = true // constant 5 is best match for text
+		heartLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -4).isActive = true
 	}
 
 	var message: GMMessage! {
