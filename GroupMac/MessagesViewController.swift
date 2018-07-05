@@ -11,7 +11,14 @@ import Cocoa
 
 class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayout, NSCollectionViewDataSource {
 
-	private let containerView = NSView()
+	private let containerView: NSView = {
+		let view = NSView()
+
+		view.wantsLayer = true
+//		view.layer!.backgroundColor = NSColor.systemPink.cgColor
+
+		return view
+	}()
 	private let titleView: NSView = {
 		let view = NSView()
 
@@ -60,7 +67,14 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 
 		return collectionView
 	}()
-	private let scrollView = NSScrollView()
+	private let scrollView: NSScrollView = {
+		let scroll = NSScrollView()
+
+//		scroll.drawsBackground = true
+//		scroll.backgroundColor = NSColor.systemPink
+
+		return scroll
+	}()
 	private let inputTextField: NSTextField = {
 		let field = NSTextField()
 
@@ -107,7 +121,7 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 		scrollView.topAnchor.constraint(equalTo: titleView.bottomAnchor, constant: -1).isActive = true // overlap borders
 		scrollView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor).isActive = true
 		scrollView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor).isActive = true
-		scrollView.bottomAnchor.constraint(equalTo: inputTextField.topAnchor).isActive = true
+		scrollView.bottomAnchor.constraint(equalTo: inputTextField.topAnchor, constant: 1).isActive = true
 
 		inputTextField.translatesAutoresizingMaskIntoConstraints = false
 		inputTextField.heightAnchor.constraint(equalToConstant: inputTextField.intrinsicContentSize.height).isActive = true
@@ -208,7 +222,7 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 			}
 			else {
 				let labels = (name: message.name as NSString, text: message.text as NSString?)
-				let restrictedSize = CGSize(width: collectionView.bounds.width - (12+24), height: .greatestFiniteMagnitude)
+				let restrictedSize = CGSize(width: collectionView.bounds.width - (8+30), height: .greatestFiniteMagnitude)
 				let drawingOptions = NSString.DrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
 
 				let nameEstimate: CGRect = labels.name.boundingRect(with: restrictedSize, options: drawingOptions, attributes: [.font: Fonts.boldSmall])
