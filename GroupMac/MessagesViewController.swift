@@ -222,7 +222,7 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 			}
 			else {
 				let labels = (name: message.name as NSString, text: message.text as NSString?)
-				let restrictedSize = CGSize(width: collectionView.bounds.width - (8+30), height: .greatestFiniteMagnitude)
+				let restrictedSize = CGSize(width: collectionView.bounds.width - (16+30+22), height: .greatestFiniteMagnitude)
 				let drawingOptions = NSString.DrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
 
 				let nameEstimate: CGRect = labels.name.boundingRect(with: restrictedSize, options: drawingOptions, attributes: [.font: Fonts.boldSmall])

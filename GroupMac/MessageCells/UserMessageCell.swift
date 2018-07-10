@@ -51,17 +51,49 @@ final class UserMessageCell: NSCollectionViewItem {
 		field.isEditable = false
 		field.isBezeled = false
 		field.backgroundColor = .clear
+		field.alignment = .center
 		field.font = Fonts.groupMeSymbols
 		field.stringValue = "\u{e618}"
+		field.textColor = Colors.heart
+
+		return field
+	}()
+	private let likesCountLabel: NSTextField = {
+		let field = NSTextField()
+
+		field.isEditable = false
+		field.isBezeled = false
+		field.alignment = .center
+		field.backgroundColor = .clear
+		field.font = Fonts.likesCount
+		field.textColor = Colors.systemText
 
 		return field
 	}()
 
 	private func setupInitialLayout() {
+		let likesView = NSView()
+
+		likesView.addSubview(likesCountLabel)
+		likesView.addSubview(heartLabel)
+
+		heartLabel.translatesAutoresizingMaskIntoConstraints = false
+		heartLabel.heightAnchor.constraint(equalToConstant: 22).isActive = true
+		heartLabel.heightAnchor.constraint(equalTo: heartLabel.widthAnchor).isActive = true
+		heartLabel.topAnchor.constraint(equalTo: likesView.topAnchor).isActive = true
+		heartLabel.leadingAnchor.constraint(equalTo: likesView.leadingAnchor).isActive = true
+
+		likesCountLabel.translatesAutoresizingMaskIntoConstraints = false
+		likesCountLabel.topAnchor.constraint(equalTo: heartLabel.bottomAnchor, constant: -10).isActive = true // top of text is 2 pixels from bottom of heart
+		likesCountLabel.heightAnchor.constraint(equalToConstant: likesCountLabel.intrinsicContentSize.height).isActive = true
+		likesCountLabel.leadingAnchor.constraint(equalTo: likesView.leadingAnchor).isActive = true
+		likesCountLabel.trailingAnchor.constraint(equalTo: likesView.trailingAnchor).isActive = true
+		likesCountLabel.centerXAnchor.constraint(equalTo: heartLabel.centerXAnchor).isActive = true
+
 		view.addSubview(avatarImageView)
 		view.addSubview(nameLabel)
 		view.addSubview(textLabel)
-		view.addSubview(heartLabel)
+		view.addSubview(likesView)
 
 		avatarImageView.translatesAutoresizingMaskIntoConstraints = false
 		avatarImageView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
@@ -80,11 +112,11 @@ final class UserMessageCell: NSCollectionViewItem {
 		textLabel.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: 4).isActive = true
 		textLabel.trailingAnchor.constraint(equalTo: heartLabel.leadingAnchor, constant: -4).isActive = true
 
-		heartLabel.translatesAutoresizingMaskIntoConstraints = false
-		heartLabel.heightAnchor.constraint(equalToConstant: 22).isActive = true
-		heartLabel.heightAnchor.constraint(equalTo: heartLabel.widthAnchor).isActive = true
-		heartLabel.topAnchor.constraint(equalTo: textLabel.topAnchor, constant: 5).isActive = true // constant 5 is best match for text
-		heartLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -4).isActive = true
+		likesView.translatesAutoresizingMaskIntoConstraints = false
+		likesView.topAnchor.constraint(equalTo: view.topAnchor, constant: 5).isActive = true // constant 5 is best match for text
+		likesView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -4).isActive = true
+		likesView.bottomAnchor.constraint(equalTo: likesCountLabel.bottomAnchor).isActive = true
+		likesView.widthAnchor.constraint(equalTo: heartLabel.widthAnchor).isActive = true
 	}
 
 	var message: GMMessage! {
@@ -92,6 +124,10 @@ final class UserMessageCell: NSCollectionViewItem {
 			nameLabel.stringValue = message.name
 			if let text = message.text {
 				textLabel.stringValue = text
+			}
+			if message.favoritedBy.count > 0 {
+				likesCountLabel.stringValue = "\(message.favoritedBy.count)"
+				heartLabel.stringValue = "\u{e60b}"
 			}
 
 			HTTP.handleImage(at: message.avatarURL, with: { (image: NSImage) in
