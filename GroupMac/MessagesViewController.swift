@@ -71,9 +71,6 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 	private let scrollView: NSScrollView = {
 		let scroll = NSScrollView()
 
-//		scroll.drawsBackground = true
-//		scroll.backgroundColor = NSColor.systemPink
-
 		return scroll
 	}()
 	private let inputTextField: NSTextField = {
@@ -82,21 +79,54 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 		field.font = Fonts.regular
 		field.placeholderString = "Send Message..."
 		field.isBezeled = false
-
-		field.wantsLayer = true
-		field.layer!.borderWidth = 1
-		field.layer!.borderColor = Colors.border
+		field.backgroundColor = .clear
+		field.focusRingType = NSFocusRingType.none
 
 		return field
 	}()
+	private let sendButton: NSButton = {
+		let button = NSButton(title: "", target: self, action: #selector(sendButtonAction(sender:)))
+
+		button.attributedTitle = NSAttributedString(string: "Send", attributes: [.font: Fonts.bold, .foregroundColor: Colors.systemText])
+		button.font = Fonts.bold
+		button.isBordered = false
+
+		return button
+	}()
 
 	private func setupInitialLayout() {
+		let inputView: NSView = {
+			let view = NSView()
+
+			view.backColor = .white
+			view.wantsLayer = true
+			view.layer!.borderWidth = 1
+			view.layer!.borderColor = Colors.border
+
+			return view
+		}()
+
+		inputView.addSubview(inputTextField)
+		inputView.addSubview(sendButton)
+
+		inputTextField.translatesAutoresizingMaskIntoConstraints = false
+		inputTextField.heightAnchor.constraint(equalToConstant: inputTextField.intrinsicContentSize.height).isActive = true
+		inputTextField.leadingAnchor.constraint(equalTo: inputView.leadingAnchor, constant: 4).isActive = true
+		inputTextField.centerYAnchor.constraint(equalTo: inputView.centerYAnchor).isActive = true
+		inputTextField.trailingAnchor.constraint(equalTo: sendButton.leadingAnchor).isActive = true
+
+		sendButton.translatesAutoresizingMaskIntoConstraints = false
+		sendButton.heightAnchor.constraint(equalTo: inputTextField.heightAnchor).isActive = true
+		sendButton.widthAnchor.constraint(equalToConstant: sendButton.intrinsicContentSize.width).isActive = true
+		sendButton.trailingAnchor.constraint(equalTo: inputView.trailingAnchor, constant: -4).isActive = true
+		sendButton.centerYAnchor.constraint(equalTo: inputTextField.centerYAnchor).isActive = true
+
 		titleView.addSubview(groupImageView)
 		titleView.addSubview(titleLabel)
 
 		containerView.addSubview(scrollView)
 		containerView.addSubview(titleView)
-		containerView.addSubview(inputTextField)
+		containerView.addSubview(inputView)
 
 		groupImageView.translatesAutoresizingMaskIntoConstraints = false
 		groupImageView.heightAnchor.constraint(equalToConstant: 30).isActive = true
@@ -119,16 +149,20 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 		titleView.heightAnchor.constraint(equalToConstant: titleLabel.intrinsicContentSize.height + 8).isActive = true
 
 		scrollView.translatesAutoresizingMaskIntoConstraints = false
-		scrollView.topAnchor.constraint(equalTo: titleView.bottomAnchor, constant: -1).isActive = true // overlap borders
+		scrollView.topAnchor.constraint(equalTo: titleView.bottomAnchor, constant: -1).isActive = true // overlap borders to maintain 1 px
 		scrollView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor).isActive = true
 		scrollView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor).isActive = true
-		scrollView.bottomAnchor.constraint(equalTo: inputTextField.topAnchor, constant: 1).isActive = true
+		scrollView.bottomAnchor.constraint(equalTo: inputView.topAnchor, constant: 1).isActive = true
 
-		inputTextField.translatesAutoresizingMaskIntoConstraints = false
-		inputTextField.heightAnchor.constraint(equalToConstant: inputTextField.intrinsicContentSize.height).isActive = true
-		inputTextField.leadingAnchor.constraint(equalTo: containerView.leadingAnchor).isActive = true
-		inputTextField.trailingAnchor.constraint(equalTo: containerView.trailingAnchor).isActive = true
-		inputTextField.bottomAnchor.constraint(equalTo: containerView.bottomAnchor).isActive = true
+		inputView.translatesAutoresizingMaskIntoConstraints = false
+		inputView.heightAnchor.constraint(equalTo: titleView.heightAnchor).isActive = true
+		inputView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor).isActive = true
+		inputView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor).isActive = true
+		inputView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor).isActive = true
+	}
+
+	@objc private func sendButtonAction(sender: NSButton) {
+		print("Send message: \(inputTextField.stringValue)")
 	}
 
 	var conversation: GMConversation! {
