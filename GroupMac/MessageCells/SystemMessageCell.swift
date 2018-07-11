@@ -61,8 +61,7 @@ final class SystemMessageCell: NSCollectionViewItem {
 		view = {
 			let view = NSView()
 
-			view.wantsLayer = true
-			view.layer!.backgroundColor = Colors.systemBackground
+			view.backColor = Colors.systemBackground
 
 			return view
 		}()

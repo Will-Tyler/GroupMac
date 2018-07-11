@@ -11,12 +11,12 @@ import Cocoa
 
 class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayout, NSCollectionViewDataSource {
 
-	private let me = GroupMe.me
+	static let me = GroupMe.me
+
 	private let containerView: NSView = {
 		let view = NSView()
 
-		view.wantsLayer = true
-//		view.layer!.backgroundColor = NSColor.systemPink.cgColor
+		view.wantsLayer = true // leave on to prevent glitching when collection view is smaller than container
 
 		return view
 	}()
@@ -140,15 +140,13 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 				DispatchQueue.main.async {
 					self.groupImageView.image = image
 				}
-
-				if self.conversation.convoType == .chat {
-					DispatchQueue.main.async {
-						self.groupImageView.wantsLayer = true
-						self.groupImageView.layer!.cornerRadius = self.groupImageView.bounds.width / 2
-						self.groupImageView.layer!.masksToBounds = true
-					}
-				}
 			})
+
+			if self.conversation.convoType == .chat {
+				self.groupImageView.wantsLayer = true
+				self.groupImageView.layer!.cornerRadius = self.groupImageView.bounds.width / 2
+				self.groupImageView.layer!.masksToBounds = true
+			}
 		}
 	}
 	private var messages: [GMMessage]? {
@@ -201,8 +199,7 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 		else {
 			let item = collectionView.makeItem(withIdentifier: UserMessageCell.cellIdentifier, for: indexPath) as! UserMessageCell
 
-			item.message = message // message must be set before me
-			item.me = me
+			item.message = message
 
 			return item
 		}

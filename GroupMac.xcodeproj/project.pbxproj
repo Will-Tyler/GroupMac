@@ -26,6 +26,7 @@
 		4CA03B6220E2896B0000EA78 /* GMConversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA03B6020E289630000EA78 /* GMConversation.swift */; };
 		4CA03B6420E28F0A0000EA78 /* GMMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA03B6320E28F0A0000EA78 /* GMMessage.swift */; };
 		4CB55E3D20EC055100924F87 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CB55E3C20EC055100924F87 /* Colors.swift */; };
+		4CC0B19520F659570077E795 /* NSView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CC0B19420F659570077E795 /* NSView.swift */; };
 		4CC32AC020ED18D30046ED1D /* CollectionLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CC32ABF20ED18D30046ED1D /* CollectionLayout.swift */; };
 		4CC32AC220ED6E8E0046ED1D /* UserMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CC32AC120ED6E8E0046ED1D /* UserMessageCell.swift */; };
 		4CC32AC520ED70CE0046ED1D /* SystemMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CC32AC420ED70CE0046ED1D /* SystemMessageCell.swift */; };
@@ -82,6 +83,7 @@
 		4CA03B6020E289630000EA78 /* GMConversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GMConversation.swift; sourceTree = "<group>"; };
 		4CA03B6320E28F0A0000EA78 /* GMMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GMMessage.swift; sourceTree = "<group>"; };
 		4CB55E3C20EC055100924F87 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		4CC0B19420F659570077E795 /* NSView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSView.swift; sourceTree = "<group>"; };
 		4CC32ABF20ED18D30046ED1D /* CollectionLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionLayout.swift; sourceTree = "<group>"; };
 		4CC32AC120ED6E8E0046ED1D /* UserMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserMessageCell.swift; sourceTree = "<group>"; };
 		4CC32AC420ED70CE0046ED1D /* SystemMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemMessageCell.swift; sourceTree = "<group>"; };
@@ -127,6 +129,7 @@
 				4C7D73D820E6C65E005DF911 /* GMConversationType.swift */,
 				4CA03B6320E28F0A0000EA78 /* GMMessage.swift */,
 				4C500F4920D976F600C1646D /* HTTP.swift */,
+				4CC0B19420F659570077E795 /* NSView.swift */,
 				4CD221EE20E180E900A13AE6 /* String.swift */,
 			);
 			path = Resources;
@@ -350,6 +353,7 @@
 				4CDC813E20DAF9EC004D8DD0 /* MessagesViewController.swift in Sources */,
 				4CC32AC220ED6E8E0046ED1D /* UserMessageCell.swift in Sources */,
 				4C74BE7520DE95E100F765C8 /* Chat.swift in Sources */,
+				4CC0B19520F659570077E795 /* NSView.swift in Sources */,
 				4CC32AC520ED70CE0046ED1D /* SystemMessageCell.swift in Sources */,
 				4C0C821C20E6F94900C13361 /* Fonts.swift in Sources */,
 				4CB55E3D20EC055100924F87 /* Colors.swift in Sources */,
