@@ -53,7 +53,7 @@ final class UserMessageCell: NSCollectionViewItem {
 		field.backgroundColor = .clear
 		field.alignment = .center
 		field.font = Fonts.groupMeSymbols
-		field.stringValue = "\u{e618}"
+		field.stringValue = "\u{e618}" // empty heart
 		field.textColor = Colors.heart
 
 		return field
@@ -135,7 +135,7 @@ final class UserMessageCell: NSCollectionViewItem {
 			}
 			if message.favoritedBy.count > 0 {
 				likesCountLabel.stringValue = "\(message.favoritedBy.count)"
-				heartLabel.stringValue = "\u{e60b}"
+				heartLabel.stringValue = "\u{e60b}" // filled heart
 			}
 
 			HTTP.handleImage(at: message.avatarURL, with: { (image: NSImage) in

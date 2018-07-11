@@ -13,9 +13,8 @@ protocol GMConversation {
 	var name: String { get }
 	var updatedAt: Int { get }
 	var blandMessages: [GMMessage] { get }
-	var conversationType: GMConversationType { get }
+	var convoType: GMConversationType { get }
 	var imageURL: URL? { get }
-	var previewText: String? { get }
 }
 
 extension GroupMe.Chat: GMConversation {
@@ -25,11 +24,8 @@ extension GroupMe.Chat: GMConversation {
 	var blandMessages: [GMMessage] {
 		get { return messages as [GMMessage] }
 	}
-	var conversationType: GMConversationType {
+	var convoType: GMConversationType {
 		get { return .chat }
-	}
-	var previewText: String? {
-		get { return blandMessages.first!.text }
 	}
 	var imageURL: URL? {
 		get { return otherUser.avatarURL }
@@ -40,10 +36,7 @@ extension GroupMe.Group: GMConversation {
 	var blandMessages: [GMMessage] {
 		get { return messages as [GMMessage] }
 	}
-	var conversationType: GMConversationType {
+	var convoType: GMConversationType {
 		get { return .group }
-	}
-	var previewText: String? {
-		get { return messagesInfo.preview.text }
 	}
 }

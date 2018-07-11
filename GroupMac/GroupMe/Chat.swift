@@ -49,6 +49,47 @@ extension GroupMe {
 }
 
 extension GroupMe.Chat {
+	func handlePreviewText(with handler: @escaping (String)->Void) {
+		let parameters = ["token": GroupMe.accessToken, "other_user_id": otherUser.id]
+		let components: URLComponents = {
+			let url = GroupMe.baseURL.appendingPathComponent("/direct_messages")
+			var comps = URLComponents(url: url, resolvingAgainstBaseURL: true)!
+
+			comps.queryItems = parameters.map({ return URLQueryItem(name: $0.key, value: $0.value) })
+
+			return comps
+		}()
+
+//		print(components.url!)
+
+		let request: URLRequest = {
+			var request = URLRequest(url: components.url!)
+
+			request.httpMethod = HTTP.RequestMethod.get.rawValue
+
+			return request
+		}()
+
+		URLSession.shared.dataTask(with: request) { (data, response, error) in
+			if error == nil, let data = data {
+				let json = try! JSONSerialization.jsonObject(with: data) as! [String: Any]
+				let responseCode = (json["meta"] as! [String: Int])["code"]
+
+				if responseCode == 200 {
+					let jsonMessages = (json["response"] as! [String: Any])["direct_messages"]!
+					let data = try! JSONSerialization.data(withJSONObject: jsonMessages)
+					let messages = try! JSONDecoder().decode([GroupMe.Chat.Message].self, from: data)
+					
+					if let text = messages.first!.text {
+						handler(text)
+					}
+				}
+			}
+		}.resume()
+	}
+}
+
+extension GroupMe.Chat {
 	class OtherUser: Decodable {
 		let avatarURL: URL?
 		let id: String

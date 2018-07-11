@@ -22,14 +22,15 @@ class HTTP {
 		var results: Response
 
 		let semaphore = DispatchSemaphore(value: 0)
-		let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+
+		URLSession.shared.dataTask(with: request) { (data, response, error) in
 			results.data = data
 			results.response = response
 			results.error = error
 
 			semaphore.signal()
-		}
-		task.resume()
+		}.resume()
+		
 		semaphore.wait()
 
 		return results
