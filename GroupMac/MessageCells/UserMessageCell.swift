@@ -119,14 +119,6 @@ final class UserMessageCell: NSCollectionViewItem {
 		likesView.widthAnchor.constraint(equalTo: heartLabel.widthAnchor).isActive = true
 	}
 
-	var me: GroupMe.Me! {
-		didSet {
-			if me.id == message.senderID {
-				view.wantsLayer = true
-				view.layer!.backgroundColor = Colors.personalBlue
-			}
-		}
-	}
 	var message: GMMessage! {
 		didSet {
 			nameLabel.stringValue = message.name
@@ -136,6 +128,9 @@ final class UserMessageCell: NSCollectionViewItem {
 			if message.favoritedBy.count > 0 {
 				likesCountLabel.stringValue = "\(message.favoritedBy.count)"
 				heartLabel.stringValue = "\u{e60b}" // filled heart
+			}
+			if MessagesViewController.me.id == message.senderID {
+				view.backColor = Colors.personalBlue
 			}
 
 			HTTP.handleImage(at: message.avatarURL, with: { (image: NSImage) in
@@ -150,8 +145,7 @@ final class UserMessageCell: NSCollectionViewItem {
 		view = {
 			let view = NSView()
 
-			view.wantsLayer = true
-			view.layer!.backgroundColor = Colors.background
+			view.backColor = Colors.background
 
 			return view
 		}()
