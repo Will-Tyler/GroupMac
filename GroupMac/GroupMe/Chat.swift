@@ -60,8 +60,6 @@ extension GroupMe.Chat {
 			return comps
 		}()
 
-//		print(components.url!)
-
 		let request: URLRequest = {
 			var request = URLRequest(url: components.url!)
 
@@ -84,6 +82,52 @@ extension GroupMe.Chat {
 						handler(text)
 					}
 				}
+			}
+		}.resume()
+	}
+
+	private static var GUIDcount = 1
+	func sendMessage(text: String, successHandler: @escaping ()->() = {}) {
+		guard !text.isEmpty else { return }
+		guard text.count <= 1000 else { print("Message is too long, quitting..."); return }
+
+		let components: URLComponents = {
+			let url = GroupMe.baseURL.appendingPathComponent("/direct_messages")
+			var comps = URLComponents(url: url, resolvingAgainstBaseURL: true)!
+			let params = ["token": GroupMe.accessToken]
+
+			comps.queryItems = params.map({ return URLQueryItem(name: $0.key, value: $0.value) })
+
+			return comps
+		}()
+		let request: URLRequest = {
+			var request = URLRequest(url: components.url!)
+
+			request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+			request.httpMethod = HTTP.RequestMethod.post.rawValue
+			request.httpBody = {
+				let jsonDict = ["direct_message": ["source_guid": "\(GroupMe.Chat.GUIDcount++)", "recipient_id": otherUser.id, "text": text]]
+				let jsonData = try! JSONSerialization.data(withJSONObject: jsonDict)
+
+				return jsonData
+			}()
+
+			return request
+		}()
+
+		URLSession.shared.dataTask(with: request) { (data: Data?, response: URLResponse?, error: Error?) in
+			guard error == nil, let data = data else { return }
+			guard !data.isEmpty else { print("No data."); return }
+
+			let jsonDict = try! JSONSerialization.jsonObject(with: data) as! [String: Any]
+			let responseCode = (jsonDict["meta"] as! [String: Any])["code"] as! Int
+
+			if responseCode == 201 {
+				print("Sent message!")
+				successHandler()
+			}
+			else {
+				print("Error sending message... (\(responseCode))")
 			}
 		}.resume()
 	}
