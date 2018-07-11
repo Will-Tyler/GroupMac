@@ -141,7 +141,7 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 					self.groupImageView.image = image
 				}
 
-				if self.conversation.conversationType == .chat {
+				if self.conversation.convoType == .chat {
 					DispatchQueue.main.async {
 						self.groupImageView.wantsLayer = true
 						self.groupImageView.layer!.cornerRadius = self.groupImageView.bounds.width / 2
@@ -201,7 +201,7 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 		else {
 			let item = collectionView.makeItem(withIdentifier: UserMessageCell.cellIdentifier, for: indexPath) as! UserMessageCell
 
-			item.message = message
+			item.message = message // message must be set before me
 			item.me = me
 
 			return item
