@@ -173,6 +173,16 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 				}
 			}
 		}
+		else {
+			let chat = conversation as! GroupMe.Chat
+
+			chat.sendMessage(text: inputTextField.stringValue) {
+				DispatchQueue.main.async {
+					self.inputTextField.stringValue = ""
+					self.messages = self.conversation.blandMessages
+				}
+			}
+		}
 	}
 
 	var conversation: GMConversation! {
