@@ -15,6 +15,7 @@ protocol GMMessage {
 	var avatarURL: URL? { get }
 	var isSystem: Bool { get }
 	var favoritedBy: [String] { get }
+	var senderID: String { get }
 }
 
 extension GroupMe.Chat.Message: GMMessage {

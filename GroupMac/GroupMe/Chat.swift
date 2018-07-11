@@ -70,16 +70,37 @@ extension GroupMe.Chat {
 
 extension GroupMe.Chat {
 	class Message: Decodable {
-		let id: String
-		let sourceGUID: String
-		let recipientID: String
-		let userID: String
-		let senderType: String
-		let createdAt: Int
-		let name: String
+		let attachments: [[String: String]]?
 		let avatarURL: URL?
-		let text: String?
+		let chatID: String
+		let createdAt: Int
 		let favoritedBy: [String]
+		let id: String
+		let name: String
+		let recipientID: String
+		let senderID: String
+		let senderType: String
+		let sourceGUID: String
+		let text: String?
+		let userID: String
+
+		required init(from decoder: Decoder) throws {
+			let values = try decoder.container(keyedBy: CodingKeys.self)
+
+			self.attachments = try? values.decode([[String: String]].self, forKey: .attachments)
+			self.avatarURL = try values.decode(URL?.self, forKey: .avatarURL)
+			self.chatID = try values.decode(String.self, forKey: .chatID)
+			self.createdAt = try values.decode(Int.self, forKey: .createdAt)
+			self.favoritedBy = try values.decode([String].self, forKey: .favoritedBy)
+			self.id = try values.decode(String.self, forKey: .id)
+			self.name = try values.decode(String.self, forKey: .name)
+			self.recipientID = try values.decode(String.self, forKey: .recipientID)
+			self.senderID = try values.decode(String.self, forKey: .senderID)
+			self.senderType = try values.decode(String.self, forKey: .senderType)
+			self.sourceGUID = try values.decode(String.self, forKey: .sourceGUID)
+			self.text = try values.decode(String?.self, forKey: .text)
+			self.userID = try values.decode(String.self, forKey: .userID)
+		}
 
 //		private init(id: String, sourceGUID: String, recipientID: String, userID: String, createdAt: Int, name: String, avatarURL: URL?, text: String?, favoritedBy: [String]) {
 //			self.id = id
@@ -94,16 +115,19 @@ extension GroupMe.Chat {
 //		}
 
 		private enum CodingKeys: String, CodingKey {
-			case id
-			case sourceGUID = "source_guid"
-			case recipientID = "recipient_id"
-			case userID = "user_id"
-			case createdAt = "created_at"
-			case name
-			case senderType = "sender_type"
+			case attachments
 			case avatarURL = "avatar_url"
-			case text
+			case chatID = "conversation_id"
+			case createdAt = "created_at"
 			case favoritedBy = "favorited_by"
+			case id
+			case name
+			case recipientID = "recipient_id"
+			case senderID = "sender_id"
+			case senderType = "sender_type"
+			case sourceGUID = "source_guid"
+			case text
+			case userID = "user_id"
 		}
 	}
 }
