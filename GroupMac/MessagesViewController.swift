@@ -84,12 +84,13 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 
 		return field
 	}()
-	private let sendButton: NSButton = {
-		let button = NSButton(title: "", target: self, action: #selector(sendButtonAction(sender:)))
+	private let sendButton: CustomCursorButton = {
+		let button = CustomCursorButton(title: "", target: self, action: #selector(sendButtonAction(sender:)))
 
 		button.attributedTitle = NSAttributedString(string: "Send", attributes: [.font: Fonts.bold, .foregroundColor: Colors.systemText])
 		button.font = Fonts.bold
 		button.isBordered = false
+		button.cursor = NSCursor.pointingHand
 
 		return button
 	}()
@@ -162,7 +163,16 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 	}
 
 	@objc private func sendButtonAction(sender: NSButton) {
-		print("Send message: \(inputTextField.stringValue)")
+		if conversation.convoType == .group {
+			let group = conversation as! GroupMe.Group
+
+			group.sendMessage(text: inputTextField.stringValue) {
+				DispatchQueue.main.async {
+					self.inputTextField.stringValue = ""
+					self.messages = self.conversation.blandMessages
+				}
+			}
+		}
 	}
 
 	var conversation: GMConversation! {

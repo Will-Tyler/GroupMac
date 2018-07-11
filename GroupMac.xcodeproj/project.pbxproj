@@ -27,6 +27,8 @@
 		4CA03B6420E28F0A0000EA78 /* GMMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA03B6320E28F0A0000EA78 /* GMMessage.swift */; };
 		4CB55E3D20EC055100924F87 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CB55E3C20EC055100924F87 /* Colors.swift */; };
 		4CC0B19520F659570077E795 /* NSView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CC0B19420F659570077E795 /* NSView.swift */; };
+		4CC0B19720F6836A0077E795 /* BinaryInteger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CC0B19620F6836A0077E795 /* BinaryInteger.swift */; };
+		4CC0B19920F69AB70077E795 /* CustomCursorButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CC0B19820F69AB70077E795 /* CustomCursorButton.swift */; };
 		4CC32AC020ED18D30046ED1D /* CollectionLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CC32ABF20ED18D30046ED1D /* CollectionLayout.swift */; };
 		4CC32AC220ED6E8E0046ED1D /* UserMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CC32AC120ED6E8E0046ED1D /* UserMessageCell.swift */; };
 		4CC32AC520ED70CE0046ED1D /* SystemMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CC32AC420ED70CE0046ED1D /* SystemMessageCell.swift */; };
@@ -84,6 +86,8 @@
 		4CA03B6320E28F0A0000EA78 /* GMMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GMMessage.swift; sourceTree = "<group>"; };
 		4CB55E3C20EC055100924F87 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		4CC0B19420F659570077E795 /* NSView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSView.swift; sourceTree = "<group>"; };
+		4CC0B19620F6836A0077E795 /* BinaryInteger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BinaryInteger.swift; sourceTree = "<group>"; };
+		4CC0B19820F69AB70077E795 /* CustomCursorButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCursorButton.swift; sourceTree = "<group>"; };
 		4CC32ABF20ED18D30046ED1D /* CollectionLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionLayout.swift; sourceTree = "<group>"; };
 		4CC32AC120ED6E8E0046ED1D /* UserMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserMessageCell.swift; sourceTree = "<group>"; };
 		4CC32AC420ED70CE0046ED1D /* SystemMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemMessageCell.swift; sourceTree = "<group>"; };
@@ -122,8 +126,10 @@
 		4C500F4620D9577600C1646D /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				4CC0B19620F6836A0077E795 /* BinaryInteger.swift */,
 				4CC32ABF20ED18D30046ED1D /* CollectionLayout.swift */,
 				4CB55E3C20EC055100924F87 /* Colors.swift */,
+				4CC0B19820F69AB70077E795 /* CustomCursorButton.swift */,
 				4C0C821B20E6F94900C13361 /* Fonts.swift */,
 				4CA03B6020E289630000EA78 /* GMConversation.swift */,
 				4C7D73D820E6C65E005DF911 /* GMConversationType.swift */,
@@ -352,6 +358,7 @@
 			files = (
 				4CDC813E20DAF9EC004D8DD0 /* MessagesViewController.swift in Sources */,
 				4CC32AC220ED6E8E0046ED1D /* UserMessageCell.swift in Sources */,
+				4CC0B19920F69AB70077E795 /* CustomCursorButton.swift in Sources */,
 				4C74BE7520DE95E100F765C8 /* Chat.swift in Sources */,
 				4CC0B19520F659570077E795 /* NSView.swift in Sources */,
 				4CC32AC520ED70CE0046ED1D /* SystemMessageCell.swift in Sources */,
@@ -362,6 +369,7 @@
 				4C7D73D920E6C65E005DF911 /* GMConversationType.swift in Sources */,
 				4C78FD8D20D8280D006385B2 /* ViewController.swift in Sources */,
 				4CDC814220DB23CB004D8DD0 /* ConvosViewController.swift in Sources */,
+				4CC0B19720F6836A0077E795 /* BinaryInteger.swift in Sources */,
 				4C019D7E20F58297001282E3 /* ConversationCell.swift in Sources */,
 				4C019D7C20F57CB6001282E3 /* Me.swift in Sources */,
 				4CA03B6420E28F0A0000EA78 /* GMMessage.swift in Sources */,
