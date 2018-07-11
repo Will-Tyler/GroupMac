@@ -143,6 +143,7 @@ class GroupMe {
 		}
 		
 		class Message: Decodable {
+			let attachments: [[String: Any]]?
 			let avatarURL: URL?
 			let createdAt: Int
 			let favoritedBy: [String]
@@ -156,22 +157,42 @@ class GroupMe {
 			let text: String?
 			let userID: String
 
-			private init(avatarURL: URL?, createdAt: Int, favoritedBy: [String], groupID: String, id: String, name: String, senderID: String, senderType: String, sourceGUID: String, isSystem: Bool, text: String?, userID: String) {
-				self.avatarURL = avatarURL
-				self.createdAt = createdAt
-				self.favoritedBy = favoritedBy
-				self.groupID = groupID
-				self.id = id
-				self.name = name
-				self.senderID = senderID
-				self.senderType = senderType
-				self.sourceGUID = sourceGUID
-				self.isSystem = isSystem
-				self.text = text
-				self.userID = userID
+//			private init(attachments: [[String: Data]], avatarURL: URL?, createdAt: Int, favoritedBy: [String], groupID: String, id: String, name: String, senderID: String, senderType: String, sourceGUID: String, isSystem: Bool, text: String?, userID: String) {
+//				self.attachments = attachments
+//				self.avatarURL = avatarURL
+//				self.createdAt = createdAt
+//				self.favoritedBy = favoritedBy
+//				self.groupID = groupID
+//				self.id = id
+//				self.name = name
+//				self.senderID = senderID
+//				self.senderType = senderType
+//				self.sourceGUID = sourceGUID
+//				self.isSystem = isSystem
+//				self.text = text
+//				self.userID = userID
+//			}
+
+			required init(from decoder: Decoder) throws {
+				let values = try decoder.container(keyedBy: CodingKeys.self)
+
+				self.attachments = try? values.decode([[String: String]].self, forKey: .attachments)
+				self.avatarURL = try values.decode(URL?.self, forKey: .avatarURL)
+				self.createdAt = try values.decode(Int.self, forKey: .createdAt)
+				self.favoritedBy = try values.decode([String].self, forKey: .favoritedBy)
+				self.groupID = try values.decode(String.self, forKey: .groupID)
+				self.id = try values.decode(String.self, forKey: .id)
+				self.name = try values.decode(String.self, forKey: .name)
+				self.senderID = try values.decode(String.self, forKey: .senderID)
+				self.senderType = try values.decode(String.self, forKey: .senderType)
+				self.sourceGUID = try values.decode(String.self, forKey: .sourceGUID)
+				self.isSystem = try values.decode(Bool.self, forKey: .isSystem)
+				self.text = try values.decode(String?.self, forKey: .text)
+				self.userID = try values.decode(String.self, forKey: .userID)
 			}
 
 			private enum CodingKeys: String, CodingKey {
+				case attachments
 				case avatarURL = "avatar_url"
 				case createdAt = "created_at"
 				case favoritedBy = "favorited_by"

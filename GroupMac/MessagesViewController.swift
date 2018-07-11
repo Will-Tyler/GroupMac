@@ -11,6 +11,7 @@ import Cocoa
 
 class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayout, NSCollectionViewDataSource {
 
+	private let me = GroupMe.me
 	private let containerView: NSView = {
 		let view = NSView()
 
@@ -201,6 +202,7 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 			let item = collectionView.makeItem(withIdentifier: UserMessageCell.cellIdentifier, for: indexPath) as! UserMessageCell
 
 			item.message = message
+			item.me = me
 
 			return item
 		}

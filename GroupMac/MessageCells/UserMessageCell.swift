@@ -119,6 +119,14 @@ final class UserMessageCell: NSCollectionViewItem {
 		likesView.widthAnchor.constraint(equalTo: heartLabel.widthAnchor).isActive = true
 	}
 
+	var me: GroupMe.Me! {
+		didSet {
+			if me.id == message.senderID {
+				view.wantsLayer = true
+				view.layer!.backgroundColor = Colors.personalBlue
+			}
+		}
+	}
 	var message: GMMessage! {
 		didSet {
 			nameLabel.stringValue = message.name
