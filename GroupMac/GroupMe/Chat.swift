@@ -50,40 +50,20 @@ extension GroupMe {
 
 extension GroupMe.Chat {
 	func handlePreviewText(with handler: @escaping (String)->Void) {
-		let parameters = ["token": GroupMe.accessToken, "other_user_id": otherUser.id]
-		let components: URLComponents = {
-			let url = GroupMe.baseURL.appendingPathComponent("/direct_messages")
-			var comps = URLComponents(url: url, resolvingAgainstBaseURL: true)!
+		GroupMe.betterAPIRequest(appendingPathComponent: "/direct_messages", additionalParameters: ["other_user_id": otherUser.id]) { (data: Data) in
+			let json = try! JSONSerialization.jsonObject(with: data) as! [String: Any]
+			let responseCode = (json["meta"] as! [String: Int])["code"]
 
-			comps.queryItems = parameters.map({ return URLQueryItem(name: $0.key, value: $0.value) })
+			if responseCode == 200 {
+				let jsonMessages = (json["response"] as! [String: Any])["direct_messages"]!
+				let data = try! JSONSerialization.data(withJSONObject: jsonMessages)
+				let messages = try! JSONDecoder().decode([GroupMe.Chat.Message].self, from: data)
 
-			return comps
-		}()
-
-		let request: URLRequest = {
-			var request = URLRequest(url: components.url!)
-
-			request.httpMethod = HTTP.RequestMethod.get.rawValue
-
-			return request
-		}()
-
-		URLSession.shared.dataTask(with: request) { (data, response, error) in
-			if error == nil, let data = data {
-				let json = try! JSONSerialization.jsonObject(with: data) as! [String: Any]
-				let responseCode = (json["meta"] as! [String: Int])["code"]
-
-				if responseCode == 200 {
-					let jsonMessages = (json["response"] as! [String: Any])["direct_messages"]!
-					let data = try! JSONSerialization.data(withJSONObject: jsonMessages)
-					let messages = try! JSONDecoder().decode([GroupMe.Chat.Message].self, from: data)
-					
-					if let text = messages.first!.text {
-						handler(text)
-					}
+				if let text = messages.first!.text {
+					handler(text)
 				}
 			}
-		}.resume()
+		}
 	}
 
 	private static var GUIDcount = 1
@@ -92,7 +72,7 @@ extension GroupMe.Chat {
 		guard text.count <= 1000 else { print("Message is too long, quitting..."); return }
 
 		let jsonDict = ["direct_message": ["source_guid": "\(GroupMe.Chat.GUIDcount++)", "recipient_id": otherUser.id, "text": text]]
-		GroupMe.apiPost(appendingPathComponent: "/direct_messages", jsonObject: jsonDict) { (data: Data) in
+		GroupMe.betterAPIRequest(method: .post, appendingPathComponent: "/direct_messages", jsonObject: jsonDict) { (data: Data) in
 			if GroupMe.responseCode(from: data) == 201 { successHandler() }
 		}
 	}
@@ -181,12 +161,12 @@ extension GroupMe.Chat {
 		}
 
 		func like(successHandler: @escaping ()->() = {}) {
-			GroupMe.apiPost(appendingPathComponent: "/messages/\(chatID)/\(id)/like") { (data: Data) in
+			GroupMe.betterAPIRequest(method: .post, appendingPathComponent: "/messages/\(chatID)/\(id)/like") { (data: Data) in
 				if GroupMe.responseCode(from: data) == 200 { successHandler() }
 			}
 		}
 		func unlike(successHandler: @escaping ()->() = {}) {
-			GroupMe.apiPost(appendingPathComponent: "/messages/\(chatID)/\(id)/unlike") { (data: Data) in
+			GroupMe.betterAPIRequest(method: .post, appendingPathComponent: "/messages/\(chatID)/\(id)/unlike") { (data: Data) in
 				if GroupMe.responseCode(from: data) == 200 { successHandler() }
 			}
 		}
