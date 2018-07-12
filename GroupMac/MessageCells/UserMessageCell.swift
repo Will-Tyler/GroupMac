@@ -117,28 +117,30 @@ final class UserMessageCell: NSCollectionViewItem {
 	}
 
 	func toggleLike() {
-		print("Like toggled...")
-		let isLiked = message.favoritedBy.contains(MessagesViewController.me.id)
+		let likes = message.favoritedBy
+		let myID = MessagesViewController.me.id
+		let isLiked = (heartButton.attributedTitle.attribute(.foregroundColor, at: 0, effectiveRange: nil) as! NSColor) == Colors.heartRed
 		if isLiked {
 			message.unlike {
-				print("Message unliked...")
-				if self.message.favoritedBy.count > 1 { // easiest way to update everything would be reset the message for this message cell
+				if self.message.favoritedBy.count > 1 {
 					DispatchQueue.main.async {
 						self.heartButton.attributedTitle = NSAttributedString(string: "\u{e60b}", attributes: [.font: Fonts.groupMeSymbols, .foregroundColor: Colors.heartGrey]) // filled heart
+						self.likesCountLabel.stringValue = "\(likes.contains(myID) ? likes.count-1 : likes.count)"
 					}
 				}
 				else {
 					DispatchQueue.main.async {
 						self.heartButton.attributedTitle = NSAttributedString(string: "\u{e618}", attributes: [.font: Fonts.groupMeSymbols, .foregroundColor: Colors.heartGrey])
+						self.likesCountLabel.stringValue = ""
 					}
 				}
 			}
 		}
 		else {
 			message.like {
-				print("Message liked...")
 				DispatchQueue.main.async {
 					self.heartButton.attributedTitle = NSAttributedString(string: "\u{e60b}", attributes: [.font: Fonts.groupMeSymbols, .foregroundColor: Colors.heartRed])
+					self.likesCountLabel.stringValue = "\(likes.contains(myID) ? likes.count : likes.count+1)"
 				}
 			}
 		}
@@ -161,6 +163,9 @@ final class UserMessageCell: NSCollectionViewItem {
 			}
 			if MessagesViewController.me.id == message.senderID {
 				view.backColor = Colors.personalBlue
+			}
+			else {
+				view.backColor = Colors.background
 			}
 
 			HTTP.handleImage(at: message.avatarURL, with: { (image: NSImage) in

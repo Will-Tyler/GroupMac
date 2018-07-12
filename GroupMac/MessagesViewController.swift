@@ -233,7 +233,6 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 	}
 
 	@objc private func heartButtonAction(sender: CustomCursorButton) {
-		print("Heart clicked...")
 		let messageCell = messagesCollectionView.item(at: sender.tag)! as! UserMessageCell
 		messageCell.toggleLike()
 	}

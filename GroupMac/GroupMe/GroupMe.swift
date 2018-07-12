@@ -296,6 +296,7 @@ class GroupMe {
 
 			return comps
 		}()
+		print(components.url!)
 		let request: URLRequest = {
 			var req = URLRequest(url: components.url!)
 
