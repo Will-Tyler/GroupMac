@@ -8,9 +8,11 @@
 
 import Cocoa
 
+
 class CustomCursorButton: NSButton {
 
 	var cursor: NSCursor?
+	var previousTitle: NSAttributedString?
 
 	override func resetCursorRects() {
 		if let cursor = cursor {
@@ -20,6 +22,18 @@ class CustomCursorButton: NSButton {
 		else {
 			super.resetCursorRects()
 		}
+	}
+	override func mouseEntered(with event: NSEvent) {
+		super.mouseEntered(with: event)
+
+		previousTitle = attributedTitle
+
+		attributedTitle = NSAttributedString(string: "\u{e60b}", attributes: [.font: Fonts.groupMeSymbols, .foregroundColor: Colors.systemText])
+	}
+	override func mouseExited(with event: NSEvent) {
+		super.mouseExited(with: event)
+
+		attributedTitle = previousTitle!
 	}
     
 }
