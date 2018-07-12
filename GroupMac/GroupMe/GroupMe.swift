@@ -269,12 +269,11 @@ class GroupMe {
 			throw "Received nil data..."
 		}
 
-		let json = try JSONSerialization.jsonObject(with: data) as! [String: Any]
-		let responseCode = (json["meta"] as! [String: Int])["code"]
-
-		guard responseCode == 200 else {
-			throw "Non-200 HTTP response code: \(responseCode ?? 0)"
+		guard responseCode(from: data) == 200 else {
+			throw "Non-200 HTTP response code: \(responseCode)"
 		}
+
+		let json = try JSONSerialization.jsonObject(with: data) as! [String: Any]
 
 		return try JSONSerialization.data(withJSONObject: json["response"]!)
 	}
