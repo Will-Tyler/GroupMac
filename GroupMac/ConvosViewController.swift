@@ -88,6 +88,11 @@ class ConvosViewController: NSViewController, NSCollectionViewDelegateFlowLayout
 		cell.conversation = conversations[indexPath.item]
 		if indexPath.item != 0 { cell.addSeparatorToTop() }
 
+		let options = NSTrackingArea.Options.mouseEnteredAndExited.union(.activeInActiveApp)
+		let trackingArea = NSTrackingArea(rect: cell.view.bounds, options: options, owner: cell, userInfo: nil)
+
+		cell.view.addTrackingArea(trackingArea)
+
 		return cell
 	}
 	func collectionView(_ collectionView: NSCollectionView, layout collectionViewLayout: NSCollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> NSSize {
