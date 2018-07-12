@@ -208,12 +208,12 @@ class GroupMe {
 			}
 
 			func like(successHandler: @escaping ()->()) {
-				GroupMe.apiPost(appendingPathComponent: "/messages/\(groupID)/\(id)/like") { (data: Data) in
+				GroupMe.betterAPIRequest(method: .post, appendingPathComponent: "/messages/\(groupID)/\(id)/like") { (data: Data) in
 					if GroupMe.responseCode(from: data) == 200 { successHandler() }
 				}
 			}
 			func unlike(successHandler: @escaping ()->()) {
-				GroupMe.apiPost(appendingPathComponent: "/messages/\(groupID)/\(id)/unlike") { (data: Data) in
+				GroupMe.betterAPIRequest(method: .post, appendingPathComponent: "/messages/\(groupID)/\(id)/unlike") { (data: Data) in
 					if GroupMe.responseCode(from: data) == 200 { successHandler() }
 				}
 			}
@@ -278,15 +278,20 @@ class GroupMe {
 
 		return try JSONSerialization.data(withJSONObject: json["response"]!)
 	}
-	static func apiPost(appendingPathComponent: String, additionalParameters: [String: String]? = nil, jsonObject: Any? = nil, dataHandler: @escaping (Data)->()) {
+	static func betterAPIRequest(method: HTTP.RequestMethod = .get, appendingPathComponent extraPath: String, additionalParameters extraParams: [String: String]? = nil, jsonObject: Any? = nil, dataHandler: @escaping (Data)->()) {
 		let components: URLComponents = {
-			let url = baseURL.appendingPathComponent(appendingPathComponent)
+			let url = baseURL.appendingPathComponent(extraPath)
 			var comps = URLComponents(url: url, resolvingAgainstBaseURL: true)!
+			let params: [String: String] = {
+				var params = ["token": accessToken]
 
-			var params = ["token": GroupMe.accessToken]
-			if let addParams = additionalParameters {
-				addParams.forEach({ params[$0.key] = $0.value })
-			}
+				if let extraParams = extraParams {
+					extraParams.forEach({ params[$0.key] = $0.value })
+				}
+
+				return params
+			}()
+
 			comps.queryItems = params.map({ return URLQueryItem(name: $0.key, value: $0.value) })
 
 			return comps
@@ -294,7 +299,7 @@ class GroupMe {
 		let request: URLRequest = {
 			var req = URLRequest(url: components.url!)
 
-			req.httpMethod = HTTP.RequestMethod.post.rawValue
+			req.httpMethod = method.rawValue
 			if let jsonObject = jsonObject {
 				if let jsonData = try? JSONSerialization.data(withJSONObject: jsonObject) {
 					req.setValue("application/json", forHTTPHeaderField: "Content-Type")

@@ -137,7 +137,9 @@ final class UserMessageCell: NSCollectionViewItem {
 		else {
 			message.like {
 				print("Message liked...")
-				self.heartButton.attributedTitle = NSAttributedString(string: "\u{e60b}", attributes: [.font: Fonts.groupMeSymbols, .foregroundColor: Colors.heartRed])
+				DispatchQueue.main.async {
+					self.heartButton.attributedTitle = NSAttributedString(string: "\u{e60b}", attributes: [.font: Fonts.groupMeSymbols, .foregroundColor: Colors.heartRed])
+				}
 			}
 		}
 	}

@@ -91,7 +91,7 @@ extension GroupMe.Group {
 		guard text.count <= 1000 else { print("Message is too long, quitting..."); return }
 
 		let jsonDict = ["message": ["source_guid": "\(GroupMe.Group.GUIDcount++)", "text": text]]
-		GroupMe.apiPost(appendingPathComponent: "/groups/\(id)/messages", jsonObject: jsonDict) { (data: Data) in
+		GroupMe.betterAPIRequest(method: .post, appendingPathComponent: "/groups/\(id)/messages", jsonObject: jsonDict) { (data: Data) in
 			if GroupMe.responseCode(from: data) == 201 { successHandler() }
 		}
 	}
