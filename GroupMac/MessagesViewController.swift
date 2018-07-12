@@ -207,6 +207,7 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 		didSet {
 			DispatchQueue.main.async {
 				self.messagesCollectionView.reloadData()
+				self.scrollToBottom()
 			}
 		}
 	}
@@ -230,6 +231,17 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 		super.viewDidLayout()
 
 		messagesCollectionView.collectionViewLayout!.invalidateLayout()
+	}
+	override func viewDidAppear() {
+		super.viewDidAppear()
+
+		scrollToBottom()
+	}
+
+	private func scrollToBottom() {
+		let scrollPoint = NSPoint(x: 0, y: messagesCollectionView.bounds.height - scrollView.bounds.height)
+		scrollView.contentView.scroll(to: scrollPoint)
+		scrollView.reflectScrolledClipView(scrollView.contentView)
 	}
 
 	@objc private func heartButtonAction(sender: CustomCursorButton) {

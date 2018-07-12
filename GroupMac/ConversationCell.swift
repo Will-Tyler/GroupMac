@@ -126,8 +126,7 @@ final class ConversationCell: NSCollectionViewItem {
 		view = {
 			let view = NSView()
 
-			view.wantsLayer = true
-			view.layer!.backgroundColor = Colors.background
+			view.backColor = Colors.background
 
 			return view
 		}()
