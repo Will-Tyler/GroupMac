@@ -135,14 +135,64 @@ final class ConversationCell: NSCollectionViewItem {
 		super.viewDidLoad()
 
 		setupInitialLayout()
-
-		//		let options = NSTrackingArea.Options.mouseEnteredAndExited.union(.activeAlways)
-		//		let trackingArea = NSTrackingArea(rect: view.frame, options: options, owner: self, userInfo: nil)
-		//
-		//		view.addTrackingArea(trackingArea)
 	}
-	//	override func mouseEntered(with event: NSEvent) {
-	//		super.mouseEntered(with: event)
-	//		print("Mouse entered...")
-	//	}
+	override func mouseEntered(with event: NSEvent) {
+		super.mouseEntered(with: event)
+
+		if !isSelected {
+			view.backColor = Colors.semiWhite
+		}
+	}
+	override func mouseExited(with event: NSEvent) {
+		super.mouseExited(with: event)
+
+		if !isSelected {
+			view.backColor = Colors.background
+		}
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
