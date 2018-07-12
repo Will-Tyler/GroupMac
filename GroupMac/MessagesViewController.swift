@@ -275,6 +275,11 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 			item.heartButton.tag = indexPath.item
 			item.heartButton.target = self
 			item.heartButton.action = #selector(heartButtonAction(sender:))
+			item.heartButton.addTrackingArea({
+				let options = NSTrackingArea.Options.mouseEnteredAndExited.union(.activeInActiveApp)
+				
+				return NSTrackingArea(rect: item.heartButton.bounds, options: options, owner: item.heartButton, userInfo: nil)
+			}())
 
 			return item
 		}
