@@ -78,7 +78,7 @@ class GroupMe {
 			}
 		}
 
-		func update(name: String? = nil, description: String? = nil, imageURL: URL? = nil, officeMode: Bool? = nil, share: Bool? = nil) -> Group? {
+		func updated(name: String? = nil, description: String? = nil, imageURL: URL? = nil, officeMode: Bool? = nil, share: Bool? = nil) -> Group? {
 			if name == nil, description == nil, imageURL == nil, officeMode == nil, share == nil { return nil }
 
 			let jsonDict: [String: Any] = {
@@ -206,6 +206,17 @@ class GroupMe {
 				case text
 				case userID = "user_id"
 			}
+
+			func like(successHandler: @escaping ()->()) {
+				GroupMe.apiPost(appendingPathComponent: "/messages/\(groupID)/\(id)/like") { (data: Data) in
+					if GroupMe.responseCode(from: data) == 200 { successHandler() }
+				}
+			}
+			func unlike(successHandler: @escaping ()->()) {
+				GroupMe.apiPost(appendingPathComponent: "/messages/\(groupID)/\(id)/unlike") { (data: Data) in
+					if GroupMe.responseCode(from: data) == 200 { successHandler() }
+				}
+			}
 		}
 	}
 
@@ -217,6 +228,11 @@ class GroupMe {
 		return token
 	}()
 
+	static func responseCode(from data: Data) -> Int {
+		let jsonDict = try! JSONSerialization.jsonObject(with: data) as! [String: Any]
+
+		return (jsonDict["meta"] as! [String: Any])["code"] as! Int
+	}
 	static func apiContact(pathComponent: String, requestMethod: HTTP.RequestMethod = .post) {
 		let request = URLRequest(url: baseURL.appendingPathComponent(pathComponent))
 		URLSession.shared.dataTask(with: request)
@@ -261,6 +277,38 @@ class GroupMe {
 		}
 
 		return try JSONSerialization.data(withJSONObject: json["response"]!)
+	}
+	static func apiPost(appendingPathComponent: String, additionalParameters: [String: String]? = nil, jsonObject: Any? = nil, dataHandler: @escaping (Data)->()) {
+		let components: URLComponents = {
+			let url = baseURL.appendingPathComponent(appendingPathComponent)
+			var comps = URLComponents(url: url, resolvingAgainstBaseURL: true)!
+
+			var params = ["token": GroupMe.accessToken]
+			if let addParams = additionalParameters {
+				addParams.forEach({ params[$0.key] = $0.value })
+			}
+			comps.queryItems = params.map({ return URLQueryItem(name: $0.key, value: $0.value) })
+
+			return comps
+		}()
+		let request: URLRequest = {
+			var req = URLRequest(url: components.url!)
+
+			req.httpMethod = HTTP.RequestMethod.post.rawValue
+			if let jsonObject = jsonObject {
+				if let jsonData = try? JSONSerialization.data(withJSONObject: jsonObject) {
+					req.setValue("application/json", forHTTPHeaderField: "Content-Type")
+					req.httpBody = jsonData
+				}
+			}
+
+			return req
+		}()
+
+		URLSession.shared.dataTask(with: request) { (data: Data?, response: URLResponse?, error: Error?) in
+			guard error == nil, let data = data, !data.isEmpty else { return }
+			dataHandler(data)
+		}.resume()
 	}
 
 	static var groups: [Group] {

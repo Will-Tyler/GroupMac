@@ -16,6 +16,9 @@ protocol GMMessage {
 	var isSystem: Bool { get }
 	var favoritedBy: [String] { get }
 	var senderID: String { get }
+
+	func like(successHandler: @escaping ()->())
+	func unlike(successHandler: @escaping ()->())
 }
 
 extension GroupMe.Chat.Message: GMMessage {

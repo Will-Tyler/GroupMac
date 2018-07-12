@@ -232,6 +232,12 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 		messagesCollectionView.collectionViewLayout!.invalidateLayout()
 	}
 
+	@objc private func heartButtonAction(sender: CustomCursorButton) {
+		print("Heart clicked...")
+		let messageCell = messagesCollectionView.item(at: sender.tag)! as! UserMessageCell
+		messageCell.toggleLike()
+	}
+
 	//MARK: Collection view
 	func collectionView(_ collectionView: NSCollectionView, numberOfItemsInSection section: Int) -> Int {
 		return messages?.count ?? 0
@@ -254,6 +260,10 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 			let item = collectionView.makeItem(withIdentifier: UserMessageCell.cellIdentifier, for: indexPath) as! UserMessageCell
 
 			item.message = message
+
+			item.heartButton.tag = indexPath.item
+			item.heartButton.target = self
+			item.heartButton.action = #selector(heartButtonAction(sender:))
 
 			return item
 		}

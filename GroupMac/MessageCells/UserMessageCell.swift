@@ -45,18 +45,15 @@ final class UserMessageCell: NSCollectionViewItem {
 
 		return field
 	}()
-	private let heartLabel: NSTextField = {
-		let field = NSTextField()
+	let heartButton: CustomCursorButton = {
+		let button = CustomCursorButton()
 
-		field.isEditable = false
-		field.isBezeled = false
-		field.backgroundColor = .clear
-		field.alignment = .center
-		field.font = Fonts.groupMeSymbols
-		field.stringValue = "\u{e618}" // empty heart
-		field.textColor = Colors.heart
+		button.attributedTitle = NSAttributedString(string: "\u{e618}", attributes: [.font: Fonts.groupMeSymbols, .foregroundColor: Colors.heartGrey])
+		button.alignment = .center
+		button.cursor = NSCursor.pointingHand
+		button.isBordered = false
 
-		return field
+		return button
 	}()
 	private let likesCountLabel: NSTextField = {
 		let field = NSTextField()
@@ -75,20 +72,20 @@ final class UserMessageCell: NSCollectionViewItem {
 		let likesView = NSView()
 
 		likesView.addSubview(likesCountLabel)
-		likesView.addSubview(heartLabel)
+		likesView.addSubview(heartButton)
 
-		heartLabel.translatesAutoresizingMaskIntoConstraints = false
-		heartLabel.heightAnchor.constraint(equalToConstant: 22).isActive = true
-		heartLabel.heightAnchor.constraint(equalTo: heartLabel.widthAnchor).isActive = true
-		heartLabel.topAnchor.constraint(equalTo: likesView.topAnchor).isActive = true
-		heartLabel.leadingAnchor.constraint(equalTo: likesView.leadingAnchor).isActive = true
+		heartButton.translatesAutoresizingMaskIntoConstraints = false
+		heartButton.heightAnchor.constraint(equalToConstant: 22).isActive = true
+		heartButton.heightAnchor.constraint(equalTo: heartButton.widthAnchor).isActive = true
+		heartButton.topAnchor.constraint(equalTo: likesView.topAnchor).isActive = true
+		heartButton.leadingAnchor.constraint(equalTo: likesView.leadingAnchor).isActive = true
 
 		likesCountLabel.translatesAutoresizingMaskIntoConstraints = false
-		likesCountLabel.topAnchor.constraint(equalTo: heartLabel.bottomAnchor, constant: -10).isActive = true // top of text is 2 pixels from bottom of heart
+		likesCountLabel.topAnchor.constraint(equalTo: heartButton.bottomAnchor, constant: -10).isActive = true // top of text is 2 pixels from bottom of heart
 		likesCountLabel.heightAnchor.constraint(equalToConstant: likesCountLabel.intrinsicContentSize.height).isActive = true
 		likesCountLabel.leadingAnchor.constraint(equalTo: likesView.leadingAnchor).isActive = true
 		likesCountLabel.trailingAnchor.constraint(equalTo: likesView.trailingAnchor).isActive = true
-		likesCountLabel.centerXAnchor.constraint(equalTo: heartLabel.centerXAnchor).isActive = true
+		likesCountLabel.centerXAnchor.constraint(equalTo: heartButton.centerXAnchor).isActive = true
 
 		view.addSubview(avatarImageView)
 		view.addSubview(nameLabel)
@@ -105,18 +102,44 @@ final class UserMessageCell: NSCollectionViewItem {
 		nameLabel.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
 		nameLabel.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: 4).isActive = true
 		nameLabel.heightAnchor.constraint(equalToConstant: nameLabel.intrinsicContentSize.height).isActive = true
-		nameLabel.trailingAnchor.constraint(equalTo: heartLabel.leadingAnchor, constant: -4).isActive = true
+		nameLabel.trailingAnchor.constraint(equalTo: heartButton.leadingAnchor, constant: -4).isActive = true
 
 		textLabel.translatesAutoresizingMaskIntoConstraints = false
 		textLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor).isActive = true
 		textLabel.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: 4).isActive = true
-		textLabel.trailingAnchor.constraint(equalTo: heartLabel.leadingAnchor, constant: -4).isActive = true
+		textLabel.trailingAnchor.constraint(equalTo: heartButton.leadingAnchor, constant: -4).isActive = true
 
 		likesView.translatesAutoresizingMaskIntoConstraints = false
 		likesView.topAnchor.constraint(equalTo: view.topAnchor, constant: 5).isActive = true // constant 5 is best match for text
 		likesView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -4).isActive = true
 		likesView.bottomAnchor.constraint(equalTo: likesCountLabel.bottomAnchor).isActive = true
-		likesView.widthAnchor.constraint(equalTo: heartLabel.widthAnchor).isActive = true
+		likesView.widthAnchor.constraint(equalTo: heartButton.widthAnchor).isActive = true
+	}
+
+	func toggleLike() {
+		print("Like toggled...")
+		let isLiked = message.favoritedBy.contains(MessagesViewController.me.id)
+		if isLiked {
+			message.unlike {
+				print("Message unliked...")
+				if self.message.favoritedBy.count > 1 { // easiest way to update everything would be reset the message for this message cell
+					DispatchQueue.main.async {
+						self.heartButton.attributedTitle = NSAttributedString(string: "\u{e60b}", attributes: [.font: Fonts.groupMeSymbols, .foregroundColor: Colors.heartGrey]) // filled heart
+					}
+				}
+				else {
+					DispatchQueue.main.async {
+						self.heartButton.attributedTitle = NSAttributedString(string: "\u{e618}", attributes: [.font: Fonts.groupMeSymbols, .foregroundColor: Colors.heartGrey])
+					}
+				}
+			}
+		}
+		else {
+			message.like {
+				print("Message liked...")
+				self.heartButton.attributedTitle = NSAttributedString(string: "\u{e60b}", attributes: [.font: Fonts.groupMeSymbols, .foregroundColor: Colors.heartRed])
+			}
+		}
 	}
 
 	var message: GMMessage! {
@@ -127,7 +150,12 @@ final class UserMessageCell: NSCollectionViewItem {
 			}
 			if message.favoritedBy.count > 0 {
 				likesCountLabel.stringValue = "\(message.favoritedBy.count)"
-				heartLabel.stringValue = "\u{e60b}" // filled heart
+				if message.favoritedBy.contains(MessagesViewController.me.id) {
+					heartButton.attributedTitle = NSAttributedString(string: "\u{e60b}", attributes: [.font: Fonts.groupMeSymbols, .foregroundColor: Colors.heartRed])
+				}
+				else {
+					heartButton.attributedTitle = NSAttributedString(string: "\u{e60b}", attributes: [.font: Fonts.groupMeSymbols, .foregroundColor: Colors.heartGrey]) // filled heart
+				}
 			}
 			if MessagesViewController.me.id == message.senderID {
 				view.backColor = Colors.personalBlue
