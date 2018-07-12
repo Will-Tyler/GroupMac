@@ -149,9 +149,11 @@ final class UserMessageCell: NSCollectionViewItem {
 	var message: GMMessage! {
 		didSet {
 			nameLabel.stringValue = message.name
+
 			if let text = message.text {
 				textLabel.stringValue = text
 			}
+
 			if message.favoritedBy.count > 0 {
 				likesCountLabel.stringValue = "\(message.favoritedBy.count)"
 				if message.favoritedBy.contains(MessagesViewController.me.id) {
@@ -161,6 +163,11 @@ final class UserMessageCell: NSCollectionViewItem {
 					heartButton.attributedTitle = NSAttributedString(string: "\u{e60b}", attributes: [.font: Fonts.groupMeSymbols, .foregroundColor: Colors.heartGrey]) // filled heart
 				}
 			}
+			else {
+				likesCountLabel.stringValue = ""
+				heartButton.attributedTitle = NSAttributedString(string: "\u{e618}", attributes: [.font: Fonts.groupMeSymbols, .foregroundColor: Colors.heartGrey])
+			}
+
 			if MessagesViewController.me.id == message.senderID {
 				view.backColor = Colors.personalBlue
 			}
@@ -168,6 +175,7 @@ final class UserMessageCell: NSCollectionViewItem {
 				view.backColor = Colors.background
 			}
 
+			avatarImageView.image = #imageLiteral(resourceName: "Person Default Image")
 			HTTP.handleImage(at: message.avatarURL, with: { (image: NSImage) in
 				DispatchQueue.main.async {
 					self.avatarImageView.image = image
