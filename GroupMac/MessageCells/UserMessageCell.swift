@@ -45,10 +45,10 @@ final class UserMessageCell: NSCollectionViewItem {
 
 		return field
 	}()
-	let heartButton: CustomCursorButton = {
-		let button = CustomCursorButton()
+	let heartButton: HeartButton = {
+		let button = HeartButton()
 
-		button.attributedTitle = NSAttributedString(string: "\u{e618}", attributes: [.font: Fonts.groupMeSymbols, .foregroundColor: Colors.heartGrey])
+		button.attributedTitle = Hearts.outline
 		button.alignment = .center
 		button.cursor = NSCursor.pointingHand
 		button.isBordered = false
@@ -124,13 +124,13 @@ final class UserMessageCell: NSCollectionViewItem {
 			message.unlike {
 				if self.message.favoritedBy.count > 1 {
 					DispatchQueue.main.async {
-						self.heartButton.attributedTitle = NSAttributedString(string: "\u{e60b}", attributes: [.font: Fonts.groupMeSymbols, .foregroundColor: Colors.heartGrey]) // filled heart
+						self.heartButton.attributedTitle = Hearts.grey
 						self.likesCountLabel.stringValue = "\(likes.contains(myID) ? likes.count-1 : likes.count)"
 					}
 				}
 				else {
 					DispatchQueue.main.async {
-						self.heartButton.attributedTitle = NSAttributedString(string: "\u{e618}", attributes: [.font: Fonts.groupMeSymbols, .foregroundColor: Colors.heartGrey])
+						self.heartButton.attributedTitle = Hearts.outline
 						self.likesCountLabel.stringValue = ""
 					}
 				}
@@ -139,7 +139,7 @@ final class UserMessageCell: NSCollectionViewItem {
 		else {
 			message.like {
 				DispatchQueue.main.async {
-					self.heartButton.attributedTitle = NSAttributedString(string: "\u{e60b}", attributes: [.font: Fonts.groupMeSymbols, .foregroundColor: Colors.heartRed])
+					self.heartButton.attributedTitle = Hearts.red
 					self.likesCountLabel.stringValue = "\(likes.contains(myID) ? likes.count : likes.count+1)"
 				}
 			}
@@ -157,15 +157,15 @@ final class UserMessageCell: NSCollectionViewItem {
 			if message.favoritedBy.count > 0 {
 				likesCountLabel.stringValue = "\(message.favoritedBy.count)"
 				if message.favoritedBy.contains(MessagesViewController.me.id) {
-					heartButton.attributedTitle = NSAttributedString(string: "\u{e60b}", attributes: [.font: Fonts.groupMeSymbols, .foregroundColor: Colors.heartRed])
+					heartButton.attributedTitle = Hearts.red
 				}
 				else {
-					heartButton.attributedTitle = NSAttributedString(string: "\u{e60b}", attributes: [.font: Fonts.groupMeSymbols, .foregroundColor: Colors.heartGrey]) // filled heart
+					heartButton.attributedTitle = Hearts.grey
 				}
 			}
 			else {
 				likesCountLabel.stringValue = ""
-				heartButton.attributedTitle = NSAttributedString(string: "\u{e618}", attributes: [.font: Fonts.groupMeSymbols, .foregroundColor: Colors.heartGrey])
+				heartButton.attributedTitle = Hearts.outline
 			}
 
 			if MessagesViewController.me.id == message.senderID {
