@@ -75,13 +75,13 @@ final class UserMessageCell: NSCollectionViewItem {
 		likesView.addSubview(heartButton)
 
 		heartButton.translatesAutoresizingMaskIntoConstraints = false
-		heartButton.heightAnchor.constraint(equalToConstant: 22).isActive = true
+		heartButton.widthAnchor.constraint(equalToConstant: heartButton.intrinsicContentSize.width).isActive = true
 		heartButton.heightAnchor.constraint(equalTo: heartButton.widthAnchor).isActive = true
 		heartButton.topAnchor.constraint(equalTo: likesView.topAnchor).isActive = true
-		heartButton.leadingAnchor.constraint(equalTo: likesView.leadingAnchor).isActive = true
+		heartButton.centerXAnchor.constraint(equalTo: likesView.centerXAnchor).isActive = true
 
 		likesCountLabel.translatesAutoresizingMaskIntoConstraints = false
-		likesCountLabel.topAnchor.constraint(equalTo: heartButton.bottomAnchor, constant: -10).isActive = true // top of text is 2 pixels from bottom of heart
+		likesCountLabel.topAnchor.constraint(equalTo: heartButton.bottomAnchor, constant: -5).isActive = true // top of text is 2 pixels from bottom of heart button
 		likesCountLabel.heightAnchor.constraint(equalToConstant: likesCountLabel.intrinsicContentSize.height).isActive = true
 		likesCountLabel.leadingAnchor.constraint(equalTo: likesView.leadingAnchor).isActive = true
 		likesCountLabel.trailingAnchor.constraint(equalTo: likesView.trailingAnchor).isActive = true
@@ -211,3 +211,66 @@ final class UserMessageCell: NSCollectionViewItem {
 	}
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
