@@ -36,13 +36,16 @@ class HTTP {
 		return results
 	}
 
-	static func handleImage(at url: URL?, with handler: @escaping (NSImage)->Void) {
-		if let url = url {
-			URLSession.shared.dataTask(with: url, completionHandler: { (data: Data?, response: URLResponse?, error: Error?) in
-				guard error == nil, let data = data, let image = NSImage(data: data) else { return }
-				handler(image)
-			}).resume()
-		}
+	@discardableResult
+	static func handleImage(at url: URL, with handler: @escaping (NSImage)->Void) -> URLSessionDataTask {
+		let task = URLSession.shared.dataTask(with: url, completionHandler: { (data: Data?, response: URLResponse?, error: Error?) in
+			guard error == nil, let data = data, let image = NSImage(data: data) else { return }
+			handler(image)
+		})
+
+		task.resume()
+
+		return task
 	}
 
 }

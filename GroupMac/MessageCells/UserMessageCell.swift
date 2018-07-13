@@ -48,7 +48,7 @@ final class UserMessageCell: NSCollectionViewItem {
 	let heartButton: HeartButton = {
 		let button = HeartButton()
 
-		button.attributedTitle = Hearts.outline
+		button.heart = Hearts.outline
 		button.alignment = .center
 		button.cursor = NSCursor.pointingHand
 		button.isBordered = false
@@ -124,13 +124,13 @@ final class UserMessageCell: NSCollectionViewItem {
 			message.unlike {
 				if self.message.favoritedBy.count > 1 {
 					DispatchQueue.main.async {
-						self.heartButton.attributedTitle = Hearts.grey
+						self.heartButton.heart = Hearts.grey
 						self.likesCountLabel.stringValue = "\(likes.contains(myID) ? likes.count-1 : likes.count)"
 					}
 				}
 				else {
 					DispatchQueue.main.async {
-						self.heartButton.attributedTitle = Hearts.outline
+						self.heartButton.heart = Hearts.outline
 						self.likesCountLabel.stringValue = ""
 					}
 				}
@@ -139,13 +139,14 @@ final class UserMessageCell: NSCollectionViewItem {
 		else {
 			message.like {
 				DispatchQueue.main.async {
-					self.heartButton.attributedTitle = Hearts.red
+					self.heartButton.heart = Hearts.red
 					self.likesCountLabel.stringValue = "\(likes.contains(myID) ? likes.count : likes.count+1)"
 				}
 			}
 		}
 	}
 
+	var runningImageTasks = Set<URLSessionDataTask>()
 	var message: GMMessage! {
 		didSet {
 			nameLabel.stringValue = message.name
@@ -157,15 +158,15 @@ final class UserMessageCell: NSCollectionViewItem {
 			if message.favoritedBy.count > 0 {
 				likesCountLabel.stringValue = "\(message.favoritedBy.count)"
 				if message.favoritedBy.contains(MessagesViewController.me.id) {
-					heartButton.attributedTitle = Hearts.red
+					heartButton.heart = Hearts.red
 				}
 				else {
-					heartButton.attributedTitle = Hearts.grey
+					heartButton.heart = Hearts.grey
 				}
 			}
 			else {
 				likesCountLabel.stringValue = ""
-				heartButton.attributedTitle = Hearts.outline
+				heartButton.heart = Hearts.outline
 			}
 
 			if MessagesViewController.me.id == message.senderID {
@@ -176,11 +177,14 @@ final class UserMessageCell: NSCollectionViewItem {
 			}
 
 			avatarImageView.image = #imageLiteral(resourceName: "Person Default Image")
-			HTTP.handleImage(at: message.avatarURL, with: { (image: NSImage) in
-				DispatchQueue.main.async {
-					self.avatarImageView.image = image
-				}
-			})
+			if let url = message.avatarURL {
+				let runningTask = HTTP.handleImage(at: url, with: { (image: NSImage) in
+					DispatchQueue.main.async {
+						self.avatarImageView.image = image
+					}
+				})
+				runningImageTasks.insert(runningTask)
+			}
 		}
 	}
 

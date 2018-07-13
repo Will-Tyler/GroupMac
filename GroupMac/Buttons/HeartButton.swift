@@ -9,8 +9,14 @@
 import Cocoa
 
 class HeartButton: CursorButton {
-	
+
+	typealias Heart = NSAttributedString
+
 	var previousTitle: NSAttributedString?
+	var heart: Heart {
+		get { return attributedTitle }
+		set { attributedTitle = newValue }
+	}
 
 	override func mouseEntered(with event: NSEvent) {
 		super.mouseEntered(with: event)

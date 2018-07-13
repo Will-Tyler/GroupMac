@@ -61,11 +61,13 @@ final class ConversationCell: NSCollectionViewItem {
 				previewLabel.stringValue = group.messagesInfo.preview.text ?? ""
 			}
 
-			HTTP.handleImage(at: conversation.imageURL, with: { (image: NSImage) in
-				DispatchQueue.main.async {
-					self.groupImageView.image = image
-				}
-			})
+			if let url = conversation.imageURL {
+				HTTP.handleImage(at: url, with: { (image: NSImage) in
+					DispatchQueue.main.async {
+						self.groupImageView.image = image
+					}
+				})
+			}
 
 			if conversation.convoType == .chat {
 				DispatchQueue.main.async {
