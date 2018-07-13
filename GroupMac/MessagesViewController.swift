@@ -84,8 +84,8 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 
 		return field
 	}()
-	private let sendButton: CustomCursorButton = {
-		let button = CustomCursorButton(title: "", target: self, action: #selector(sendButtonAction(sender:)))
+	private let sendButton: CursorButton = {
+		let button = CursorButton(title: "", target: self, action: #selector(sendButtonAction(sender:)))
 
 		button.attributedTitle = NSAttributedString(string: "Send", attributes: [.font: Fonts.bold, .foregroundColor: Colors.systemText])
 		button.font = Fonts.bold
@@ -244,7 +244,7 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 		scrollView.reflectScrolledClipView(scrollView.contentView)
 	}
 
-	@objc private func heartButtonAction(sender: CustomCursorButton) {
+	@objc private func heartButtonAction(sender: CursorButton) {
 		let messageCell = messagesCollectionView.item(at: sender.tag)! as! UserMessageCell
 		messageCell.toggleLike()
 	}

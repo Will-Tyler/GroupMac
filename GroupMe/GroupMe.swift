@@ -65,7 +65,7 @@ class GroupMe {
 
 		var messages: [GroupMe.Group.Message] {
 			get {
-				let responseData = try! GroupMe.apiRequest(pathComponent: "/groups/\(id)/messages", additionalParameters: ["limit": "100"])
+				let responseData = try! GroupMe.apiRequest(pathComponent: "/groups/\(id)/messages"/*, additionalParameters: ["limit": "100"]*/)
 				let countAndMessages = try! JSONSerialization.jsonObject(with: responseData) as! [String: Any]
 
 				let messages: [Group.Message] = {
