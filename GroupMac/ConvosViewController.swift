@@ -89,7 +89,7 @@ class ConvosViewController: NSViewController, NSCollectionViewDelegateFlowLayout
 		if indexPath.item != 0 { cell.addSeparatorToTop() }
 
 		let options = NSTrackingArea.Options.mouseEnteredAndExited.union(.activeInActiveApp)
-		let trackingArea = NSTrackingArea(rect: cell.view.bounds, options: options, owner: cell, userInfo: nil)
+		let trackingArea = NSTrackingArea(rect: cell.view.bounds, options: options, owner: cell.view, userInfo: nil)
 
 		cell.view.addTrackingArea(trackingArea)
 

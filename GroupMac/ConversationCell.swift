@@ -20,6 +20,7 @@ final class ConversationCell: NSCollectionViewItem {
 		field.isBezeled = false
 		field.font = Fonts.regular
 		field.backgroundColor = .clear
+		field.isSelectable = false
 
 		return field
 	}()
@@ -30,6 +31,7 @@ final class ConversationCell: NSCollectionViewItem {
 		field.isBezeled = false
 		field.font = Fonts.regularSmall
 		field.backgroundColor = .clear
+		field.isSelectable = false
 
 		return field
 	}()
@@ -141,12 +143,16 @@ final class ConversationCell: NSCollectionViewItem {
 	override func mouseEntered(with event: NSEvent) {
 		super.mouseEntered(with: event)
 
+		NSCursor.pointingHand.push()
+
 		if !isSelected {
 			view.backColor = Colors.semiWhite
 		}
 	}
 	override func mouseExited(with event: NSEvent) {
 		super.mouseExited(with: event)
+
+		NSCursor.pop()
 
 		if !isSelected {
 			view.backColor = Colors.background

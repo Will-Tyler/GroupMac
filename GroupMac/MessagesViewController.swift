@@ -55,6 +55,7 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 			let flow = NSCollectionViewFlowLayout()
 
 			flow.minimumLineSpacing = 0
+			flow.scrollDirection = .vertical
 
 			return flow
 		}()
@@ -197,11 +198,18 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 					}
 				})
 			}
+			else {
+				groupImageView.image = #imageLiteral(resourceName: "Group Default Image")
+			}
 
 			if self.conversation.convoType == .chat {
 				self.groupImageView.wantsLayer = true
 				self.groupImageView.layer!.cornerRadius = self.groupImageView.bounds.width / 2
 				self.groupImageView.layer!.masksToBounds = true
+			}
+			else {
+				groupImageView.wantsLayer = true
+				groupImageView.layer!.cornerRadius = 0
 			}
 		}
 	}
