@@ -11,8 +11,6 @@ import Cocoa
 
 class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayout, NSCollectionViewDataSource {
 
-	static let me = GroupMe.me
-
 	private let containerView: NSView = {
 		let view = NSView()
 
@@ -217,9 +215,7 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 		didSet {
 			messagesCollectionView.visibleItems().forEach { (cell) in
 				if let userCell = cell as? UserMessageCell {
-					userCell.runningImageTasks.forEach({ (task) in
-						task.cancel()
-					})
+					userCell.cancelRunningImageTasks()
 				}
 			}
 			DispatchQueue.main.async {

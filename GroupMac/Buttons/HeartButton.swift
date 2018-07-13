@@ -12,7 +12,10 @@ class HeartButton: CursorButton {
 
 	typealias Heart = NSAttributedString
 
-	var previousTitle: NSAttributedString?
+	private var previousTitle: NSAttributedString?
+	private var isLiked: Bool {
+		get { return attributedTitle == Hearts.red }
+	}
 	var heart: Heart {
 		get { return attributedTitle }
 		set { attributedTitle = newValue }
@@ -21,7 +24,7 @@ class HeartButton: CursorButton {
 	override func mouseEntered(with event: NSEvent) {
 		super.mouseEntered(with: event)
 
-		if attributedTitle == Hearts.red {
+		if isLiked {
 			previousTitle = nil
 		}
 		else {
@@ -32,6 +35,7 @@ class HeartButton: CursorButton {
 	override func mouseExited(with event: NSEvent) {
 		super.mouseExited(with: event)
 
+		guard !isLiked else { return }
 		if let title = previousTitle {
 			attributedTitle = title
 		}

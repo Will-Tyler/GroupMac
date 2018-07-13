@@ -56,6 +56,11 @@ final class ConversationCell: NSCollectionViewItem {
 						self.previewLabel.stringValue = previewText
 					}
 				})
+				DispatchQueue.main.async { // doesn't do anything without this - weird
+					self.groupImageView.wantsLayer = true
+					self.groupImageView.layer!.cornerRadius = self.groupImageView.bounds.width / 2
+					self.groupImageView.layer!.masksToBounds = true
+				}
 
 			case .group:
 				let group = conversation as! GroupMe.Group
@@ -69,14 +74,6 @@ final class ConversationCell: NSCollectionViewItem {
 						self.groupImageView.image = image
 					}
 				})
-			}
-
-			if conversation.convoType == .chat {
-				DispatchQueue.main.async {
-					self.groupImageView.wantsLayer = true
-					self.groupImageView.layer!.cornerRadius = (self.view.bounds.height - 8) / 2
-					self.groupImageView.layer!.masksToBounds = true
-				}
 			}
 		}
 	}

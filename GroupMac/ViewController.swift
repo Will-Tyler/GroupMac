@@ -11,11 +11,14 @@ import Cocoa
 
 class ViewController: NSViewController {
 
+	static let me = GroupMe.me
+
 	private let detailView = NSView()
 	private let welcomeLabel: NSTextField = {
+		let firstName = me.name.split(separator: " ").first!
 		let welcome =
 		"""
-		You look great today.
+		You look great today, \(firstName).
 		Pop open a chat to start the conversation.
 		"""
 		let field = NSTextField(wrappingLabelWithString: welcome)
