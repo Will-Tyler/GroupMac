@@ -190,11 +190,13 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 			messages = conversation.blandMessages
 			titleLabel.stringValue = conversation.name
 
-			HTTP.handleImage(at: conversation.imageURL, with: { (image: NSImage) in
-				DispatchQueue.main.async {
-					self.groupImageView.image = image
-				}
-			})
+			if let url = conversation.imageURL {
+				HTTP.handleImage(at: url, with: { (image: NSImage) in
+					DispatchQueue.main.async {
+						self.groupImageView.image = image
+					}
+				})
+			}
 
 			if self.conversation.convoType == .chat {
 				self.groupImageView.wantsLayer = true
@@ -205,6 +207,13 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 	}
 	private var messages: [GMMessage]? {
 		didSet {
+			messagesCollectionView.visibleItems().forEach { (cell) in
+				if let userCell = cell as? UserMessageCell {
+					userCell.runningImageTasks.forEach({ (task) in
+						task.cancel()
+					})
+				}
+			}
 			DispatchQueue.main.async {
 				self.messagesCollectionView.reloadData()
 				self.scrollToBottom()
