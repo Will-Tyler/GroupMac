@@ -117,11 +117,11 @@ final class UserMessageCell: NSCollectionViewItem {
 	}
 
 	func toggleLike() {
-		let myID = MessagesViewController.me.id
+		let myID = ViewController.me.id
 		let isLiked = likes.contains(myID)
 		if isLiked {
 			message.unlike {
-				self.likes = self.likes.filter({ $0 != MessagesViewController.me.id })
+				self.likes = self.likes.filter({ $0 != ViewController.me.id })
 				if self.message.favoritedBy.count > 1 {
 					DispatchQueue.main.async {
 						self.heartButton.heart = Hearts.grey
@@ -138,7 +138,7 @@ final class UserMessageCell: NSCollectionViewItem {
 		}
 		else {
 			message.like {
-				self.likes.append(MessagesViewController.me.id)
+				self.likes.append(ViewController.me.id)
 				DispatchQueue.main.async {
 					self.heartButton.heart = Hearts.red
 					self.likesCountLabel.stringValue = "\(self.likes.count)"
@@ -146,10 +146,12 @@ final class UserMessageCell: NSCollectionViewItem {
 			}
 		}
 	}
+	func cancelRunningImageTasks() {
+		runningImageTasks.forEach({ $0.cancel() })
+	}
 
 	private var likes: [String]!
-
-	var runningImageTasks = Set<URLSessionDataTask>()
+	private var runningImageTasks = Set<URLSessionDataTask>()
 	var message: GMMessage! {
 		didSet {
 			nameLabel.stringValue = message.name
@@ -162,7 +164,7 @@ final class UserMessageCell: NSCollectionViewItem {
 
 			if message.favoritedBy.count > 0 {
 				likesCountLabel.stringValue = "\(message.favoritedBy.count)"
-				if message.favoritedBy.contains(MessagesViewController.me.id) {
+				if message.favoritedBy.contains(ViewController.me.id) {
 					heartButton.heart = Hearts.red
 				}
 				else {
@@ -174,7 +176,7 @@ final class UserMessageCell: NSCollectionViewItem {
 				heartButton.heart = Hearts.outline
 			}
 
-			if MessagesViewController.me.id == message.senderID {
+			if ViewController.me.id == message.senderID {
 				view.backColor = Colors.personalBlue
 			}
 			else {
