@@ -163,26 +163,27 @@ final class UserMessageCell: NSCollectionViewItem {
 	}
 	private func addImage(from url: URL) {
 		let imageView = NSImageView()
+		let imageSize = GroupMe.imageSize(from: url)
+
+		attachmentView.addSubview(imageView)
+		view.addSubview(attachmentView)
+
+		imageView.translatesAutoresizingMaskIntoConstraints = false
+		imageView.topAnchor.constraint(equalTo: attachmentView.topAnchor, constant: 4).isActive = true
+		imageView.leadingAnchor.constraint(equalTo: attachmentView.leadingAnchor, constant: 4).isActive = true
+		imageView.bottomAnchor.constraint(equalTo: attachmentView.bottomAnchor, constant: -4).isActive = true
+		imageView.trailingAnchor.constraint(equalTo: attachmentView.trailingAnchor, constant: -4).isActive = true
+
+		attachmentView.translatesAutoresizingMaskIntoConstraints = false
+		attachmentView.topAnchor.constraint(equalTo: textLabel.stringValue.isEmpty ? nameLabel.bottomAnchor : textLabel.bottomAnchor).isActive = true
+		attachmentView.leadingAnchor.constraint(equalTo: textLabel.leadingAnchor).isActive = true
+		attachmentView.trailingAnchor.constraint(lessThanOrEqualTo: textLabel.trailingAnchor).isActive = true
+		attachmentView.widthAnchor.constraint(lessThanOrEqualToConstant: imageSize.width).isActive = true
+		attachmentView.heightAnchor.constraint(equalTo: attachmentView.widthAnchor, multiplier: imageSize.height / imageSize.width).isActive = true
 
 		let task = HTTP.handleImage(at: url) { (image) in
 			DispatchQueue.main.async {
 				imageView.image = image
-
-				self.attachmentView.addSubview(imageView)
-				self.view.addSubview(self.attachmentView)
-
-				imageView.translatesAutoresizingMaskIntoConstraints = false
-				imageView.topAnchor.constraint(equalTo: self.attachmentView.topAnchor, constant: 4).isActive = true
-				imageView.leadingAnchor.constraint(equalTo: self.attachmentView.leadingAnchor, constant: 4).isActive = true
-				imageView.bottomAnchor.constraint(equalTo: self.attachmentView.bottomAnchor, constant: -4).isActive = true
-				imageView.trailingAnchor.constraint(equalTo: self.attachmentView.trailingAnchor, constant: -4).isActive = true
-
-				self.attachmentView.translatesAutoresizingMaskIntoConstraints = false
-				self.attachmentView.topAnchor.constraint(equalTo: self.textLabel.stringValue.isEmpty ? self.nameLabel.bottomAnchor : self.textLabel.bottomAnchor).isActive = true
-				self.attachmentView.leadingAnchor.constraint(equalTo: self.textLabel.leadingAnchor).isActive = true
-				self.attachmentView.trailingAnchor.constraint(lessThanOrEqualTo: self.textLabel.trailingAnchor).isActive = true
-				self.attachmentView.widthAnchor.constraint(lessThanOrEqualToConstant: image.size.width).isActive = true
-				self.attachmentView.heightAnchor.constraint(equalTo: self.attachmentView.widthAnchor, multiplier: image.size.height / image.size.width).isActive = true
 			}
 		}
 		runningImageTasks.insert(task)
@@ -235,10 +236,11 @@ final class UserMessageCell: NSCollectionViewItem {
 				runningImageTasks.insert(runningTask)
 			}
 
-			message.attachments?.forEach({ (dict) in
-				let isImage = dict["type"] == "image"
-				if isImage, let urlString = dict["url"], let url = URL(string: urlString) {
-					addImage(from: url)
+			message.attachments.forEach({ (attachment) in
+				if attachment.contentType == .image {
+					let attachedImage = attachment as! GroupMe.Attachment.Image
+					let imageURL = attachedImage.url
+					addImage(from: imageURL)
 				}
 			})
 		}

@@ -324,8 +324,9 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 				let textHeight = nameEstimate.height + (textEstimate?.height ?? 0)
 
 				var attachmentHeight: CGFloat = 0
-				message.attachments?.forEach({ (attachment) in
-					if attachment["type"] == "image", let imageURLString = attachment["url"], let imageURL = URL(string: imageURLString) {
+				message.attachments.forEach({ (attachment) in
+					if attachment.contentType == .image, let attachedImage = attachment as? GroupMe.Attachment.Image {
+						let imageURL = attachedImage.url
 						let size = GroupMe.imageSize(from: imageURL)
 						let containerWidth = size.width + 8
 

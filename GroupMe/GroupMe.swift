@@ -143,7 +143,7 @@ class GroupMe {
 		}
 		
 		class Message: Decodable {
-			let attachments: [[String: String]]?
+			let attachments: [GroupMe.Attachment]
 			let avatarURL: URL?
 			let createdAt: Int
 			let favoritedBy: [String]
@@ -176,7 +176,7 @@ class GroupMe {
 			required init(from decoder: Decoder) throws {
 				let values = try decoder.container(keyedBy: CodingKeys.self)
 
-				self.attachments = try? values.decode([[String: String]].self, forKey: .attachments)
+				self.attachments = try values.decode([Attachment].self, forKey: .attachments)
 				self.avatarURL = try values.decode(URL?.self, forKey: .avatarURL)
 				self.createdAt = try values.decode(Int.self, forKey: .createdAt)
 				self.favoritedBy = try values.decode([String].self, forKey: .favoritedBy)

@@ -100,7 +100,7 @@ extension GroupMe.Chat {
 
 extension GroupMe.Chat {
 	class Message: Decodable {
-		let attachments: [[String: String]]?
+		let attachments: [GroupMe.Attachment]
 		let avatarURL: URL?
 		let chatID: String
 		let createdAt: Int
@@ -117,7 +117,7 @@ extension GroupMe.Chat {
 		required init(from decoder: Decoder) throws {
 			let values = try decoder.container(keyedBy: CodingKeys.self)
 
-			self.attachments = try? values.decode([[String: String]].self, forKey: .attachments)
+			self.attachments = try values.decode([GroupMe.Attachment].self, forKey: .attachments)
 			self.avatarURL = try values.decode(URL?.self, forKey: .avatarURL)
 			self.chatID = try values.decode(String.self, forKey: .chatID)
 			self.createdAt = try values.decode(Int.self, forKey: .createdAt)
