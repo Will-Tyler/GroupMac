@@ -16,6 +16,7 @@ protocol GMMessage {
 	var isSystem: Bool { get }
 	var favoritedBy: [String] { get }
 	var senderID: String { get }
+	var attachments: [[String: String]]? { get }
 
 	func like(successHandler: @escaping ()->())
 	func unlike(successHandler: @escaping ()->())

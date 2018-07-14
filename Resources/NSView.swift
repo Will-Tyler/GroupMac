@@ -10,6 +10,7 @@ import Cocoa
 
 
 extension NSView {
+	
 	var backColor: CGColor? {
 		get {
 			if wantsLayer {
@@ -24,4 +25,9 @@ extension NSView {
 			layer!.backgroundColor = newColor
 		}
 	}
+
+	func removeSubviews() {
+		subviews.forEach({ $0.removeFromSuperview() })
+	}
+
 }

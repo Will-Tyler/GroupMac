@@ -314,13 +314,34 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 			}
 			else {
 				let labels = (name: message.name as NSString, text: message.text as NSString?)
-				let restrictedSize = CGSize(width: collectionView.bounds.width - (16+30+22), height: .greatestFiniteMagnitude)
+				let operatingWidth = collectionView.bounds.width - (16+30+22)
+				let restrictedSize = CGSize(width: operatingWidth, height: .greatestFiniteMagnitude)
 				let drawingOptions = NSString.DrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
 
 				let nameEstimate: CGRect = labels.name.boundingRect(with: restrictedSize, options: drawingOptions, attributes: [.font: Fonts.boldSmall])
 				let textEstimate: CGRect? = labels.text?.boundingRect(with: restrictedSize, options: drawingOptions, attributes: [.font: Fonts.regular])
 
-				return nameEstimate.height + (textEstimate?.height ?? 0)
+				let textHeight = nameEstimate.height + (textEstimate?.height ?? 0)
+
+				var attachmentHeight: CGFloat = 0
+				message.attachments?.forEach({ (attachment) in
+					if attachment["type"] == "image", let imageURLString = attachment["url"], let imageURL = URL(string: imageURLString) {
+						let size = GroupMe.imageSize(from: imageURL)
+						let containerWidth = size.width + 8
+
+						guard operatingWidth < containerWidth else {
+							attachmentHeight += size.height + 8
+
+							return
+						}
+
+						let containerHeight = (operatingWidth * (size.height / size.width)) + 8
+
+						attachmentHeight += containerHeight
+					}
+				})
+
+				return textHeight + attachmentHeight
 			}
 		}()
 
