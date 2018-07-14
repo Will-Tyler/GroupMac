@@ -67,6 +67,18 @@ final class UserMessageCell: NSCollectionViewItem {
 
 		return field
 	}()
+	private let attachmentView: NSView = {
+		let view = NSView()
+
+		view.backColor = .white
+		view.wantsLayer = true
+		view.layer!.borderColor = Colors.border
+		view.layer!.borderWidth = 1
+		view.layer!.cornerRadius = 3
+		view.layer!.masksToBounds = true
+
+		return view
+	}()
 
 	private func setupInitialLayout() {
 		let likesView = NSView()
@@ -149,6 +161,32 @@ final class UserMessageCell: NSCollectionViewItem {
 	func cancelRunningImageTasks() {
 		runningImageTasks.forEach({ $0.cancel() })
 	}
+	private func addImage(from url: URL) {
+		let imageView = NSImageView()
+
+		let task = HTTP.handleImage(at: url) { (image) in
+			DispatchQueue.main.async {
+				imageView.image = image
+
+				self.attachmentView.addSubview(imageView)
+				self.view.addSubview(self.attachmentView)
+
+				imageView.translatesAutoresizingMaskIntoConstraints = false
+				imageView.topAnchor.constraint(equalTo: self.attachmentView.topAnchor, constant: 4).isActive = true
+				imageView.leadingAnchor.constraint(equalTo: self.attachmentView.leadingAnchor, constant: 4).isActive = true
+				imageView.bottomAnchor.constraint(equalTo: self.attachmentView.bottomAnchor, constant: -4).isActive = true
+				imageView.trailingAnchor.constraint(equalTo: self.attachmentView.trailingAnchor, constant: -4).isActive = true
+
+				self.attachmentView.translatesAutoresizingMaskIntoConstraints = false
+				self.attachmentView.topAnchor.constraint(equalTo: self.textLabel.stringValue.isEmpty ? self.nameLabel.bottomAnchor : self.textLabel.bottomAnchor).isActive = true
+				self.attachmentView.leadingAnchor.constraint(equalTo: self.textLabel.leadingAnchor).isActive = true
+				self.attachmentView.trailingAnchor.constraint(lessThanOrEqualTo: self.textLabel.trailingAnchor).isActive = true
+				self.attachmentView.widthAnchor.constraint(lessThanOrEqualToConstant: image.size.width).isActive = true
+				self.attachmentView.heightAnchor.constraint(equalTo: self.attachmentView.widthAnchor, multiplier: image.size.height / image.size.width).isActive = true
+			}
+		}
+		runningImageTasks.insert(task)
+	}
 
 	private var likes: [String]!
 	private var runningImageTasks = Set<URLSessionDataTask>()
@@ -158,8 +196,12 @@ final class UserMessageCell: NSCollectionViewItem {
 
 			likes = message.favoritedBy
 
-			if let text = message.text {
-				textLabel.stringValue = text
+			textLabel.stringValue = message.text ?? ""
+
+			// Reset attachment view
+			if view.subviews.contains(attachmentView) {
+				attachmentView.removeSubviews()
+				attachmentView.removeFromSuperview()
 			}
 
 			if message.favoritedBy.count > 0 {
@@ -192,6 +234,13 @@ final class UserMessageCell: NSCollectionViewItem {
 				})
 				runningImageTasks.insert(runningTask)
 			}
+
+			message.attachments?.forEach({ (dict) in
+				let isImage = dict["type"] == "image"
+				if isImage, let urlString = dict["url"], let url = URL(string: urlString) {
+					addImage(from: url)
+				}
+			})
 		}
 	}
 

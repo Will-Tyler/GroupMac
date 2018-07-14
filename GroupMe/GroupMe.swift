@@ -143,7 +143,7 @@ class GroupMe {
 		}
 		
 		class Message: Decodable {
-			let attachments: [[String: Any]]?
+			let attachments: [[String: String]]?
 			let avatarURL: URL?
 			let createdAt: Int
 			let favoritedBy: [String]
@@ -232,6 +232,14 @@ class GroupMe {
 		let jsonDict = try! JSONSerialization.jsonObject(with: data) as! [String: Any]
 
 		return (jsonDict["meta"] as! [String: Any])["code"] as! Int
+	}
+	static func imageSize(from url: URL) -> NSSize {
+		let urlString = url.absoluteString
+		let ending = urlString.split(separator: "/").last!
+		let sizeString = ending.split(separator: ".").first!
+		let sizes = sizeString.split(separator: "x")
+
+		return NSSize(width: Int(sizes.first!)!, height: Int(sizes.last!)!)
 	}
 	static func apiContact(pathComponent: String, requestMethod: HTTP.RequestMethod = .post) {
 		let request = URLRequest(url: baseURL.appendingPathComponent(pathComponent))
