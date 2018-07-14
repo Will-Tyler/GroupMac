@@ -69,9 +69,9 @@ class GroupMe {
 				let countAndMessages = try! JSONSerialization.jsonObject(with: responseData) as! [String: Any]
 
 				let messages: [Group.Message] = {
-					let data = try! JSONSerialization.data(withJSONObject: countAndMessages["messages"]!)
+					let messageData = try! JSONSerialization.data(withJSONObject: countAndMessages["messages"]!)
 
-					return try! JSONDecoder().decode([Group.Message].self, from: data)
+					return try! JSONDecoder().decode([Group.Message].self, from: messageData)
 				}()
 
 				return messages
@@ -143,7 +143,7 @@ class GroupMe {
 		}
 		
 		class Message: Decodable {
-			let attachments: [GroupMe.Attachment]
+			let attachments: [Attachment]
 			let avatarURL: URL?
 			let createdAt: Int
 			let favoritedBy: [String]

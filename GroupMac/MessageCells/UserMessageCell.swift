@@ -238,9 +238,8 @@ final class UserMessageCell: NSCollectionViewItem {
 
 			message.attachments.forEach({ (attachment) in
 				if attachment.contentType == .image {
-					let attachedImage = attachment as! GroupMe.Attachment.Image
-					let imageURL = attachedImage.url
-					addImage(from: imageURL)
+					let image = attachment.content! as! GroupMe.Attachment.Image
+					addImage(from: image.url)
 				}
 			})
 		}

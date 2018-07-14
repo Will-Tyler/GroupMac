@@ -12,16 +12,34 @@ extension GroupMe {
 	class Attachment: Decodable {
 
 		let contentType: ContentType
+		let content: Any?
 
-		init(from decoder: Decoder) throws {
+		required init(from decoder: Decoder) throws {
 			let values = try! decoder.container(keyedBy: CodingKeys.self)
 
 			let contentString = try! values.decode(String.self, forKey: .contentType)
 
 			self.contentType = ContentType(rawValue: contentString) ?? .notSupported
 
-			if self.contentType == .image {
-				self = try Image.init(from: decoder)
+			switch contentType {
+			case .image:
+				content = Image(url: try! values.decode(URL.self, forKey: .url))
+
+			case .location:
+				let lat = Double(try! values.decode(String.self, forKey: .lat))!
+				let lng = Double(try! values.decode(String.self, forKey: .lng))!
+				let name = try! values.decode(String.self, forKey: .name)
+
+				content = Location(latitude: lat, longitude: lng, name: name)
+
+			case .split:
+				content = Split(token: try! values.decode(String.self, forKey: .token))
+
+			case .emoji:
+				content = Emoji(placeholder: try! values.decode(String.self, forKey: .placeholder), charmap: try! values.decode([[Int]].self, forKey: .charmap))
+
+			case .notSupported:
+				content = nil
 			}
 		}
 
@@ -35,23 +53,77 @@ extension GroupMe {
 
 		private enum CodingKeys: String, CodingKey {
 			case contentType = "type"
+			case url
+			case lat
+			case lng
+			case name
+			case token
+			case placeholder
+			case charmap
 		}
 
-		class Image: Attachment {
+		struct Image {
 			let url: URL
+		}
 
-			init(from decoder: Decoder) throws {
-				let values = try! decoder.container(keyedBy: AdditionalKeys.self)
+		struct Location {
+			let latitude: Double
+			let longitude: Double
+			let name: String
+		}
 
-				self.url = try! values.decode(URL.self, forKey: .url)
+		struct Split {
+			let token: String
+		}
 
-				try! super.init(from: decoder)
-			}
-
-			private enum AdditionalKeys: String, CodingKey {
-				case url
-			}
+		struct Emoji {
+			let placeholder: String
+			let charmap: [[Int]]
 		}
 
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
