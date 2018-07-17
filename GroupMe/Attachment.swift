@@ -8,6 +8,7 @@
 
 import Foundation
 
+
 extension GroupMe {
 	class Attachment: Decodable {
 

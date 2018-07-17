@@ -277,8 +277,9 @@ class GroupMe {
 			throw "Received nil data..."
 		}
 
-		guard responseCode(from: data) == 200 else {
-			throw "Non-200 HTTP response code: \(responseCode)"
+		let code = responseCode(from: data)
+		guard code == 200 else {
+			throw "Non-200 HTTP response code: \(code)"
 		}
 
 		let json = try JSONSerialization.jsonObject(with: data) as! [String: Any]

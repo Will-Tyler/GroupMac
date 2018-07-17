@@ -162,28 +162,38 @@ final class UserMessageCell: NSCollectionViewItem {
 		runningImageTasks.forEach({ $0.cancel() })
 	}
 	private func addImage(from url: URL) {
-		let imageView = NSImageView()
 		let imageSize = GroupMe.imageSize(from: url)
 
-		attachmentView.addSubview(imageView)
-		view.addSubview(attachmentView)
+		print(url)
 
-		imageView.translatesAutoresizingMaskIntoConstraints = false
-		imageView.topAnchor.constraint(equalTo: attachmentView.topAnchor, constant: 4).isActive = true
-		imageView.leadingAnchor.constraint(equalTo: attachmentView.leadingAnchor, constant: 4).isActive = true
-		imageView.bottomAnchor.constraint(equalTo: attachmentView.bottomAnchor, constant: -4).isActive = true
-		imageView.trailingAnchor.constraint(equalTo: attachmentView.trailingAnchor, constant: -4).isActive = true
+		view.addSubview(attachmentView)
 
 		attachmentView.translatesAutoresizingMaskIntoConstraints = false
 		attachmentView.topAnchor.constraint(equalTo: textLabel.stringValue.isEmpty ? nameLabel.bottomAnchor : textLabel.bottomAnchor).isActive = true
 		attachmentView.leadingAnchor.constraint(equalTo: textLabel.leadingAnchor).isActive = true
-		attachmentView.trailingAnchor.constraint(lessThanOrEqualTo: textLabel.trailingAnchor).isActive = true
+		attachmentView.trailingAnchor.constraint(equalTo: textLabel.trailingAnchor).isActive = true
 		attachmentView.widthAnchor.constraint(lessThanOrEqualToConstant: imageSize.width).isActive = true
-		attachmentView.heightAnchor.constraint(equalTo: attachmentView.widthAnchor, multiplier: imageSize.height / imageSize.width).isActive = true
+		let aspectRatio = imageSize.height / imageSize.width
+		attachmentView.heightAnchor.constraint(equalTo: attachmentView.widthAnchor, multiplier: aspectRatio).isActive = true
 
 		let task = HTTP.handleImage(at: url) { (image) in
 			DispatchQueue.main.async {
-				imageView.image = image
+				let imageView: NSImageView = {
+					let imageView = NSImageView()
+
+					imageView.imageScaling = .scaleProportionallyUpOrDown
+					imageView.image = image
+
+					return imageView
+				}()
+
+				self.attachmentView.addSubview(imageView)
+
+				imageView.translatesAutoresizingMaskIntoConstraints = false
+				imageView.topAnchor.constraint(equalTo: self.attachmentView.topAnchor, constant: 4).isActive = true
+				imageView.leadingAnchor.constraint(equalTo: self.attachmentView.leadingAnchor, constant: 4).isActive = true
+				imageView.bottomAnchor.constraint(equalTo: self.attachmentView.bottomAnchor, constant: -4).isActive = true
+				imageView.trailingAnchor.constraint(equalTo: self.attachmentView.trailingAnchor, constant: -4).isActive = true
 			}
 		}
 		runningImageTasks.insert(task)
