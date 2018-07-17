@@ -232,6 +232,7 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 		super.viewDidLoad()
 
 		scrollView.documentView = messagesCollectionView
+		NotificationCenter.default.addObserver(self, selector: #selector(scrollViewDidScroll(notification:)), name: NSView.boundsDidChangeNotification, object: scrollView.contentView)
 		
 		messagesCollectionView.delegate = self
 		messagesCollectionView.dataSource = self
@@ -245,20 +246,22 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 
 		messagesCollectionView.collectionViewLayout!.invalidateLayout()
 	}
-	override func viewDidAppear() {
-		super.viewDidAppear()
+	override func viewWillAppear() {
+		super.viewWillAppear()
 
 		scrollToBottom()
 	}
 
 	private func scrollToBottom() {
 		let scrollPoint = NSPoint(x: 0, y: messagesCollectionView.bounds.height - scrollView.bounds.height)
+
 		scrollView.contentView.scroll(to: scrollPoint)
 		scrollView.reflectScrolledClipView(scrollView.contentView)
 	}
 
 	@objc private func heartButtonAction(sender: CursorButton) {
 		let messageCell = messagesCollectionView.item(at: sender.tag)! as! UserMessageCell
+
 		messageCell.toggleLike()
 	}
 
@@ -313,8 +316,8 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 				return 42
 			}
 			else {
-				let labels = (name: message.name as NSString, text: message.text as NSString?)
 				let operatingWidth = collectionView.bounds.width - (16+30+22)
+				let labels = (name: message.name as NSString, text: message.text as NSString?)
 				let restrictedSize = CGSize(width: operatingWidth, height: .greatestFiniteMagnitude)
 				let drawingOptions = NSString.DrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
 
@@ -327,16 +330,17 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 				message.attachments.forEach({ (attachment) in
 					if attachment.contentType == .image, let image = attachment.content! as? GroupMe.Attachment.Image {
 						let imageURL = image.url
-						let size = GroupMe.imageSize(from: imageURL)
-						let containerWidth = size.width + 8
+						let maxImageSize = GroupMe.imageSize(from: imageURL)
+						let maxContainerWidth = maxImageSize.width + 8
 
-						guard operatingWidth < containerWidth else {
-							attachmentHeight += size.height + 8
+						guard operatingWidth < maxContainerWidth else {
+							attachmentHeight += maxImageSize.height + 8
 
 							return
 						}
 
-						let containerHeight = (operatingWidth * (size.height / size.width)) + 8
+						let aspectRatio = maxImageSize.height / maxImageSize.width
+						let containerHeight = (operatingWidth * aspectRatio) + 8
 
 						attachmentHeight += containerHeight
 					}
@@ -347,6 +351,14 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 		}()
 
 		return NSSize(width: collectionView.bounds.width-2, height: desiredHeight)
+	}
+
+	// MARK: Scroll view
+	@objc private func scrollViewDidScroll(notification: NSNotification) {
+		let percentScrolled = Int(scrollView.verticalScroller!.floatValue * 100)
+		if percentScrolled < 10 {
+			print("Scroll view did near top...")
+		}
 	}
 }
 
