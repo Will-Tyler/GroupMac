@@ -45,6 +45,25 @@ extension GroupMe {
 				return messages
 			}
 		}
+		@discardableResult func handleMessages(with handler: @escaping ([Chat.Message])->(), beforeID: String? = nil) -> URLSessionDataTask {
+			var params = ["other_user_id": otherUser.id]
+			if let before = beforeID {
+				params["before_id"] = before
+			}
+
+			let runningTask = GroupMe.betterAPIRequest(appendingPathComponent: "direct_messages", additionalParameters: params) { (data: Data) in
+				guard GroupMe.responseCode(from: data) == 200 else { return }
+
+				let response = try! JSONSerialization.jsonObject(with: data) as! [String: Any]
+				let countAndMessages = response["response"] as! [String: Any]
+				let messageData = try! JSONSerialization.data(withJSONObject: countAndMessages["direct_messages"]!)
+				let messages = try! JSONDecoder().decode([Chat.Message].self, from: messageData)
+
+				handler(messages)
+			}
+
+			return runningTask
+		}
 	}
 }
 
