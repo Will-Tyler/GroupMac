@@ -77,6 +77,18 @@ class GroupMe {
 				return messages
 			}
 		}
+		@discardableResult func handleMessages(with handler: @escaping ([Group.Message])->(), beforeID: String? = nil) -> URLSessionDataTask {
+			return GroupMe.betterAPIRequest(appendingPathComponent: "/groups/\(id)/messages", additionalParameters: beforeID == nil ? nil : ["before_id": beforeID!]) { (data: Data) in
+				guard GroupMe.responseCode(from: data) == 200 else { return }
+
+				let response = try! JSONSerialization.jsonObject(with: data) as! [String: Any]
+				let countAndMessages = response["response"] as! [String: Any]
+				let messageData = try! JSONSerialization.data(withJSONObject: countAndMessages["messages"]!)
+				let messages = try! JSONDecoder().decode([Group.Message].self, from: messageData)
+
+				handler(messages)
+			}
+		}
 
 		func updated(name: String? = nil, description: String? = nil, imageURL: URL? = nil, officeMode: Bool? = nil, share: Bool? = nil) -> Group? {
 			if name == nil, description == nil, imageURL == nil, officeMode == nil, share == nil { return nil }
@@ -286,7 +298,7 @@ class GroupMe {
 
 		return try JSONSerialization.data(withJSONObject: json["response"]!)
 	}
-	static func betterAPIRequest(method: HTTP.RequestMethod = .get, appendingPathComponent extraPath: String, additionalParameters extraParams: [String: String]? = nil, jsonObject: Any? = nil, dataHandler: @escaping (Data)->()) {
+	@discardableResult static func betterAPIRequest(method: HTTP.RequestMethod = .get, appendingPathComponent extraPath: String, additionalParameters extraParams: [String: String]? = nil, jsonObject: Any? = nil, dataHandler: @escaping (Data)->()) -> URLSessionDataTask {
 		let components: URLComponents = {
 			let url = baseURL.appendingPathComponent(extraPath)
 			var comps = URLComponents(url: url, resolvingAgainstBaseURL: true)!
@@ -319,10 +331,14 @@ class GroupMe {
 			return req
 		}()
 
-		URLSession.shared.dataTask(with: request) { (data: Data?, response: URLResponse?, error: Error?) in
+		let task = URLSession.shared.dataTask(with: request) { (data: Data?, response: URLResponse?, error: Error?) in
 			guard error == nil, let data = data, !data.isEmpty else { return }
 			dataHandler(data)
-		}.resume()
+		}
+
+		task.resume()
+
+		return task
 	}
 
 	static var groups: [Group] {

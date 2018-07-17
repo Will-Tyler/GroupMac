@@ -209,18 +209,19 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 				groupImageView.wantsLayer = true
 				groupImageView.layer!.cornerRadius = 0
 			}
+
+			scrollToBottom()
 		}
 	}
 	private var messages: [GMMessage]? {
 		didSet {
-			messagesCollectionView.visibleItems().forEach { (cell) in
-				if let userCell = cell as? UserMessageCell {
-					userCell.cancelRunningImageTasks()
-				}
-			}
 			DispatchQueue.main.async {
+				self.messagesCollectionView.visibleItems().forEach { (cell) in
+					if let userCell = cell as? UserMessageCell {
+						userCell.cancelRunningImageTasks()
+					}
+				}
 				self.messagesCollectionView.reloadData()
-				self.scrollToBottom()
 			}
 		}
 	}
@@ -253,10 +254,12 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 	}
 
 	private func scrollToBottom() {
-		let scrollPoint = NSPoint(x: 0, y: messagesCollectionView.bounds.height - scrollView.bounds.height)
+		DispatchQueue.main.async {
+			let scrollPoint = NSPoint(x: 0, y: self.messagesCollectionView.bounds.height - self.scrollView.bounds.height)
 
-		scrollView.contentView.scroll(to: scrollPoint)
-		scrollView.reflectScrolledClipView(scrollView.contentView)
+			self.scrollView.contentView.scroll(to: scrollPoint)
+			self.scrollView.reflectScrolledClipView(self.scrollView.contentView)
+		}
 	}
 
 	@objc private func heartButtonAction(sender: CursorButton) {
@@ -354,10 +357,16 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 	}
 
 	// MARK: Scroll view
+	private var runningTask: URLSessionDataTask?
 	@objc private func scrollViewDidScroll(notification: NSNotification) {
 		let percentScrolled = Int(scrollView.verticalScroller!.floatValue * 100)
-		if percentScrolled < 10 {
-			print("Scroll view did near top...")
+
+		if percentScrolled < 10, (runningTask == nil || runningTask?.state != .running) {
+			let task = conversation.handleMessages(with: { (newMessages) in
+				self.messages!.append(contentsOf: newMessages)
+			}, beforeID: messages!.last!.id)
+
+			runningTask = task
 		}
 	}
 }

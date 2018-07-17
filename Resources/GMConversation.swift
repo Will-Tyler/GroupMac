@@ -15,6 +15,8 @@ protocol GMConversation {
 	var blandMessages: [GMMessage] { get }
 	var convoType: GMConversationType { get }
 	var imageURL: URL? { get }
+
+	@discardableResult func handleMessages(with handler: @escaping ([GMMessage])->(), beforeID: String?) -> URLSessionDataTask
 }
 
 extension GroupMe.Chat: GMConversation {
@@ -30,6 +32,10 @@ extension GroupMe.Chat: GMConversation {
 	var imageURL: URL? {
 		get { return otherUser.avatarURL }
 	}
+
+	func handleMessages(with handler: @escaping ([GMMessage])->(), beforeID: String?) -> URLSessionDataTask {
+		return handleMessages(with: handler as ([GroupMe.Chat.Message])->(), beforeID: beforeID)
+	}
 }
 
 extension GroupMe.Group: GMConversation {
@@ -38,5 +44,9 @@ extension GroupMe.Group: GMConversation {
 	}
 	var convoType: GMConversationType {
 		get { return .group }
+	}
+
+	func handleMessages(with handler: @escaping ([GMMessage]) -> (), beforeID: String?) -> URLSessionDataTask {
+		return handleMessages(with: handler as ([GroupMe.Group.Message])->(), beforeID: beforeID)
 	}
 }
