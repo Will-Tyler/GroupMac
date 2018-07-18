@@ -129,11 +129,11 @@ final class UserMessageCell: NSCollectionViewItem {
 	}
 
 	func toggleLike() {
-		let myID = ViewController.me.id
+		let myID = AppDelegate.me.id
 		let isLiked = likes.contains(myID)
 		if isLiked {
 			message.unlike {
-				self.likes = self.likes.filter({ $0 != ViewController.me.id })
+				self.likes = self.likes.filter({ $0 != AppDelegate.me.id })
 				if self.message.favoritedBy.count > 1 {
 					DispatchQueue.main.async {
 						self.heartButton.heart = Hearts.grey
@@ -150,7 +150,7 @@ final class UserMessageCell: NSCollectionViewItem {
 		}
 		else {
 			message.like {
-				self.likes.append(ViewController.me.id)
+				self.likes.append(AppDelegate.me.id)
 				DispatchQueue.main.async {
 					self.heartButton.heart = Hearts.red
 					self.likesCountLabel.stringValue = "\(self.likes.count)"
@@ -162,19 +162,34 @@ final class UserMessageCell: NSCollectionViewItem {
 		runningImageTasks.forEach({ $0.cancel() })
 	}
 	private func addImage(from url: URL) {
-		let imageSize = GroupMe.imageSize(from: url)
-
 		print(url)
 
-		view.addSubview(attachmentView)
-
-		attachmentView.translatesAutoresizingMaskIntoConstraints = false
-		attachmentView.topAnchor.constraint(equalTo: textLabel.stringValue.isEmpty ? nameLabel.bottomAnchor : textLabel.bottomAnchor).isActive = true
-		attachmentView.leadingAnchor.constraint(equalTo: textLabel.leadingAnchor).isActive = true
-		attachmentView.trailingAnchor.constraint(equalTo: textLabel.trailingAnchor).isActive = true
-		attachmentView.widthAnchor.constraint(lessThanOrEqualToConstant: imageSize.width).isActive = true
-		let aspectRatio = imageSize.height / imageSize.width
-		attachmentView.heightAnchor.constraint(equalTo: attachmentView.widthAnchor, multiplier: aspectRatio).isActive = true
+//		let image = NSImage(byReferencing: url)
+//		let imageView = NSImageView(image: image)
+//
+//		imageView.imageScaling = .scaleProportionallyUpOrDown
+//
+//		DispatchQueue.main.async {
+//			let attachView = self.attachmentView
+//
+//			attachView.addSubview(imageView)
+//
+//			imageView.translatesAutoresizingMaskIntoConstraints = false
+//			imageView.topAnchor.constraint(equalTo: attachView.topAnchor, constant: 4).isActive = true
+//			imageView.leadingAnchor.constraint(equalTo: attachView.leadingAnchor, constant: 4).isActive = true
+//			imageView.bottomAnchor.constraint(equalTo: attachView.bottomAnchor, constant: -4).isActive = true
+//			imageView.trailingAnchor.constraint(equalTo: attachView.trailingAnchor, constant: -4).isActive = true
+//
+//			let view = self.view
+//
+//			view.addSubview(attachView)
+//
+//			attachView.translatesAutoresizingMaskIntoConstraints = false
+//			attachView.topAnchor.constraint(equalTo: self.textLabel.stringValue.isEmpty ? self.nameLabel.bottomAnchor : self.textLabel.bottomAnchor).isActive = true
+//			attachView.leadingAnchor.constraint(equalTo: self.textLabel.leadingAnchor).isActive = true
+//			attachView.trailingAnchor.constraint(equalTo: self.textLabel.trailingAnchor).isActive = true
+//			attachView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+//		}
 
 		let task = HTTP.handleImage(at: url) { (image) in
 			DispatchQueue.main.async {
@@ -186,6 +201,18 @@ final class UserMessageCell: NSCollectionViewItem {
 
 					return imageView
 				}()
+
+				let imageSize = image.size
+
+				self.view.addSubview(self.attachmentView)
+
+				self.attachmentView.translatesAutoresizingMaskIntoConstraints = false
+				self.attachmentView.topAnchor.constraint(equalTo: self.textLabel.stringValue.isEmpty ? self.nameLabel.bottomAnchor : self.textLabel.bottomAnchor).isActive = true
+				self.attachmentView.leadingAnchor.constraint(equalTo: self.textLabel.leadingAnchor).isActive = true
+				self.attachmentView.trailingAnchor.constraint(equalTo: self.textLabel.trailingAnchor).isActive = true
+				self.attachmentView.widthAnchor.constraint(lessThanOrEqualToConstant: imageSize.width).isActive = true
+				let aspectRatio = imageSize.height / imageSize.width
+				self.attachmentView.heightAnchor.constraint(equalTo: self.attachmentView.widthAnchor, multiplier: aspectRatio).isActive = true
 
 				self.attachmentView.addSubview(imageView)
 
@@ -217,7 +244,7 @@ final class UserMessageCell: NSCollectionViewItem {
 
 			if message.favoritedBy.count > 0 {
 				likesCountLabel.stringValue = "\(message.favoritedBy.count)"
-				if message.favoritedBy.contains(ViewController.me.id) {
+				if message.favoritedBy.contains(AppDelegate.me.id) {
 					heartButton.heart = Hearts.red
 				}
 				else {
@@ -229,7 +256,7 @@ final class UserMessageCell: NSCollectionViewItem {
 				heartButton.heart = Hearts.outline
 			}
 
-			if ViewController.me.id == message.senderID {
+			if AppDelegate.me.id == message.senderID {
 				view.backColor = Colors.personalBlue
 			}
 			else {

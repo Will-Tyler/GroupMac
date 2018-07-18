@@ -233,8 +233,8 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 		super.viewDidLoad()
 
 		scrollView.documentView = messagesCollectionView
-		NotificationCenter.default.addObserver(self, selector: #selector(scrollViewDidScroll(notification:)), name: NSView.boundsDidChangeNotification, object: scrollView.contentView)
-		
+//		NotificationCenter.default.addObserver(self, selector: #selector(scrollViewDidScroll(notification:)), name: NSView.boundsDidChangeNotification, object: scrollView.contentView)
+
 		messagesCollectionView.delegate = self
 		messagesCollectionView.dataSource = self
 		messagesCollectionView.register(UserMessageCell.self, forItemWithIdentifier: UserMessageCell.cellIdentifier)
@@ -331,9 +331,8 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 
 				var attachmentHeight: CGFloat = 0
 				message.attachments.forEach({ (attachment) in
-					if attachment.contentType == .image, let image = attachment.content! as? GroupMe.Attachment.Image {
-						let imageURL = image.url
-						let maxImageSize = GroupMe.imageSize(from: imageURL)
+					if attachment.contentType == .image {
+						let maxImageSize = NSSize(width: 500, height: 500)
 						let maxContainerWidth = maxImageSize.width + 8
 
 						guard operatingWidth < maxContainerWidth else {
