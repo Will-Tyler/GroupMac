@@ -11,11 +11,9 @@ import Cocoa
 
 class ViewController: NSViewController {
 
-	static let me = GroupMe.me
-
 	private let detailView = NSView()
 	private let welcomeLabel: NSTextField = {
-		let firstName = me.name.split(separator: " ").first!
+		let firstName = AppDelegate.me.name.split(separator: " ").first!
 		let welcome =
 		"""
 		You look great today, \(firstName).

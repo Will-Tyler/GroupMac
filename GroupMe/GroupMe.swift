@@ -245,14 +245,6 @@ class GroupMe {
 
 		return (jsonDict["meta"] as! [String: Any])["code"] as! Int
 	}
-	static func imageSize(from url: URL) -> NSSize {
-		let urlString = url.absoluteString
-		let ending = urlString.split(separator: "/").last!
-		let sizeString = ending.split(separator: ".").first!
-		let sizes = sizeString.split(separator: "x")
-
-		return NSSize(width: Int(sizes.first!)!, height: Int(sizes.last!)!)
-	}
 	static func apiContact(pathComponent: String, requestMethod: HTTP.RequestMethod = .post) {
 		let request = URLRequest(url: baseURL.appendingPathComponent(pathComponent))
 		URLSession.shared.dataTask(with: request)

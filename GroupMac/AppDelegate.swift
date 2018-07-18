@@ -12,6 +12,8 @@ import Cocoa
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
+	static let me = GroupMe.me
+
 	let windowController: NSWindowController = {
 		let window = NSWindow()
 
