@@ -36,10 +36,18 @@ This app still has a long way to go. Some features that should be implemented ev
 #### App
 * A login page for new users.
 * Push notifications and live updates.
+* Remove Storyboard files. (I usually avoid using Storyboards and prefer a programmatic approach.)
 
 #### Conversations
 * Display all conversations, not just the recent ones.
 * Configure the messages collection view to layout the items from bottom to top.
+* Infinite scrolling of the conversation transcript.
+* Ability to view members belonging to a group.
+* Display times in conversation transcript where appropriate.
 
 #### Messages
 * Full attachment support.
+
+# Preview
+![First preview](./preview1.png)
+![Second preview](./preview2.png)
