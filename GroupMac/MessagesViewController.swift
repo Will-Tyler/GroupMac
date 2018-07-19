@@ -262,8 +262,9 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 		}
 	}
 
-	@objc private func heartButtonAction(sender: CursorButton) {
-		let messageCell = messagesCollectionView.item(at: sender.tag)! as! UserMessageCell
+	@objc private func heartButtonAction(sender: HeartButton) {
+		print("Heart button clicked...")
+		let messageCell = messagesCollectionView.item(at: sender.tag)! as! MessageCell
 
 		messageCell.toggleLike()
 	}
@@ -278,30 +279,22 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 
 			return messages![count-1 - indexPath.item]
 		}()
-		
-		if message.isSystem {
-			let item = collectionView.makeItem(withIdentifier: SystemMessageCell.cellIdentifier, for: indexPath) as! SystemMessageCell
 
-			item.message = message
+		let cellID = message.isSystem ? SystemMessageCell.cellIdentifier : UserMessageCell.cellIdentifier
+		let item = collectionView.makeItem(withIdentifier: cellID, for: indexPath) as! MessageCell
 
-			return item
-		}
-		else {
-			let item = collectionView.makeItem(withIdentifier: UserMessageCell.cellIdentifier, for: indexPath) as! UserMessageCell
+		item.message = message
 
-			item.message = message
+		item.heartButton.tag = indexPath.item
+		item.heartButton.target = self
+		item.heartButton.action = #selector(heartButtonAction(sender:))
+		item.heartButton.addTrackingArea({
+			let options = NSTrackingArea.Options.mouseEnteredAndExited.union(.activeInActiveApp)
 
-			item.heartButton.tag = indexPath.item
-			item.heartButton.target = self
-			item.heartButton.action = #selector(heartButtonAction(sender:))
-			item.heartButton.addTrackingArea({
-				let options = NSTrackingArea.Options.mouseEnteredAndExited.union(.activeInActiveApp)
-				
-				return NSTrackingArea(rect: item.heartButton.bounds, options: options, owner: item.heartButton, userInfo: nil)
-			}())
+			return NSTrackingArea(rect: item.heartButton.bounds, options: options, owner: item.heartButton, userInfo: nil)
+		}())
 
-			return item
-		}
+		return item
 	}
 	func collectionView(_ collectionView: NSCollectionView, layout collectionViewLayout: NSCollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> NSSize {
 		// Layout usually occurs before cell creation.

@@ -21,7 +21,7 @@ class MessageCell: NSCollectionViewItem {
 
 		return button
 	}()
-	let likesCountLabel: NSTextField = {
+	private let likesCountLabel: NSTextField = {
 		let field = NSTextField()
 
 		field.isEditable = false
@@ -62,11 +62,63 @@ class MessageCell: NSCollectionViewItem {
 		likesView.widthAnchor.constraint(equalTo: heartButton.widthAnchor).isActive = true
 	}
 
+	private var likes: Set<String>!
+	var message: GMMessage! {
+		didSet {
+			likes = Set<String>(message.favoritedBy)
+
+			if message.favoritedBy.count > 0 {
+				likesCountLabel.stringValue = "\(message.favoritedBy.count)"
+				if message.favoritedBy.contains(AppDelegate.me.id) {
+					heartButton.heart = Hearts.red
+				}
+				else {
+					heartButton.heart = Hearts.grey
+				}
+			}
+			else {
+				likesCountLabel.stringValue = ""
+				heartButton.heart = Hearts.outline
+			}
+		}
+	}
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
 		setupInitialLayout()
     }
+
+	func toggleLike() {
+		let myID = AppDelegate.me.id
+		let isLiked = likes.contains(myID)
+		if isLiked {
+			message.unlike {
+				self.likes = self.likes.filter({ $0 != AppDelegate.me.id })
+				if self.message.favoritedBy.count > 1 {
+					DispatchQueue.main.async {
+						self.heartButton.heart = Hearts.grey
+						self.likesCountLabel.stringValue = "\(self.likes.count)"
+					}
+				}
+				else {
+					DispatchQueue.main.async {
+						self.heartButton.heart = Hearts.outline
+						self.likesCountLabel.stringValue = ""
+					}
+				}
+			}
+		}
+		else {
+			message.like {
+				self.likes.insert(AppDelegate.me.id)
+				DispatchQueue.main.async {
+					self.heartButton.heart = Hearts.red
+					self.likesCountLabel.stringValue = "\(self.likes.count)"
+				}
+			}
+		}
+	}
     
 }
 

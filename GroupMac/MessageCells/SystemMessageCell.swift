@@ -49,7 +49,7 @@ final class SystemMessageCell: MessageCell {
 		textLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
 	}
 
-	var message: GMMessage! {
+	override var message: GMMessage! {
 		didSet {
 			if let text = message.text {
 				textLabel.stringValue = text

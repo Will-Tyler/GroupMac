@@ -18,8 +18,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		let screen = window.screen!
 		let screenSize = screen.size
 
-		print("\(screenSize.width)", "\(screenSize.height)")
-
 		let initialWindowFrame = NSRect(x: window.screen!.visibleFrame.midX, y: window.screen!.visibleFrame.midY, width: screenSize.width / 4, height: screenSize.height / 4)
 
 		window.minSize = NSSize(width: 500, height: 300)
