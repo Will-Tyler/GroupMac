@@ -26,6 +26,7 @@
 		4C7D73D920E6C65E005DF911 /* GMConversationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C7D73D820E6C65E005DF911 /* GMConversationType.swift */; };
 		4C8736A121010279007BAADF /* MessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C8736A021010279007BAADF /* MessageCell.swift */; };
 		4C8736A321010D46007BAADF /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C8736A221010D46007BAADF /* main.swift */; };
+		4C8736A5210133C6007BAADF /* NSScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C8736A4210133C6007BAADF /* NSScreen.swift */; };
 		4CA03B6120E289630000EA78 /* GMConversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA03B6020E289630000EA78 /* GMConversation.swift */; };
 		4CA03B6220E2896B0000EA78 /* GMConversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA03B6020E289630000EA78 /* GMConversation.swift */; };
 		4CA03B6420E28F0A0000EA78 /* GMMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA03B6320E28F0A0000EA78 /* GMMessage.swift */; };
@@ -90,6 +91,7 @@
 		4C7D73D820E6C65E005DF911 /* GMConversationType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GMConversationType.swift; sourceTree = "<group>"; };
 		4C8736A021010279007BAADF /* MessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageCell.swift; sourceTree = "<group>"; };
 		4C8736A221010D46007BAADF /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		4C8736A4210133C6007BAADF /* NSScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSScreen.swift; sourceTree = "<group>"; };
 		4CA03B6020E289630000EA78 /* GMConversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GMConversation.swift; sourceTree = "<group>"; };
 		4CA03B6320E28F0A0000EA78 /* GMMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GMMessage.swift; sourceTree = "<group>"; };
 		4CB55E3C20EC055100924F87 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
@@ -152,6 +154,7 @@
 				4CA03B6320E28F0A0000EA78 /* GMMessage.swift */,
 				4C334D2C20F8CC6100DC48E9 /* Hearts.swift */,
 				4C500F4920D976F600C1646D /* HTTP.swift */,
+				4C8736A4210133C6007BAADF /* NSScreen.swift */,
 				4CC0B19420F659570077E795 /* NSView.swift */,
 				4CD221EE20E180E900A13AE6 /* String.swift */,
 			);
@@ -389,6 +392,7 @@
 				4C8736A321010D46007BAADF /* main.swift in Sources */,
 				4C500F4A20D976F600C1646D /* HTTP.swift in Sources */,
 				4C7D73D920E6C65E005DF911 /* GMConversationType.swift in Sources */,
+				4C8736A5210133C6007BAADF /* NSScreen.swift in Sources */,
 				4C78FD8D20D8280D006385B2 /* ViewController.swift in Sources */,
 				4CDC814220DB23CB004D8DD0 /* ConvosViewController.swift in Sources */,
 				4CC0B19720F6836A0077E795 /* BinaryInteger.swift in Sources */,

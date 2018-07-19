@@ -9,20 +9,25 @@
 import Cocoa
 
 
-//@NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
 	static let me = GroupMe.me
 
 	let windowController: NSWindowController = {
 		let window = NSWindow()
+		let screen = window.screen!
+		let screenSize = screen.size
 
-		window.setFrame(NSRect(x: window.screen!.visibleFrame.midX, y: window.screen!.visibleFrame.midY, width: 500, height: 300), display: true)
+		print("\(screenSize.width)", "\(screenSize.height)")
+
+		let initialWindowFrame = NSRect(x: window.screen!.visibleFrame.midX, y: window.screen!.visibleFrame.midY, width: screenSize.width / 4, height: screenSize.height / 4)
+
+		window.minSize = NSSize(width: 500, height: 300)
+		window.setFrame(initialWindowFrame, display: true)
 		window.center()
 		window.styleMask = [.miniaturizable, .closable, .resizable, .titled]
 		window.title = "GroupMac"
 		window.isMovable = true
-		window.minSize = NSSize(width: 500, height: 300)
 		window.contentViewController = ViewController()
 
 		let windowController = NSWindowController(window: window)

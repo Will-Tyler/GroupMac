@@ -1,17 +1,18 @@
-# GroupMac
+## GroupMac
 A GroupMe client built natively in Swift for the macOS platforms.
 
 GroupMac uses the public GroupMe API to provide the features, functionality, and look and feel that the iOS GroupMe app and GroupMe website provide (<https://groupme.com/>). Information and documentation pertaining to the public GroupMe API can be found at <https://dev.groupme.com/>.
 
-# Developer Token
+## Developer Token
 To develop this app, you will need your GroupMe API access token. To get your access token, visit [dev.groupme.com](https://dev.groupme.com/), login, and look for the access token link in the top-right corner. Once you've gotten your token, create a file, "token.txt", paste your token on a single line in the file, and place the file in the GroupMe folder in this project directory.
 
-# Features
+## Features
 So far the app has implemented the following:
 
 #### App
 * Display a welcome message to the user before a conversation has been selected.
 	* Use their first name in the message.
+* Built using the programatic approach. Contains zero Storyboard files.
 
 #### Conversations
 * Display conversations on the left, sorted by when the chat was last updated.
@@ -30,13 +31,12 @@ So far the app has implemented the following:
 * Display any text belonging to the message.
 * Display any attached images (Even this is a little buggy. Could use some work.)
 
-# Room For Improvement
+## Room For Improvement
 This app still has a long way to go. Some features that should be implemented eventually are:
 
 #### App
 * A login page for new users.
 * Push notifications and live updates.
-* Remove Storyboard files. (I usually avoid using Storyboards and prefer a programmatic approach.)
 
 #### Conversations
 * Display all conversations, not just the recent ones.
@@ -48,6 +48,6 @@ This app still has a long way to go. Some features that should be implemented ev
 #### Messages
 * Full attachment support.
 
-# Preview
+## Preview
 ![First preview](./preview1.png)
 ![Second preview](./preview2.png)
