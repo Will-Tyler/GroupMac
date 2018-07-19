@@ -9,7 +9,7 @@
 import Cocoa
 
 
-final class SystemMessageCell: NSCollectionViewItem {
+final class SystemMessageCell: MessageCell {
 
 	static let cellIdentifier = NSUserInterfaceItemIdentifier(rawValue: "SystemMessageCell")
 

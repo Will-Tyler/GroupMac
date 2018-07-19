@@ -9,7 +9,7 @@
 import Cocoa
 
 
-final class UserMessageCell: NSCollectionViewItem {
+final class UserMessageCell: MessageCell {
 
 	static let cellIdentifier = NSUserInterfaceItemIdentifier(rawValue: "MessageCell")
 
@@ -45,28 +45,6 @@ final class UserMessageCell: NSCollectionViewItem {
 
 		return field
 	}()
-	let heartButton: HeartButton = {
-		let button = HeartButton()
-
-		button.heart = Hearts.outline
-		button.alignment = .center
-		button.cursor = NSCursor.pointingHand
-		button.isBordered = false
-
-		return button
-	}()
-	private let likesCountLabel: NSTextField = {
-		let field = NSTextField()
-
-		field.isEditable = false
-		field.isBezeled = false
-		field.alignment = .center
-		field.backgroundColor = .clear
-		field.font = Fonts.likesCount
-		field.textColor = Colors.systemText
-
-		return field
-	}()
 	private let attachmentView: NSView = {
 		let view = NSView()
 
@@ -81,28 +59,10 @@ final class UserMessageCell: NSCollectionViewItem {
 	}()
 
 	private func setupInitialLayout() {
-		let likesView = NSView()
-
-		likesView.addSubview(likesCountLabel)
-		likesView.addSubview(heartButton)
-
-		heartButton.translatesAutoresizingMaskIntoConstraints = false
-		heartButton.widthAnchor.constraint(equalToConstant: heartButton.intrinsicContentSize.width).isActive = true
-		heartButton.heightAnchor.constraint(equalTo: heartButton.widthAnchor).isActive = true
-		heartButton.topAnchor.constraint(equalTo: likesView.topAnchor).isActive = true
-		heartButton.centerXAnchor.constraint(equalTo: likesView.centerXAnchor).isActive = true
-
-		likesCountLabel.translatesAutoresizingMaskIntoConstraints = false
-		likesCountLabel.topAnchor.constraint(equalTo: heartButton.bottomAnchor, constant: -5).isActive = true // top of text is 2 pixels from bottom of heart button
-		likesCountLabel.heightAnchor.constraint(equalToConstant: likesCountLabel.intrinsicContentSize.height).isActive = true
-		likesCountLabel.leadingAnchor.constraint(equalTo: likesView.leadingAnchor).isActive = true
-		likesCountLabel.trailingAnchor.constraint(equalTo: likesView.trailingAnchor).isActive = true
-		likesCountLabel.centerXAnchor.constraint(equalTo: heartButton.centerXAnchor).isActive = true
 
 		view.addSubview(avatarImageView)
 		view.addSubview(nameLabel)
 		view.addSubview(textLabel)
-		view.addSubview(likesView)
 
 		avatarImageView.translatesAutoresizingMaskIntoConstraints = false
 		avatarImageView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
@@ -120,12 +80,6 @@ final class UserMessageCell: NSCollectionViewItem {
 		textLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor).isActive = true
 		textLabel.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: 4).isActive = true
 		textLabel.trailingAnchor.constraint(equalTo: heartButton.leadingAnchor, constant: -4).isActive = true
-
-		likesView.translatesAutoresizingMaskIntoConstraints = false
-		likesView.topAnchor.constraint(equalTo: view.topAnchor, constant: 5).isActive = true // constant 5 is best match for text
-		likesView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -4).isActive = true
-		likesView.bottomAnchor.constraint(equalTo: likesCountLabel.bottomAnchor).isActive = true
-		likesView.widthAnchor.constraint(equalTo: heartButton.widthAnchor).isActive = true
 	}
 
 	func toggleLike() {

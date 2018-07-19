@@ -25,6 +25,7 @@
 		4C78FDB820D82C8D006385B2 /* GroupMe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C78FDB620D82C8D006385B2 /* GroupMe.swift */; };
 		4C78FDBA20D82E21006385B2 /* token.txt in Resources */ = {isa = PBXBuildFile; fileRef = 4C78FDB920D82E21006385B2 /* token.txt */; };
 		4C7D73D920E6C65E005DF911 /* GMConversationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C7D73D820E6C65E005DF911 /* GMConversationType.swift */; };
+		4C8736A121010279007BAADF /* MessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C8736A021010279007BAADF /* MessageCell.swift */; };
 		4CA03B6120E289630000EA78 /* GMConversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA03B6020E289630000EA78 /* GMConversation.swift */; };
 		4CA03B6220E2896B0000EA78 /* GMConversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA03B6020E289630000EA78 /* GMConversation.swift */; };
 		4CA03B6420E28F0A0000EA78 /* GMMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA03B6320E28F0A0000EA78 /* GMMessage.swift */; };
@@ -88,6 +89,7 @@
 		4C78FDB620D82C8D006385B2 /* GroupMe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupMe.swift; sourceTree = "<group>"; };
 		4C78FDB920D82E21006385B2 /* token.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = token.txt; sourceTree = "<group>"; };
 		4C7D73D820E6C65E005DF911 /* GMConversationType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GMConversationType.swift; sourceTree = "<group>"; };
+		4C8736A021010279007BAADF /* MessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageCell.swift; sourceTree = "<group>"; };
 		4CA03B6020E289630000EA78 /* GMConversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GMConversation.swift; sourceTree = "<group>"; };
 		4CA03B6320E28F0A0000EA78 /* GMMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GMMessage.swift; sourceTree = "<group>"; };
 		4CB55E3C20EC055100924F87 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
@@ -231,6 +233,7 @@
 		4CC32AC320ED70A30046ED1D /* MessageCells */ = {
 			isa = PBXGroup;
 			children = (
+				4C8736A021010279007BAADF /* MessageCell.swift */,
 				4CC32AC120ED6E8E0046ED1D /* UserMessageCell.swift */,
 				4CC32AC420ED70CE0046ED1D /* SystemMessageCell.swift */,
 			);
@@ -390,6 +393,7 @@
 				4CDC814220DB23CB004D8DD0 /* ConvosViewController.swift in Sources */,
 				4CC0B19720F6836A0077E795 /* BinaryInteger.swift in Sources */,
 				4C019D7E20F58297001282E3 /* ConversationCell.swift in Sources */,
+				4C8736A121010279007BAADF /* MessageCell.swift in Sources */,
 				4C019D7C20F57CB6001282E3 /* Me.swift in Sources */,
 				4CA03B6420E28F0A0000EA78 /* GMMessage.swift in Sources */,
 				4CDC813620DAD169004D8DD0 /* Group.swift in Sources */,
