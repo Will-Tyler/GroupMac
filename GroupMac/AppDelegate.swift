@@ -9,7 +9,7 @@
 import Cocoa
 
 
-@NSApplicationMain
+//@NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
 	static let me = GroupMe.me
