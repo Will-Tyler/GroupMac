@@ -263,7 +263,6 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 	}
 
 	@objc private func heartButtonAction(sender: HeartButton) {
-		print("Heart button clicked...")
 		let messageCell = messagesCollectionView.item(at: sender.tag)! as! MessageCell
 
 		messageCell.toggleLike()
@@ -323,23 +322,28 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 				let textHeight = nameEstimate.height + (textEstimate?.height ?? 0)
 
 				var attachmentHeight: CGFloat = 0
-				message.attachments.forEach({ (attachment) in
+				if let attachment = message.attachments.first {
 					if attachment.contentType == .image {
+					}
+
+					switch attachment.contentType {
+					case .image:
 						let maxImageSize = NSSize(width: 500, height: 500)
 						let maxContainerWidth = maxImageSize.width + 8
 
-						guard operatingWidth < maxContainerWidth else {
+						if operatingWidth > maxContainerWidth {
 							attachmentHeight += maxImageSize.height + 8
+						}
+						else {
+							let aspectRatio = maxImageSize.height / maxImageSize.width
+							let containerHeight = (operatingWidth * aspectRatio) + 8
 
-							return
+							attachmentHeight += containerHeight
 						}
 
-						let aspectRatio = maxImageSize.height / maxImageSize.width
-						let containerHeight = (operatingWidth * aspectRatio) + 8
-
-						attachmentHeight += containerHeight
+					default: attachmentHeight += 30
 					}
-				})
+				}
 
 				return textHeight + attachmentHeight
 			}

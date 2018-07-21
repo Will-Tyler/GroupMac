@@ -39,6 +39,9 @@ extension GroupMe {
 			case .emoji:
 				content = Emoji(placeholder: try! values.decode(String.self, forKey: .placeholder), charmap: try! values.decode([[Int]].self, forKey: .charmap))
 
+			case .poll:
+				content = Poll(id: try! values.decode(String.self, forKey: .id))
+
 			case .notSupported:
 				content = nil
 			}
@@ -49,6 +52,7 @@ extension GroupMe {
 			case location
 			case split
 			case emoji
+			case poll
 			case notSupported
 		}
 
@@ -61,6 +65,7 @@ extension GroupMe {
 			case token
 			case placeholder
 			case charmap
+			case id = "poll_id"
 		}
 
 		struct Image {
@@ -80,6 +85,10 @@ extension GroupMe {
 		struct Emoji {
 			let placeholder: String
 			let charmap: [[Int]]
+		}
+
+		struct Poll {
+			let id: String
 		}
 
 	}

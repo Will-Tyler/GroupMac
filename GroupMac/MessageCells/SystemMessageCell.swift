@@ -45,7 +45,7 @@ final class SystemMessageCell: MessageCell {
 		textLabel.translatesAutoresizingMaskIntoConstraints = false
 		textLabel.heightAnchor.constraint(equalToConstant: textLabel.intrinsicContentSize.height).isActive = true
 		textLabel.leadingAnchor.constraint(equalTo: systemImageView.trailingAnchor, constant: 4).isActive = true
-		textLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+		textLabel.trailingAnchor.constraint(equalTo: heartButton.leadingAnchor, constant: -4).isActive = true
 		textLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
 	}
 
