@@ -30,4 +30,14 @@ extension NSView {
 		subviews.forEach({ $0.removeFromSuperview() })
 	}
 
+	func removeConstraints() {
+		removeConstraints(constraints)
+	}
+
+	func deactivateAndRemoveConstraints() {
+		constraints.forEach({ $0.isActive = false })
+
+		removeConstraints()
+	}
+
 }

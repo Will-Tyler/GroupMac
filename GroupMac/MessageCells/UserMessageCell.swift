@@ -12,18 +12,7 @@ import Cocoa
 final class UserMessageCell: MessageCell {
 
 	static let cellIdentifier = NSUserInterfaceItemIdentifier(rawValue: "MessageCell")
-
-	private let avatarImageView: NSImageView = {
-		let view = NSImageView()
-
-		view.image = #imageLiteral(resourceName: "Person Default Image")
-		view.imageScaling = NSImageScaling.scaleAxesIndependently
-		view.wantsLayer = true
-		view.layer!.cornerRadius = 15
-		view.layer!.masksToBounds = true
-
-		return view
-	}()
+	
 	private let nameLabel: NSTextField = {
 		let field = NSTextField()
 
@@ -31,16 +20,6 @@ final class UserMessageCell: MessageCell {
 		field.isBezeled = false
 		field.font = Fonts.boldSmall
 		field.textColor = Colors.systemText
-		field.backgroundColor = .clear
-
-		return field
-	}()
-	private let textLabel: NSTextField = {
-		let field = NSTextField()
-
-		field.isEditable = false
-		field.isBezeled = false
-		field.font = Fonts.regular
 		field.backgroundColor = .clear
 
 		return field
@@ -59,35 +38,24 @@ final class UserMessageCell: MessageCell {
 	}()
 
 	private func setupInitialLayout() {
-		view.addSubview(avatarImageView)
 		view.addSubview(nameLabel)
-		view.addSubview(textLabel)
-		view.addSubview(attachmentView)
-
-		avatarImageView.translatesAutoresizingMaskIntoConstraints = false
-		avatarImageView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-		avatarImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 4).isActive = true
-		avatarImageView.heightAnchor.constraint(equalToConstant: 30).isActive = true
-		avatarImageView.heightAnchor.constraint(equalTo: avatarImageView.widthAnchor).isActive = true
 
 		nameLabel.translatesAutoresizingMaskIntoConstraints = false
-		nameLabel.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-		nameLabel.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: 4).isActive = true
-		nameLabel.heightAnchor.constraint(equalToConstant: nameLabel.intrinsicContentSize.height).isActive = true
-		nameLabel.trailingAnchor.constraint(equalTo: heartButton.leadingAnchor).isActive = true
 
-		textLabel.translatesAutoresizingMaskIntoConstraints = false
+		textLabelTopAnchorConstraint.isActive = false
+		textLabel.removeConstraint(textLabelTopAnchorConstraint)
 		textLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor).isActive = true
-		textLabel.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: 4).isActive = true
-		textLabel.trailingAnchor.constraint(equalTo: heartButton.leadingAnchor).isActive = true
+
+		nameLabel.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+		nameLabel.leadingAnchor.constraint(equalTo: textLabel.leadingAnchor).isActive = true
+		nameLabel.heightAnchor.constraint(equalToConstant: nameLabel.intrinsicContentSize.height).isActive = true
+		nameLabel.trailingAnchor.constraint(equalTo: textLabel.trailingAnchor).isActive = true
 	}
 
 	private var runningImageTasks = Set<URLSessionDataTask>()
 	override var message: GMMessage! {
 		didSet {
 			nameLabel.stringValue = message.name
-			textLabel.stringValue = message.text ?? ""
-
 
 			if AppDelegate.me.id == message.senderID {
 				view.backColor = Colors.personalBlue
@@ -96,7 +64,6 @@ final class UserMessageCell: MessageCell {
 				view.backColor = Colors.background
 			}
 
-			avatarImageView.image = #imageLiteral(resourceName: "Person Default Image")
 			if let url = message.avatarURL {
 				let runningTask = HTTP.handleImage(at: url, with: { (image: NSImage) in
 					DispatchQueue.main.async {
@@ -109,22 +76,16 @@ final class UserMessageCell: MessageCell {
 			// Reset attachment view
 			attachmentView.removeSubviews()
 			attachmentView.isHidden = true
-			if let attachment = message.attachments.first { // only one attachment is supported at this moment
-				if attachment.contentType == .image {
-					let image = attachment.content! as! GroupMe.Attachment.Image
-
-					addImage(from: image.url)
-				}
-
-				switch attachment.contentType {
-				case .image:
-					let image = attachment.content! as! GroupMe.Attachment.Image
-
-					addImage(from: image.url)
-
-				default: addUnsupportedAttachmentMessage(contentType: attachment.contentType)
-				}
-			}
+//			if let attachment = message.attachments.first { // only one attachment is supported at this moment
+//				switch attachment.contentType {
+//				case .image:
+//					let image = attachment.content! as! GroupMe.Attachment.Image
+//
+//					addImage(from: image.url)
+//
+//				default: addUnsupportedAttachmentMessage(contentType: attachment.contentType)
+//				}
+//			}
 		}
 	}
 

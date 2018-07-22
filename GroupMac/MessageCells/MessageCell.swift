@@ -10,7 +10,28 @@ import Cocoa
 
 
 class MessageCell: NSCollectionViewItem {
-	
+
+	let avatarImageView: NSImageView = {
+		let view = NSImageView()
+
+		view.image = #imageLiteral(resourceName: "Person Default Image")
+		view.imageScaling = NSImageScaling.scaleAxesIndependently
+		view.wantsLayer = true
+		view.layer!.cornerRadius = 15
+		view.layer!.masksToBounds = true
+
+		return view
+	}()
+	let textLabel: NSTextField = {
+		let field = NSTextField()
+
+		field.isEditable = false
+		field.isBezeled = false
+		field.backgroundColor = .clear
+		field.font = Fonts.regular
+
+		return field
+	}()
 	let heartButton: HeartButton = {
 		let button = HeartButton()
 
@@ -34,6 +55,8 @@ class MessageCell: NSCollectionViewItem {
 		return field
 	}()
 
+	var textLabelTopAnchorConstraint: NSLayoutConstraint!
+
 	private func setupInitialLayout() {
 		let likesView = NSView()
 
@@ -51,21 +74,38 @@ class MessageCell: NSCollectionViewItem {
 		likesCountLabel.heightAnchor.constraint(equalToConstant: likesCountLabel.intrinsicContentSize.height).isActive = true
 		likesCountLabel.leadingAnchor.constraint(equalTo: likesView.leadingAnchor).isActive = true
 		likesCountLabel.trailingAnchor.constraint(equalTo: likesView.trailingAnchor).isActive = true
-		likesCountLabel.centerXAnchor.constraint(equalTo: heartButton.centerXAnchor).isActive = true
+		likesCountLabel.centerXAnchor.constraint(equalTo: likesView.centerXAnchor).isActive = true
 
+		view.addSubview(avatarImageView)
 		view.addSubview(likesView)
+		view.addSubview(textLabel)
+
+		avatarImageView.translatesAutoresizingMaskIntoConstraints = false
+		avatarImageView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+		avatarImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 4).isActive = true
+		avatarImageView.heightAnchor.constraint(equalToConstant: 30).isActive = true
+		avatarImageView.widthAnchor.constraint(equalTo: avatarImageView.heightAnchor).isActive = true
+
+		textLabel.translatesAutoresizingMaskIntoConstraints = false
+		textLabelTopAnchorConstraint = textLabel.topAnchor.constraint(equalTo: view.topAnchor)
+		textLabelTopAnchorConstraint.isActive = true
+		textLabel.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: 4).isActive = true
+		textLabel.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+		textLabel.trailingAnchor.constraint(equalTo: heartButton.leadingAnchor, constant: -4).isActive = true
 
 		likesView.translatesAutoresizingMaskIntoConstraints = false
 		likesView.topAnchor.constraint(equalTo: view.topAnchor, constant: 5).isActive = true // constant 5 is best match for text
 		likesView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -4).isActive = true
-		likesView.bottomAnchor.constraint(equalTo: likesCountLabel.bottomAnchor).isActive = true
 		likesView.widthAnchor.constraint(equalTo: heartButton.widthAnchor).isActive = true
+		likesView.bottomAnchor.constraint(equalTo: likesCountLabel.bottomAnchor).isActive = true
 	}
 
 	private var likes: Set<String>!
 	var message: GMMessage! {
 		didSet {
 			likes = Set<String>(message.favoritedBy)
+
+			textLabel.stringValue = message.text ?? ""
 
 			if message.favoritedBy.count > 0 {
 				likesCountLabel.stringValue = "\(message.favoritedBy.count)"

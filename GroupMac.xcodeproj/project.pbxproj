@@ -164,7 +164,6 @@
 		4C78FD7E20D8280D006385B2 = {
 			isa = PBXGroup;
 			children = (
-				4C8736A221010D46007BAADF /* main.swift */,
 				4C78FDBB20D82E34006385B2 /* GroupMe */,
 				4C78FD8920D8280D006385B2 /* GroupMac */,
 				4C78FD9C20D8280F006385B2 /* GroupMacTests */,
@@ -187,6 +186,7 @@
 		4C78FD8920D8280D006385B2 /* GroupMac */ = {
 			isa = PBXGroup;
 			children = (
+				4C8736A221010D46007BAADF /* main.swift */,
 				4C78FD8A20D8280D006385B2 /* AppDelegate.swift */,
 				4C334D3020F8DDC900DC48E9 /* Buttons */,
 				4C019D7D20F58297001282E3 /* ConversationCell.swift */,
