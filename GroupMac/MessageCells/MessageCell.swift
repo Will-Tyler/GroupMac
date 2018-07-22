@@ -81,7 +81,7 @@ class MessageCell: NSCollectionViewItem {
 		view.addSubview(textLabel)
 
 		avatarImageView.translatesAutoresizingMaskIntoConstraints = false
-		avatarImageView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+		avatarImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 4).isActive = true
 		avatarImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 4).isActive = true
 		avatarImageView.heightAnchor.constraint(equalToConstant: 30).isActive = true
 		avatarImageView.widthAnchor.constraint(equalTo: avatarImageView.heightAnchor).isActive = true

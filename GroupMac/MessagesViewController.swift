@@ -299,7 +299,7 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 		// Layout usually occurs before cell creation.
 		// Create a cell to determine the correct height
 		// Creating a cell doesn't work. Recreate labels to get estimated desired height
-
+		let minimumHeight: CGFloat = 38
 		let desiredHeight: CGFloat = {
 			let message: GMMessage = {
 				let count = messages!.count
@@ -307,49 +307,46 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 				return messages![count-1 - indexPath.item]
 			}()
 
-			if message.isSystem {
-				return 42
-			}
-			else {
-				let operatingWidth = collectionView.bounds.width - (16+30+22)
-				let labels = (name: message.name as NSString, text: message.text as NSString?)
-				let restrictedSize = CGSize(width: operatingWidth, height: .greatestFiniteMagnitude)
-				let drawingOptions = NSString.DrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
+			let operatingWidth = collectionView.bounds.width - (16+30+22)
+			let labels = (name: message.name as NSString, text: message.text as NSString?)
+			let restrictedSize = CGSize(width: operatingWidth, height: .greatestFiniteMagnitude)
+			let drawingOptions = NSString.DrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
 
-				let nameEstimate: CGRect = labels.name.boundingRect(with: restrictedSize, options: drawingOptions, attributes: [.font: Fonts.boldSmall])
-				let textEstimate: CGRect? = labels.text?.boundingRect(with: restrictedSize, options: drawingOptions, attributes: [.font: Fonts.regular])
+			let nameEstimate: CGRect = labels.name.boundingRect(with: restrictedSize, options: drawingOptions, attributes: [.font: Fonts.boldSmall])
+			let textFont = message.isSystem ? Fonts.regularSmall : Fonts.regular
+			let textEstimate: CGRect? = labels.text?.boundingRect(with: restrictedSize, options: drawingOptions, attributes: [.font: textFont])
 
-				let textHeight = nameEstimate.height + (textEstimate?.height ?? 0)
+			let textHeight = (!message.isSystem ? nameEstimate.height : 0) + (textEstimate?.height ?? 0)
 
-				var attachmentHeight: CGFloat = 0
-				if let attachment = message.attachments.first {
-					if attachment.contentType == .image {
-					}
-
-					switch attachment.contentType {
-					case .image:
-						let maxImageSize = NSSize(width: 500, height: 500)
-						let maxContainerWidth = maxImageSize.width + 8
-
-						if operatingWidth > maxContainerWidth {
-							attachmentHeight += maxImageSize.height + 8
-						}
-						else {
-							let aspectRatio = maxImageSize.height / maxImageSize.width
-							let containerHeight = (operatingWidth * aspectRatio) + 8
-
-							attachmentHeight += containerHeight
-						}
-
-					default: attachmentHeight += 30
-					}
+			var attachmentHeight: CGFloat = 0
+			if let attachment = message.attachments.first {
+				if attachment.contentType == .image {
 				}
 
-				return textHeight + attachmentHeight
-			}
-		}()
+				switch attachment.contentType {
+				case .image:
+					let maxImageSize = NSSize(width: 500, height: 500)
+					let maxContainerWidth = maxImageSize.width + 8
 
-		return NSSize(width: collectionView.bounds.width-2, height: desiredHeight)
+					if operatingWidth > maxContainerWidth {
+						attachmentHeight += maxImageSize.height + 8
+					}
+					else {
+						let aspectRatio = maxImageSize.height / maxImageSize.width
+						let containerHeight = (operatingWidth * aspectRatio) + 8
+
+						attachmentHeight += containerHeight
+					}
+
+				default: break
+				}
+			}
+
+			return textHeight + attachmentHeight
+		}()
+		let resultHeight = desiredHeight > minimumHeight ? desiredHeight : minimumHeight
+
+		return NSSize(width: collectionView.bounds.width-2, height: resultHeight)
 	}
 
 	// MARK: Scroll view
