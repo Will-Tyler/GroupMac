@@ -42,6 +42,9 @@ extension GroupMe {
 			case .poll:
 				content = Poll(id: try! values.decode(String.self, forKey: .id))
 
+			case .mentions:
+				content = Mentions(loci: try! values.decode([[Int]].self, forKey: .loci))
+
 			case .notSupported:
 				content = nil
 			}
@@ -53,6 +56,7 @@ extension GroupMe {
 			case split
 			case emoji
 			case poll
+			case mentions
 			case notSupported
 		}
 
@@ -66,6 +70,7 @@ extension GroupMe {
 			case placeholder
 			case charmap
 			case id = "poll_id"
+			case loci
 		}
 
 		struct Image {
@@ -89,6 +94,10 @@ extension GroupMe {
 
 		struct Poll {
 			let id: String
+		}
+
+		struct Mentions {
+			let loci: [[Int]]
 		}
 
 	}

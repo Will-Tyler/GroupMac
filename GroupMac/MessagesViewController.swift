@@ -189,15 +189,13 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 			messages = conversation.blandMessages
 			titleLabel.stringValue = conversation.name
 
+			groupImageView.image = #imageLiteral(resourceName: "Group Default Image")
 			if let url = conversation.imageURL {
 				HTTP.handleImage(at: url, with: { (image: NSImage) in
 					DispatchQueue.main.async {
 						self.groupImageView.image = image
 					}
 				})
-			}
-			else {
-				groupImageView.image = #imageLiteral(resourceName: "Group Default Image")
 			}
 
 			if self.conversation.convoType == .chat {
@@ -208,9 +206,10 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 			else {
 				groupImageView.wantsLayer = true
 				groupImageView.layer!.cornerRadius = 0
+				groupImageView.layer!.masksToBounds = false
 			}
 
-			scrollToBottom()
+			scrollTranscriptToBottom()
 		}
 	}
 	private var messages: [GMMessage]? {
@@ -250,10 +249,10 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 	override func viewWillAppear() {
 		super.viewWillAppear()
 
-		scrollToBottom()
+		scrollTranscriptToBottom()
 	}
 
-	private func scrollToBottom() {
+	private func scrollTranscriptToBottom() {
 		DispatchQueue.main.async {
 			let scrollPoint = NSPoint(x: 0, y: self.messagesCollectionView.bounds.height - self.scrollView.bounds.height)
 
@@ -299,7 +298,11 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 		// Layout usually occurs before cell creation.
 		// Create a cell to determine the correct height
 		// Creating a cell doesn't work. Recreate labels to get estimated desired height
-		let minimumHeight: CGFloat = 38
+		let collectionViewWidth = collectionView.bounds.width
+		let avatarImageWidth: CGFloat = 30
+		let spacing: CGFloat = 4
+		let likesViewWidth: CGFloat = 17
+		let minimumHeight: CGFloat = avatarImageWidth + (2*spacing)
 		let desiredHeight: CGFloat = {
 			let message: GMMessage = {
 				let count = messages!.count
@@ -307,7 +310,7 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 				return messages![count-1 - indexPath.item]
 			}()
 
-			let operatingWidth = collectionView.bounds.width - (16+30+22)
+			let operatingWidth = collectionViewWidth - (avatarImageWidth + likesViewWidth + (4*spacing))
 			let labels = (name: message.name as NSString, text: message.text as NSString?)
 			let restrictedSize = CGSize(width: operatingWidth, height: .greatestFiniteMagnitude)
 			let drawingOptions = NSString.DrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
@@ -316,13 +319,10 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 			let textFont = message.isSystem ? Fonts.regularSmall : Fonts.regular
 			let textEstimate: CGRect? = labels.text?.boundingRect(with: restrictedSize, options: drawingOptions, attributes: [.font: textFont])
 
-			let textHeight = (!message.isSystem ? nameEstimate.height : 0) + (textEstimate?.height ?? 0)
+			let textHeight = (message.isSystem ? 0 : nameEstimate.height) + (textEstimate?.height ?? 0)
 
 			var attachmentHeight: CGFloat = 0
 			if let attachment = message.attachments.first {
-				if attachment.contentType == .image {
-				}
-
 				switch attachment.contentType {
 				case .image:
 					let maxImageSize = NSSize(width: 500, height: 500)
@@ -338,7 +338,31 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 						attachmentHeight += containerHeight
 					}
 
-				default: break
+				default:
+					let attachment = message.attachments.first!
+
+					switch attachment.contentType {
+					case .mentions:
+						let mutableString = NSMutableAttributedString(string: message.text!)
+						let mentions = attachment.content as! GroupMe.Attachment.Mentions
+
+						for location in mentions.loci {
+							let range = NSRange(location: location.first!, length: location.last!)
+
+							mutableString.addAttribute(.font, value: Fonts.bold, range: range)
+						}
+
+						let boundingBox = mutableString.boundingRect(with: restrictedSize, options: drawingOptions)
+
+						attachmentHeight += boundingBox.height - textEstimate!.height
+						
+					default:
+						let unsupportedMessage = UserMessageCell.unsupportedAttachmentMessage(for: attachment.contentType) as NSString
+						let size = NSSize(width: operatingWidth - (2*spacing), height: .greatestFiniteMagnitude)
+						let textEstimate: CGRect = unsupportedMessage.boundingRect(with: size, options: drawingOptions, attributes: [.font: Fonts.regularLarge])
+
+						attachmentHeight += textEstimate.height + 8
+					}
 				}
 			}
 
@@ -346,7 +370,7 @@ class MessagesViewController: NSViewController, NSCollectionViewDelegateFlowLayo
 		}()
 		let resultHeight = desiredHeight > minimumHeight ? desiredHeight : minimumHeight
 
-		return NSSize(width: collectionView.bounds.width-2, height: resultHeight)
+		return NSSize(width: collectionView.bounds.width, height: resultHeight)
 	}
 
 	// MARK: Scroll view
