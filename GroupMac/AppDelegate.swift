@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import SocketRocket
 
 
 class AppDelegate: NSObject, NSApplicationDelegate {
@@ -33,6 +34,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		windowController.shouldCascadeWindows = true
 
 		return windowController
+	}()
+	let notificationSocket: SRWebSocket = {
+		return SRWebSocket(url: URL(string: "http://google.com")!)
 	}()
 
 	func applicationDidFinishLaunching(_ aNotification: Notification) {

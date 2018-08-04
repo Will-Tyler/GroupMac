@@ -46,6 +46,7 @@
 		4CDC813620DAD169004D8DD0 /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDC813520DAD169004D8DD0 /* Group.swift */; };
 		4CDC813E20DAF9EC004D8DD0 /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDC813D20DAF9EC004D8DD0 /* MessagesViewController.swift */; };
 		4CDC814220DB23CB004D8DD0 /* ConvosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDC814120DB23CB004D8DD0 /* ConvosViewController.swift */; };
+		5D786FECBEFA441532910443 /* Pods_GroupMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 415CC64559BA1B574C68A601 /* Pods_GroupMac.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +67,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		361A7FADD993C9A56FEFD6DF /* Pods-GroupMac.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GroupMac.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GroupMac/Pods-GroupMac.debug.xcconfig"; sourceTree = "<group>"; };
+		415CC64559BA1B574C68A601 /* Pods_GroupMac.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GroupMac.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C019D7B20F57CB6001282E3 /* Me.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Me.swift; sourceTree = "<group>"; };
 		4C019D7D20F58297001282E3 /* ConversationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationCell.swift; sourceTree = "<group>"; };
 		4C0C821B20E6F94900C13361 /* Fonts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
@@ -106,6 +109,7 @@
 		4CDC813520DAD169004D8DD0 /* Group.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
 		4CDC813D20DAF9EC004D8DD0 /* MessagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesViewController.swift; sourceTree = "<group>"; };
 		4CDC814120DB23CB004D8DD0 /* ConvosViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvosViewController.swift; sourceTree = "<group>"; };
+		831C8A87BAFE21A2FF9877CB /* Pods-GroupMac.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GroupMac.release.xcconfig"; path = "Pods/Target Support Files/Pods-GroupMac/Pods-GroupMac.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,6 +117,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5D786FECBEFA441532910443 /* Pods_GroupMac.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -170,6 +175,8 @@
 				4C78FDA720D8280F006385B2 /* GroupMacUITests */,
 				4C500F4620D9577600C1646D /* Resources */,
 				4C78FD8820D8280D006385B2 /* Products */,
+				E291F383F9119267038F4FB7 /* Pods */,
+				53AE89406EB3940DA2D30174 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -243,6 +250,23 @@
 			path = MessageCells;
 			sourceTree = "<group>";
 		};
+		53AE89406EB3940DA2D30174 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				415CC64559BA1B574C68A601 /* Pods_GroupMac.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E291F383F9119267038F4FB7 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				361A7FADD993C9A56FEFD6DF /* Pods-GroupMac.debug.xcconfig */,
+				831C8A87BAFE21A2FF9877CB /* Pods-GroupMac.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -250,9 +274,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4C78FDAD20D8280F006385B2 /* Build configuration list for PBXNativeTarget "GroupMac" */;
 			buildPhases = (
+				6A99719FC58A0466A6624B15 /* [CP] Check Pods Manifest.lock */,
 				4C78FD8320D8280D006385B2 /* Sources */,
 				4C78FD8420D8280D006385B2 /* Frameworks */,
 				4C78FD8520D8280D006385B2 /* Resources */,
+				2FE787F63AB353EF6DE92EB3 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -372,6 +398,45 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		2FE787F63AB353EF6DE92EB3 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-GroupMac/Pods-GroupMac-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/SocketRocket/SocketRocket.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SocketRocket.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-GroupMac/Pods-GroupMac-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6A99719FC58A0466A6624B15 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-GroupMac-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		4C78FD8320D8280D006385B2 /* Sources */ = {
@@ -563,9 +628,11 @@
 		};
 		4C78FDAE20D8280F006385B2 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 361A7FADD993C9A56FEFD6DF /* Pods-GroupMac.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = GroupMac/GroupMac.entitlements;
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = 83A9Z5EMT8;
@@ -580,15 +647,18 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = willtyler.GroupMac;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
 		4C78FDAF20D8280F006385B2 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 831C8A87BAFE21A2FF9877CB /* Pods-GroupMac.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = GroupMac/GroupMac.entitlements;
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = 83A9Z5EMT8;
@@ -603,6 +673,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = willtyler.GroupMac;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
 			};
 			name = Release;

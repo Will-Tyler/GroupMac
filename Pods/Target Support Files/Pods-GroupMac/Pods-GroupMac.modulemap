@@ -1,0 +1,6 @@
+framework module Pods_GroupMac {
+  umbrella header "Pods-GroupMac-umbrella.h"
+
+  export *
+  module * { export * }
+}
