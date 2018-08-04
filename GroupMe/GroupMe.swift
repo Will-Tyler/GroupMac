@@ -7,10 +7,13 @@
 //
 
 import Foundation
+import SocketRocket
 
 
 class GroupMe {
+
 	class Group: Decodable {
+
 		let id: String
 		let name: String
 		let phoneNumber: String?
@@ -332,6 +335,20 @@ class GroupMe {
 
 		return task
 	}
+
+	private static let notificationSocket: SRWebSocket = {
+		let url = URL(string: "https://push.groupme.com/faye")!
+		let request: URLRequest = {
+			var req = URLRequest(url: url)
+
+			req.httpMethod = HTTP.RequestMethod.post.rawValue
+			req.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+			return req
+		}()
+
+		return SRWebSocket(urlRequest: request)
+	}()
 
 	static var groups: [Group] {
 		get {
