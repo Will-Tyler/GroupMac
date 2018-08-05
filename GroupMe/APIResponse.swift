@@ -10,13 +10,13 @@ extension GroupMe {
 
 	class APIResponse {
 
-		let response: Any
+		let content: Any
 		let meta: Meta
 
 		init(from data: Data) throws {
 			let jsonDict = try JSONSerialization.jsonObject(with: data) as! [String: Any]
 
-			response = jsonDict["response"]
+			content = jsonDict["response"]!
 
 			let metaDict = jsonDict["meta"] as! [String: Any]
 			let code = metaDict["code"] as! Int
@@ -33,6 +33,10 @@ extension GroupMe.APIResponse {
 	struct Meta: Decodable {
 
 		let code: Int
+
+		fileprivate init(code: Int) {
+			self.code = code
+		}
 
 	}
 

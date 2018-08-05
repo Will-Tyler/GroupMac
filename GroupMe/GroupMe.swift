@@ -81,11 +81,10 @@ class GroupMe {
 			}
 		}
 		@discardableResult func handleMessages(with handler: @escaping ([Group.Message])->(), beforeID: String? = nil) -> URLSessionDataTask {
-			return GroupMe.betterAPIRequest(appendingPathComponent: "/groups/\(id)/messages", additionalParameters: beforeID == nil ? nil : ["before_id": beforeID!]) { (data: Data) in
-				guard GroupMe.responseCode(from: data) == 200 else { return }
+			return GroupMe.betterAPIRequest(appendingPathComponent: "/groups/\(id)/messages", additionalParameters: beforeID == nil ? nil : ["before_id": beforeID!]) { (response: APIResponse) in
+				guard response.meta.code == 200 else { return }
 
-				let response = try! JSONSerialization.jsonObject(with: data) as! [String: Any]
-				let countAndMessages = response["response"] as! [String: Any]
+				let countAndMessages = response.content as! [String: Any]
 				let messageData = try! JSONSerialization.data(withJSONObject: countAndMessages["messages"]!)
 				let messages = try! JSONDecoder().decode([Group.Message].self, from: messageData)
 
@@ -224,13 +223,13 @@ class GroupMe {
 			}
 
 			func like(successHandler: @escaping ()->()) {
-				GroupMe.betterAPIRequest(method: .post, appendingPathComponent: "/messages/\(groupID)/\(id)/like") { (data: Data) in
-					if GroupMe.responseCode(from: data) == 200 { successHandler() }
+				GroupMe.betterAPIRequest(method: .post, appendingPathComponent: "/messages/\(groupID)/\(id)/like") { (response: APIResponse) in
+					if response.meta.code == 200 { successHandler() }
 				}
 			}
 			func unlike(successHandler: @escaping ()->()) {
-				GroupMe.betterAPIRequest(method: .post, appendingPathComponent: "/messages/\(groupID)/\(id)/unlike") { (data: Data) in
-					if GroupMe.responseCode(from: data) == 200 { successHandler() }
+				GroupMe.betterAPIRequest(method: .post, appendingPathComponent: "/messages/\(groupID)/\(id)/unlike") { (response: APIResponse) in
+					if response.meta.code == 200 { successHandler() }
 				}
 			}
 
@@ -247,9 +246,9 @@ class GroupMe {
 	}()
 
 	static func responseCode(from data: Data) -> Int {
-		let jsonDict = try! JSONSerialization.jsonObject(with: data) as! [String: Any]
+		let response = try! APIResponse(from: data)
 
-		return (jsonDict["meta"] as! [String: Any])["code"] as! Int
+		return response.meta.code
 	}
 	static func apiContact(pathComponent: String, requestMethod: HTTP.RequestMethod = .post) {
 		let request = URLRequest(url: baseURL.appendingPathComponent(pathComponent))
@@ -296,7 +295,7 @@ class GroupMe {
 
 		return try JSONSerialization.data(withJSONObject: json["response"]!)
 	}
-	@discardableResult static func betterAPIRequest(method: HTTP.RequestMethod = .get, appendingPathComponent extraPath: String, additionalParameters extraParams: [String: String]? = nil, jsonObject: Any? = nil, dataHandler: @escaping (Data)->()) -> URLSessionDataTask {
+	@discardableResult static func betterAPIRequest(method: HTTP.RequestMethod = .get, appendingPathComponent extraPath: String, additionalParameters extraParams: [String: String]? = nil, jsonObject: Any? = nil, apiResponseHandler: @escaping (GroupMe.APIResponse)->()) -> URLSessionDataTask {
 		let components: URLComponents = {
 			let url = baseURL.appendingPathComponent(extraPath)
 			var comps = URLComponents(url: url, resolvingAgainstBaseURL: true)!
@@ -314,7 +313,9 @@ class GroupMe {
 
 			return comps
 		}()
+
 		print(components.url!)
+
 		let request: URLRequest = {
 			var req = URLRequest(url: components.url!)
 
@@ -328,10 +329,11 @@ class GroupMe {
 
 			return req
 		}()
-
 		let task = URLSession.shared.dataTask(with: request) { (data: Data?, response: URLResponse?, error: Error?) in
 			guard error == nil, let data = data, !data.isEmpty else { return }
-			dataHandler(data)
+			let response = try! APIResponse(from: data)
+
+			apiResponseHandler(response)
 		}
 
 		task.resume()

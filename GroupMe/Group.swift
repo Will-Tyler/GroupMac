@@ -8,14 +8,10 @@
 
 import Foundation
 
-
-extension GroupMe {
-
-}
-
 extension GroupMe.Group {
 
 	class MessagesInfo: Decodable {
+
 		let count: Int
 		let lastMessageID: String
 		let lastMessageCreatedAt: Int
@@ -36,6 +32,7 @@ extension GroupMe.Group {
 		}
 
 		class Preview: Decodable {
+
 			let nickname: String
 			let text: String?
 			let imageURL: String?
@@ -51,12 +48,17 @@ extension GroupMe.Group {
 				case text
 				case imageURL = "image_url"
 			}
+
 		}
+
 	}
+
 }
 
 extension GroupMe.Group {
+
 	class Member: Decodable {
+
 		let userID: String
 		let nickname: String
 		let imageURL: URL?
@@ -84,7 +86,9 @@ extension GroupMe.Group {
 			case isAutokicked = "autokicked"
 			case roles
 		}
+
 	}
+
 }
 
 extension GroupMe.Group {
@@ -96,8 +100,9 @@ extension GroupMe.Group {
 		guard text.count <= 1000 else { print("Message is too long, quitting..."); return }
 
 		let jsonDict = ["message": ["source_guid": "\(GroupMe.Group.GUIDcount++)", "text": text]]
-		GroupMe.betterAPIRequest(method: .post, appendingPathComponent: "/groups/\(id)/messages", jsonObject: jsonDict) { (data: Data) in
-			if GroupMe.responseCode(from: data) == 201 { successHandler() }
+
+		GroupMe.betterAPIRequest(method: .post, appendingPathComponent: "/groups/\(id)/messages", jsonObject: jsonDict) { (response: GroupMe.APIResponse) in
+			if response.meta.code == 201 { successHandler() }
 		}
 	}
 
