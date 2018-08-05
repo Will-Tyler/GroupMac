@@ -26,27 +26,27 @@ class GroupMe {
 		let officeMode: Bool
 		let shareURL: URL?
 		let shareQRCodeURL: URL?
-		let members: [Group.Member]
-		let messagesInfo: Group.MessagesInfo
+		let members: [GroupMe.Group.Member]
+		let messagesInfo: GroupMe.Group.MessagesInfo
 		let maxMembers: Int
 
-		private init(id: String, name: String, phoneNumber: String?, type: String, description: String, imageURL: URL?, creatorUserID: String, createdAt: Int, updatedAt: Int, officeMode: Bool, shareURL: URL?, shareQRCodeURL: URL?, members: [Group.Member], messagesInfo: MessagesInfo, maxMembers: Int) {
-			self.id = id
-			self.name = name
-			self.phoneNumber = phoneNumber
-			self.type = type
-			self.description = description
-			self.imageURL = imageURL
-			self.creatorUserID = creatorUserID
-			self.createdAt = createdAt
-			self.updatedAt = updatedAt
-			self.officeMode = officeMode
-			self.shareURL = shareURL
-			self.shareQRCodeURL = shareQRCodeURL
-			self.members = members
-			self.messagesInfo = messagesInfo
-			self.maxMembers = maxMembers
-		}
+//		private init(id: String, name: String, phoneNumber: String?, type: String, description: String, imageURL: URL?, creatorUserID: String, createdAt: Int, updatedAt: Int, officeMode: Bool, shareURL: URL?, shareQRCodeURL: URL?, members: [Group.Member], messagesInfo: MessagesInfo, maxMembers: Int) {
+//			self.id = id
+//			self.name = name
+//			self.phoneNumber = phoneNumber
+//			self.type = type
+//			self.description = description
+//			self.imageURL = imageURL
+//			self.creatorUserID = creatorUserID
+//			self.createdAt = createdAt
+//			self.updatedAt = updatedAt
+//			self.officeMode = officeMode
+//			self.shareURL = shareURL
+//			self.shareQRCodeURL = shareQRCodeURL
+//			self.members = members
+//			self.messagesInfo = messagesInfo
+//			self.maxMembers = maxMembers
+//		}
 
 		private enum CodingKeys: String, CodingKey {
 			case id
@@ -156,8 +156,9 @@ class GroupMe {
 
 			return group
 		}
-		
+
 		class Message: Decodable {
+
 			let attachments: [Attachment]
 			let avatarURL: URL?
 			let createdAt: Int
@@ -232,7 +233,9 @@ class GroupMe {
 					if GroupMe.responseCode(from: data) == 200 { successHandler() }
 				}
 			}
+
 		}
+
 	}
 
 	static let baseURL: URL = URL(string: "https://api.groupme.com/v3")!
@@ -346,8 +349,9 @@ class GroupMe {
 
 			return req
 		}()
+		let socket = SRWebSocket(urlRequest: request)!
 
-		return SRWebSocket(urlRequest: request)
+		return socket
 	}()
 
 	static var groups: [Group] {

@@ -10,14 +10,14 @@ import Foundation
 
 
 extension GroupMe {
+
 	class Attachment: Decodable {
 
 		let contentType: ContentType
-		let content: Any?
+		let content: AttachmentContent?
 
 		required init(from decoder: Decoder) throws {
 			let values = try! decoder.container(keyedBy: CodingKeys.self)
-
 			let contentString = try! values.decode(String.self, forKey: .contentType)
 
 			self.contentType = ContentType(rawValue: contentString) ?? .notSupported
@@ -73,34 +73,35 @@ extension GroupMe {
 			case loci
 		}
 
-		struct Image {
+		struct Image: AttachmentContent {
 			let url: URL
 		}
 
-		struct Location {
+		struct Location: AttachmentContent {
 			let latitude: Double
 			let longitude: Double
 			let name: String
 		}
 
-		struct Split {
+		struct Split: AttachmentContent {
 			let token: String
 		}
 
-		struct Emoji {
+		struct Emoji: AttachmentContent {
 			let placeholder: String
 			let charmap: [[Int]]
 		}
 
-		struct Poll {
+		struct Poll: AttachmentContent {
 			let id: String
 		}
 
-		struct Mentions {
+		struct Mentions: AttachmentContent {
 			let loci: [[Int]]
 		}
 
 	}
+
 }
 
 

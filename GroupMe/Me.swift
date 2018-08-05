@@ -10,7 +10,9 @@ import Foundation
 
 
 extension GroupMe {
+
 	class Me: Decodable {
+
 		let id: String
 		let phoneNumber: String
 		let imageURL: URL?
@@ -30,6 +32,7 @@ extension GroupMe {
 			case email
 			case isSMS = "sms"
 		}
+
 	}
 
 	static var me: Me {
@@ -39,4 +42,5 @@ extension GroupMe {
 			return try! JSONDecoder().decode(Me.self, from: responseData)
 		}
 	}
+
 }

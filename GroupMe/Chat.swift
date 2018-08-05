@@ -10,7 +10,9 @@ import Foundation
 
 
 extension GroupMe {
+
 	class Chat: Decodable {
+
 		let createdAt: Int
 		let updatedAt: Int
 		let messageCount: Int
@@ -64,41 +66,43 @@ extension GroupMe {
 
 			return runningTask
 		}
-	}
-}
 
-extension GroupMe.Chat {
-	func handlePreviewText(with handler: @escaping (String)->Void) {
-		GroupMe.betterAPIRequest(appendingPathComponent: "/direct_messages", additionalParameters: ["other_user_id": otherUser.id]) { (data: Data) in
-			let json = try! JSONSerialization.jsonObject(with: data) as! [String: Any]
-			let responseCode = (json["meta"] as! [String: Int])["code"]
+		func handlePreviewText(with handler: @escaping (String)->Void) {
+			GroupMe.betterAPIRequest(appendingPathComponent: "/direct_messages", additionalParameters: ["other_user_id": otherUser.id]) { (data: Data) in
+				let json = try! JSONSerialization.jsonObject(with: data) as! [String: Any]
+				let responseCode = (json["meta"] as! [String: Int])["code"]
 
-			if responseCode == 200 {
-				let jsonMessages = (json["response"] as! [String: Any])["direct_messages"]!
-				let data = try! JSONSerialization.data(withJSONObject: jsonMessages)
-				let messages = try! JSONDecoder().decode([GroupMe.Chat.Message].self, from: data)
+				if responseCode == 200 {
+					let jsonMessages = (json["response"] as! [String: Any])["direct_messages"]!
+					let data = try! JSONSerialization.data(withJSONObject: jsonMessages)
+					let messages = try! JSONDecoder().decode([GroupMe.Chat.Message].self, from: data)
 
-				if let text = messages.first!.text {
-					handler(text)
+					if let text = messages.first!.text {
+						handler(text)
+					}
 				}
 			}
 		}
-	}
 
-	private static var GUIDcount = 1
-	func sendMessage(text: String, successHandler: @escaping ()->() = {}) {
-		guard !text.isEmpty else { return }
-		guard text.count <= 1000 else { print("Message is too long, quitting..."); return }
+		private static var GUIDcount = 1
+		func sendMessage(text: String, successHandler: @escaping ()->() = {}) {
+			guard !text.isEmpty else { return }
+			guard text.count <= 1000 else { print("Message is too long, quitting..."); return }
 
-		let jsonDict = ["direct_message": ["source_guid": "\(GroupMe.Chat.GUIDcount++)", "recipient_id": otherUser.id, "text": text]]
-		GroupMe.betterAPIRequest(method: .post, appendingPathComponent: "/direct_messages", jsonObject: jsonDict) { (data: Data) in
-			if GroupMe.responseCode(from: data) == 201 { successHandler() }
+			let jsonDict = ["direct_message": ["source_guid": "\(GroupMe.Chat.GUIDcount++)", "recipient_id": otherUser.id, "text": text]]
+			GroupMe.betterAPIRequest(method: .post, appendingPathComponent: "/direct_messages", jsonObject: jsonDict) { (data: Data) in
+				if GroupMe.responseCode(from: data) == 201 { successHandler() }
+			}
 		}
+
 	}
+
 }
 
 extension GroupMe.Chat {
+
 	class OtherUser: Decodable {
+
 		let avatarURL: URL?
 		let id: String
 		let name: String
@@ -114,11 +118,15 @@ extension GroupMe.Chat {
 			case id
 			case name
 		}
+
 	}
+
 }
 
 extension GroupMe.Chat {
+
 	class Message: Decodable {
+
 		let attachments: [GroupMe.Attachment]
 		let avatarURL: URL?
 		let chatID: String
@@ -189,7 +197,9 @@ extension GroupMe.Chat {
 				if GroupMe.responseCode(from: data) == 200 { successHandler() }
 			}
 		}
+
 	}
+
 }
 
 

@@ -9,7 +9,12 @@
 import Foundation
 
 
+extension GroupMe {
+
+}
+
 extension GroupMe.Group {
+
 	class MessagesInfo: Decodable {
 		let count: Int
 		let lastMessageID: String

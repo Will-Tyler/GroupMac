@@ -47,6 +47,8 @@
 		4CDC813E20DAF9EC004D8DD0 /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDC813D20DAF9EC004D8DD0 /* MessagesViewController.swift */; };
 		4CDC814220DB23CB004D8DD0 /* ConvosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDC814120DB23CB004D8DD0 /* ConvosViewController.swift */; };
 		5D786FECBEFA441532910443 /* Pods_GroupMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 415CC64559BA1B574C68A601 /* Pods_GroupMac.framework */; };
+		9732A2C9BA6651AEF167EB76 /* AttachmentContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9732A1EC1A8162F327B833DE /* AttachmentContent.swift */; };
+		9732A897C2C8F699E66989C0 /* APIResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9732ABDEEE4AA9F6324C7EFB /* APIResponse.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -110,6 +112,8 @@
 		4CDC813D20DAF9EC004D8DD0 /* MessagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesViewController.swift; sourceTree = "<group>"; };
 		4CDC814120DB23CB004D8DD0 /* ConvosViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvosViewController.swift; sourceTree = "<group>"; };
 		831C8A87BAFE21A2FF9877CB /* Pods-GroupMac.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GroupMac.release.xcconfig"; path = "Pods/Target Support Files/Pods-GroupMac/Pods-GroupMac.release.xcconfig"; sourceTree = "<group>"; };
+		9732A1EC1A8162F327B833DE /* AttachmentContent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttachmentContent.swift; sourceTree = "<group>"; };
+		9732ABDEEE4AA9F6324C7EFB /* APIResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIResponse.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -236,6 +240,8 @@
 				4CDC813520DAD169004D8DD0 /* Group.swift */,
 				4C019D7B20F57CB6001282E3 /* Me.swift */,
 				4C78FDB920D82E21006385B2 /* token.txt */,
+				9732ABDEEE4AA9F6324C7EFB /* APIResponse.swift */,
+				9732A1EC1A8162F327B833DE /* AttachmentContent.swift */,
 			);
 			path = GroupMe;
 			sourceTree = "<group>";
@@ -471,6 +477,8 @@
 				4CA03B6120E289630000EA78 /* GMConversation.swift in Sources */,
 				4CC32AC020ED18D30046ED1D /* CollectionLayout.swift in Sources */,
 				4C78FDB720D82C8D006385B2 /* GroupMe.swift in Sources */,
+				9732A897C2C8F699E66989C0 /* APIResponse.swift in Sources */,
+				9732A2C9BA6651AEF167EB76 /* AttachmentContent.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
