@@ -341,17 +341,44 @@ class GroupMe {
 		return task
 	}
 
-	private static let notificationSocket: SRWebSocket = {
+	static let notificationSocket: SRWebSocket = {
+		print("Creating notification socket...")
+		defer {
+			print("Finished setting up socket...")
+		}
+		
 		let url = URL(string: "https://push.groupme.com/faye")!
 		let request: URLRequest = {
 			var req = URLRequest(url: url)
+			let body = [
+				[
+					"channel": "/meta/handshake",
+					"version": "1.0",
+					"supportedConnectionTypes": ["long-polling"],
+					"id": "1"
+				]
+			]
 
-			req.httpMethod = HTTP.RequestMethod.post.rawValue
 			req.setValue("application/json", forHTTPHeaderField: "Content-Type")
+			req.httpMethod = HTTP.RequestMethod.post.rawValue
+			req.httpBody = try! JSONSerialization.data(withJSONObject: body)
 
 			return req
 		}()
+
+		URLSession.shared.dataTask(with: request) { (data: Data?, response: URLResponse?, error: Error?) in
+			if let data = data, !data.isEmpty {
+				print(String(data: data, encoding: .utf8)!)
+			}
+			else {
+				print("Received nil or empty data...")
+			}
+		}.resume()
+
 		let socket = SRWebSocket(urlRequest: request)!
+		let delegate = NotificationSocketDelegate()
+
+		socket.delegate = delegate
 
 		return socket
 	}()

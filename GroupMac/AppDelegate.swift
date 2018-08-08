@@ -9,9 +9,10 @@
 import Cocoa
 
 
-class AppDelegate: NSObject, NSApplicationDelegate {
+final class AppDelegate: NSObject, NSApplicationDelegate {
 
 	static let me = GroupMe.me
+	private let socket = GroupMe.notificationSocket;
 
 	let windowController: NSWindowController = {
 		let window = NSWindow()

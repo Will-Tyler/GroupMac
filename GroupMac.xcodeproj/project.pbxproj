@@ -47,6 +47,7 @@
 		4CDC813E20DAF9EC004D8DD0 /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDC813D20DAF9EC004D8DD0 /* MessagesViewController.swift */; };
 		4CDC814220DB23CB004D8DD0 /* ConvosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDC814120DB23CB004D8DD0 /* ConvosViewController.swift */; };
 		5D786FECBEFA441532910443 /* Pods_GroupMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 415CC64559BA1B574C68A601 /* Pods_GroupMac.framework */; };
+		9732A1827C76D1E7B72ADF77 /* NotificationSocketDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9732AC292DD2BE4DFA789A74 /* NotificationSocketDelegate.swift */; };
 		9732A2C9BA6651AEF167EB76 /* AttachmentContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9732A1EC1A8162F327B833DE /* AttachmentContent.swift */; };
 		9732A897C2C8F699E66989C0 /* APIResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9732ABDEEE4AA9F6324C7EFB /* APIResponse.swift */; };
 /* End PBXBuildFile section */
@@ -114,6 +115,7 @@
 		831C8A87BAFE21A2FF9877CB /* Pods-GroupMac.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GroupMac.release.xcconfig"; path = "Pods/Target Support Files/Pods-GroupMac/Pods-GroupMac.release.xcconfig"; sourceTree = "<group>"; };
 		9732A1EC1A8162F327B833DE /* AttachmentContent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttachmentContent.swift; sourceTree = "<group>"; };
 		9732ABDEEE4AA9F6324C7EFB /* APIResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIResponse.swift; sourceTree = "<group>"; };
+		9732AC292DD2BE4DFA789A74 /* NotificationSocketDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationSocketDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -242,6 +244,7 @@
 				4C78FDB920D82E21006385B2 /* token.txt */,
 				9732ABDEEE4AA9F6324C7EFB /* APIResponse.swift */,
 				9732A1EC1A8162F327B833DE /* AttachmentContent.swift */,
+				9732AC292DD2BE4DFA789A74 /* NotificationSocketDelegate.swift */,
 			);
 			path = GroupMe;
 			sourceTree = "<group>";
@@ -479,6 +482,7 @@
 				4C78FDB720D82C8D006385B2 /* GroupMe.swift in Sources */,
 				9732A897C2C8F699E66989C0 /* APIResponse.swift in Sources */,
 				9732A2C9BA6651AEF167EB76 /* AttachmentContent.swift in Sources */,
+				9732A1827C76D1E7B72ADF77 /* NotificationSocketDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
