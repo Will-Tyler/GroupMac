@@ -55,7 +55,7 @@ class ConvosViewController: NSViewController, NSCollectionViewDelegateFlowLayout
 		scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -1).isActive = true
 	}
 
-	var messagesDelegate: MessagesViewController!
+	var messagesDelegate: ConvoViewController!
 	var viewDelegate: ViewController!
 
 	override func loadView() {

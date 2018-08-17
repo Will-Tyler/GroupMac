@@ -29,7 +29,7 @@ class ViewController: NSViewController {
 		return field
 	}()
 	private let convosViewController = ConvosViewController()
-	private let messagesViewController = MessagesViewController()
+	private let messagesViewController = ConvoViewController()
 
 	private func setupInitialLayout() {
 		addChildViewController(convosViewController)
