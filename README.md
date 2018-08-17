@@ -1,4 +1,4 @@
-## GroupMac
+# GroupMac
 A GroupMe client built natively in Swift for the macOS platforms.
 
 GroupMac uses the public GroupMe API to provide the features, functionality, and look and feel that the iOS GroupMe app and GroupMe website provide (<https://groupme.com/>). Information and documentation pertaining to the public GroupMe API can be found at <https://dev.groupme.com/>.
