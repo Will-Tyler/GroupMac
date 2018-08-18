@@ -64,8 +64,13 @@ final class MessagesViewController: NSViewController, NSCollectionViewDelegateFl
 
 		collectionView.collectionViewLayout!.invalidateLayout()
 	}
+	override func viewWillAppear() {
+		super.viewWillAppear()
 
-	private func scrollTranscriptToBottom() {
+		scrollTranscriptToBottom()
+	}
+
+	func scrollTranscriptToBottom() {
 		let scrollPoint = NSPoint(x: 0, y: collectionView.bounds.height - scrollView.bounds.height)
 
 		DispatchQueue.main.async {
