@@ -47,6 +47,7 @@ class ConvoViewController: NSViewController {
 
 		return image
 	}()
+	private let messagesViewController = MessagesViewController()
 //	private let messagesCollectionView: NSCollectionView = {
 //		let collectionView = NSCollectionView()
 //		let flowLayout: NSCollectionViewFlowLayout = {
@@ -124,9 +125,12 @@ class ConvoViewController: NSViewController {
 		titleView.addSubview(groupImageView)
 		titleView.addSubview(titleLabel)
 
+		let messagesView = messagesViewController.view
+
 //		containerView.addSubview(scrollView)
 		containerView.addSubview(titleView)
 		containerView.addSubview(inputView)
+		containerView.addSubview(messagesView)
 
 		groupImageView.translatesAutoresizingMaskIntoConstraints = false
 		groupImageView.heightAnchor.constraint(equalToConstant: 30).isActive = true
@@ -147,6 +151,12 @@ class ConvoViewController: NSViewController {
 		titleView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor).isActive = true
 		titleView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor).isActive = true
 		titleView.heightAnchor.constraint(equalToConstant: titleLabel.intrinsicContentSize.height + 8).isActive = true
+
+		messagesView.translatesAutoresizingMaskIntoConstraints = false
+		messagesView.topAnchor.constraint(equalTo: titleView.bottomAnchor, constant: -1).isActive = true // overlap borders
+		messagesView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor).isActive = true
+		messagesView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor).isActive = true
+		messagesView.bottomAnchor.constraint(equalTo: inputView.topAnchor, constant: 1).isActive = true // overlap borders
 
 //		scrollView.translatesAutoresizingMaskIntoConstraints = false
 //		scrollView.topAnchor.constraint(equalTo: titleView.bottomAnchor, constant: -1).isActive = true // overlap borders to maintain 1 px
@@ -213,7 +223,15 @@ class ConvoViewController: NSViewController {
 		}
 	}
 	private var messages: [GMMessage]? {
-		didSet {
+		get {
+			return messagesViewController.messages
+		}
+		set {
+			messagesViewController.messages = newValue
+		}
+	}
+//	private var messages: [GMMessage]? {
+//		didSet {
 //			DispatchQueue.main.async {
 //				self.messagesCollectionView.visibleItems().forEach { (cell) in
 //					if let userCell = cell as? UserMessageCell {
@@ -222,8 +240,8 @@ class ConvoViewController: NSViewController {
 //				}
 //				self.messagesCollectionView.reloadData()
 //			}
-		}
-	}
+//		}
+//	}
 
 	override func loadView() {
 		view = containerView

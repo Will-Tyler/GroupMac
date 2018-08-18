@@ -33,7 +33,7 @@ final class MessagesViewController: NSViewController, NSCollectionViewDelegateFl
 	}()
 	private let scrollView = NSScrollView()
 
-	private var messages: [GMMessage]! {
+	var messages: [GMMessage]! {
 		didSet {
 			DispatchQueue.main.async {
 				for cell in self.collectionView.visibleItems() {
