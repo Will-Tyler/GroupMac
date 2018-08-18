@@ -9,7 +9,7 @@
 import Cocoa
 
 
-class ConvoViewController: NSViewController, NSCollectionViewDelegateFlowLayout, NSCollectionViewDataSource {
+class ConvoViewController: NSViewController {
 
 	private let containerView: NSView = {
 		let view = NSView()
@@ -47,31 +47,31 @@ class ConvoViewController: NSViewController, NSCollectionViewDelegateFlowLayout,
 
 		return image
 	}()
-	private let messagesCollectionView: NSCollectionView = {
-		let collectionView = NSCollectionView()
-		let flowLayout: NSCollectionViewFlowLayout = {
-			let flow = NSCollectionViewFlowLayout()
-
-			flow.minimumLineSpacing = 0
-			flow.scrollDirection = .vertical
-
-			return flow
-		}()
-
-		collectionView.collectionViewLayout = flowLayout
-		collectionView.isSelectable = false
-
-		collectionView.wantsLayer = true
-		collectionView.layer!.borderWidth = 1
-		collectionView.layer!.borderColor = Colors.border
-
-		return collectionView
-	}()
-	private let scrollView: NSScrollView = {
-		let scroll = NSScrollView()
-
-		return scroll
-	}()
+//	private let messagesCollectionView: NSCollectionView = {
+//		let collectionView = NSCollectionView()
+//		let flowLayout: NSCollectionViewFlowLayout = {
+//			let flow = NSCollectionViewFlowLayout()
+//
+//			flow.minimumLineSpacing = 0
+//			flow.scrollDirection = .vertical
+//
+//			return flow
+//		}()
+//
+//		collectionView.collectionViewLayout = flowLayout
+//		collectionView.isSelectable = false
+//
+//		collectionView.wantsLayer = true
+//		collectionView.layer!.borderWidth = 1
+//		collectionView.layer!.borderColor = Colors.border
+//
+//		return collectionView
+//	}()
+//	private let scrollView: NSScrollView = {
+//		let scroll = NSScrollView()
+//
+//		return scroll
+//	}()
 	private let inputTextField: NSTextField = {
 		let field = NSTextField()
 
@@ -124,7 +124,7 @@ class ConvoViewController: NSViewController, NSCollectionViewDelegateFlowLayout,
 		titleView.addSubview(groupImageView)
 		titleView.addSubview(titleLabel)
 
-		containerView.addSubview(scrollView)
+//		containerView.addSubview(scrollView)
 		containerView.addSubview(titleView)
 		containerView.addSubview(inputView)
 
@@ -148,11 +148,11 @@ class ConvoViewController: NSViewController, NSCollectionViewDelegateFlowLayout,
 		titleView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor).isActive = true
 		titleView.heightAnchor.constraint(equalToConstant: titleLabel.intrinsicContentSize.height + 8).isActive = true
 
-		scrollView.translatesAutoresizingMaskIntoConstraints = false
-		scrollView.topAnchor.constraint(equalTo: titleView.bottomAnchor, constant: -1).isActive = true // overlap borders to maintain 1 px
-		scrollView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor).isActive = true
-		scrollView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor).isActive = true
-		scrollView.bottomAnchor.constraint(equalTo: inputView.topAnchor, constant: 1).isActive = true
+//		scrollView.translatesAutoresizingMaskIntoConstraints = false
+//		scrollView.topAnchor.constraint(equalTo: titleView.bottomAnchor, constant: -1).isActive = true // overlap borders to maintain 1 px
+//		scrollView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor).isActive = true
+//		scrollView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor).isActive = true
+//		scrollView.bottomAnchor.constraint(equalTo: inputView.topAnchor, constant: 1).isActive = true
 
 		inputView.translatesAutoresizingMaskIntoConstraints = false
 		inputView.heightAnchor.constraint(equalTo: titleView.heightAnchor).isActive = true
@@ -209,19 +209,19 @@ class ConvoViewController: NSViewController, NSCollectionViewDelegateFlowLayout,
 				groupImageView.layer!.masksToBounds = false
 			}
 
-			scrollTranscriptToBottom()
+//			scrollTranscriptToBottom()
 		}
 	}
 	private var messages: [GMMessage]? {
 		didSet {
-			DispatchQueue.main.async {
-				self.messagesCollectionView.visibleItems().forEach { (cell) in
-					if let userCell = cell as? UserMessageCell {
-						userCell.cancelRunningImageTasks()
-					}
-				}
-				self.messagesCollectionView.reloadData()
-			}
+//			DispatchQueue.main.async {
+//				self.messagesCollectionView.visibleItems().forEach { (cell) in
+//					if let userCell = cell as? UserMessageCell {
+//						userCell.cancelRunningImageTasks()
+//					}
+//				}
+//				self.messagesCollectionView.reloadData()
+//			}
 		}
 	}
 
@@ -231,159 +231,159 @@ class ConvoViewController: NSViewController, NSCollectionViewDelegateFlowLayout,
 	override func viewDidLoad() {
 		super.viewDidLoad()
 
-		scrollView.documentView = messagesCollectionView
+//		scrollView.documentView = messagesCollectionView
 //		NotificationCenter.default.addObserver(self, selector: #selector(scrollViewDidScroll(notification:)), name: NSView.boundsDidChangeNotification, object: scrollView.contentView)
 
-		messagesCollectionView.delegate = self
-		messagesCollectionView.dataSource = self
-		messagesCollectionView.register(UserMessageCell.self, forItemWithIdentifier: UserMessageCell.cellIdentifier)
-		messagesCollectionView.register(SystemMessageCell.self, forItemWithIdentifier: SystemMessageCell.cellIdentifier)
+//		messagesCollectionView.delegate = self
+//		messagesCollectionView.dataSource = self
+//		messagesCollectionView.register(UserMessageCell.self, forItemWithIdentifier: UserMessageCell.cellIdentifier)
+//		messagesCollectionView.register(SystemMessageCell.self, forItemWithIdentifier: SystemMessageCell.cellIdentifier)
 
 		setupInitialLayout()
 	}
-	override func viewDidLayout() {
-		super.viewDidLayout()
-
-		messagesCollectionView.collectionViewLayout!.invalidateLayout()
-	}
+//	override func viewDidLayout() {
+//		super.viewDidLayout()
+//
+//		messagesCollectionView.collectionViewLayout!.invalidateLayout()
+//	}
 	override func viewWillAppear() {
 		super.viewWillAppear()
 
-		scrollTranscriptToBottom()
+//		scrollTranscriptToBottom()
 	}
 
-	private func scrollTranscriptToBottom() {
-		DispatchQueue.main.async {
-			let scrollPoint = NSPoint(x: 0, y: self.messagesCollectionView.bounds.height - self.scrollView.bounds.height)
+//	private func scrollTranscriptToBottom() {
+//		let scrollPoint = NSPoint(x: 0, y: self.messagesCollectionView.bounds.height - self.scrollView.bounds.height)
+//
+//		DispatchQueue.main.async {
+//			self.scrollView.contentView.scroll(to: scrollPoint)
+//			self.scrollView.reflectScrolledClipView(self.scrollView.contentView)
+//		}
+//	}
 
-			self.scrollView.contentView.scroll(to: scrollPoint)
-			self.scrollView.reflectScrolledClipView(self.scrollView.contentView)
-		}
-	}
-
-	@objc private func heartButtonAction(sender: HeartButton) {
-		let messageCell = messagesCollectionView.item(at: sender.tag)! as! MessageCell
-
-		messageCell.toggleLike()
-	}
+//	@objc private func heartButtonAction(sender: HeartButton) {
+//		let messageCell = messagesCollectionView.item(at: sender.tag)! as! MessageCell
+//
+//		messageCell.toggleLike()
+//	}
 
 	//MARK: Collection view
-	func collectionView(_ collectionView: NSCollectionView, numberOfItemsInSection section: Int) -> Int {
-		return messages?.count ?? 0
-	}
-	func collectionView(_ collectionView: NSCollectionView, itemForRepresentedObjectAt indexPath: IndexPath) -> NSCollectionViewItem {
-		let message: GMMessage = {
-			let count = messages!.count
-
-			return messages![count-1 - indexPath.item]
-		}()
-
-		let cellID = message.isSystem ? SystemMessageCell.cellIdentifier : UserMessageCell.cellIdentifier
-		let item = collectionView.makeItem(withIdentifier: cellID, for: indexPath) as! MessageCell
-
-		item.message = message
-
-		item.heartButton.tag = indexPath.item
-		item.heartButton.target = self
-		item.heartButton.action = #selector(heartButtonAction(sender:))
-		item.heartButton.addTrackingArea({
-			let options = NSTrackingArea.Options.mouseEnteredAndExited.union(.activeInActiveApp)
-
-			return NSTrackingArea(rect: item.heartButton.bounds, options: options, owner: item.heartButton, userInfo: nil)
-		}())
-
-		return item
-	}
-	func collectionView(_ collectionView: NSCollectionView, layout collectionViewLayout: NSCollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> NSSize {
-		// Layout usually occurs before cell creation.
-		// Create a cell to determine the correct height
-		// Creating a cell doesn't work. Recreate labels to get estimated desired height
-		let collectionViewWidth = collectionView.bounds.width
-		let avatarImageWidth: CGFloat = 30
-		let spacing: CGFloat = 4
-		let likesViewWidth: CGFloat = 17
-		let minimumHeight: CGFloat = avatarImageWidth + (2*spacing)
-		let desiredHeight: CGFloat = {
-			let message: GMMessage = {
-				let count = messages!.count
-
-				return messages![count-1 - indexPath.item]
-			}()
-
-			let operatingWidth = collectionViewWidth - (avatarImageWidth + likesViewWidth + (4*spacing))
-			let labels = (name: message.name as NSString, text: message.text as NSString?)
-			let restrictedSize = CGSize(width: operatingWidth, height: .greatestFiniteMagnitude)
-			let drawingOptions = NSString.DrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
-
-			let nameEstimate: CGRect = labels.name.boundingRect(with: restrictedSize, options: drawingOptions, attributes: [.font: Fonts.boldSmall])
-			let textFont = message.isSystem ? Fonts.regularSmall : Fonts.regular
-			let textEstimate: CGRect? = labels.text?.boundingRect(with: restrictedSize, options: drawingOptions, attributes: [.font: textFont])
-
-			let textHeight = (message.isSystem ? 0 : nameEstimate.height) + (textEstimate?.height ?? 0)
-
-			var attachmentHeight: CGFloat = 0
-			if let attachment = message.attachments.first {
-				switch attachment.contentType {
-				case .image:
-					let maxImageSize = NSSize(width: 500, height: 500)
-					let maxContainerWidth = maxImageSize.width + 8
-
-					if operatingWidth > maxContainerWidth {
-						attachmentHeight += maxImageSize.height + 8
-					}
-					else {
-						let aspectRatio = maxImageSize.height / maxImageSize.width
-						let containerHeight = (operatingWidth * aspectRatio) + 8
-
-						attachmentHeight += containerHeight
-					}
-
-				default:
-					let attachment = message.attachments.first!
-
-					switch attachment.contentType {
-					case .mentions:
-						let mutableString = NSMutableAttributedString(string: message.text!)
-						let mentions = attachment.content as! GroupMe.Attachment.Mentions
-
-						for location in mentions.loci {
-							let range = NSRange(location: location.first!, length: location.last!)
-
-							mutableString.addAttribute(.font, value: Fonts.bold, range: range)
-						}
-
-						let boundingBox = mutableString.boundingRect(with: restrictedSize, options: drawingOptions)
-
-						attachmentHeight += boundingBox.height - textEstimate!.height
-						
-					default:
-						let unsupportedMessage = UserMessageCell.unsupportedAttachmentMessage(for: attachment.contentType) as NSString
-						let size = NSSize(width: operatingWidth - (2*spacing), height: .greatestFiniteMagnitude)
-						let textEstimate: CGRect = unsupportedMessage.boundingRect(with: size, options: drawingOptions, attributes: [.font: Fonts.regularLarge])
-
-						attachmentHeight += textEstimate.height + 8
-					}
-				}
-			}
-
-			return textHeight + attachmentHeight
-		}()
-		let resultHeight = desiredHeight > minimumHeight ? desiredHeight : minimumHeight
-
-		return NSSize(width: collectionView.bounds.width, height: resultHeight)
-	}
-
-	// MARK: Scroll view
-	private var runningTask: URLSessionDataTask?
-	@objc private func scrollViewDidScroll(notification: NSNotification) {
-		let percentScrolled = Int(scrollView.verticalScroller!.floatValue * 100)
-
-		if percentScrolled < 10, (runningTask == nil || runningTask?.state != .running) {
-			let task = conversation.handleMessages(with: { (newMessages) in
-				self.messages!.append(contentsOf: newMessages)
-			}, beforeID: messages!.last!.id)
-
-			runningTask = task
-		}
-	}
+//	func collectionView(_ collectionView: NSCollectionView, numberOfItemsInSection section: Int) -> Int {
+//		return messages?.count ?? 0
+//	}
+//	func collectionView(_ collectionView: NSCollectionView, itemForRepresentedObjectAt indexPath: IndexPath) -> NSCollectionViewItem {
+//		let message: GMMessage = {
+//			let count = messages!.count
+//
+//			return messages![count-1 - indexPath.item]
+//		}()
+//
+//		let cellID = message.isSystem ? SystemMessageCell.cellIdentifier : UserMessageCell.cellIdentifier
+//		let item = collectionView.makeItem(withIdentifier: cellID, for: indexPath) as! MessageCell
+//
+//		item.message = message
+//
+//		item.heartButton.tag = indexPath.item
+//		item.heartButton.target = self
+//		item.heartButton.action = #selector(heartButtonAction(sender:))
+//		item.heartButton.addTrackingArea({
+//			let options = NSTrackingArea.Options.mouseEnteredAndExited.union(.activeInActiveApp)
+//
+//			return NSTrackingArea(rect: item.heartButton.bounds, options: options, owner: item.heartButton, userInfo: nil)
+//		}())
+//
+//		return item
+//	}
+//	func collectionView(_ collectionView: NSCollectionView, layout collectionViewLayout: NSCollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> NSSize {
+//		// Layout usually occurs before cell creation.
+//		// Create a cell to determine the correct height
+//		// Creating a cell doesn't work. Recreate labels to get estimated desired height
+//		let collectionViewWidth = collectionView.bounds.width
+//		let avatarImageWidth: CGFloat = 30
+//		let spacing: CGFloat = 4
+//		let likesViewWidth: CGFloat = 17
+//		let minimumHeight: CGFloat = avatarImageWidth + (2*spacing)
+//		let desiredHeight: CGFloat = {
+//			let message: GMMessage = {
+//				let count = messages!.count
+//
+//				return messages![count-1 - indexPath.item]
+//			}()
+//
+//			let operatingWidth = collectionViewWidth - (avatarImageWidth + likesViewWidth + (4*spacing))
+//			let labels = (name: message.name as NSString, text: message.text as NSString?)
+//			let restrictedSize = CGSize(width: operatingWidth, height: .greatestFiniteMagnitude)
+//			let drawingOptions = NSString.DrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
+//
+//			let nameEstimate: CGRect = labels.name.boundingRect(with: restrictedSize, options: drawingOptions, attributes: [.font: Fonts.boldSmall])
+//			let textFont = message.isSystem ? Fonts.regularSmall : Fonts.regular
+//			let textEstimate: CGRect? = labels.text?.boundingRect(with: restrictedSize, options: drawingOptions, attributes: [.font: textFont])
+//
+//			let textHeight = (message.isSystem ? 0 : nameEstimate.height) + (textEstimate?.height ?? 0)
+//
+//			var attachmentHeight: CGFloat = 0
+//			if let attachment = message.attachments.first {
+//				switch attachment.contentType {
+//				case .image:
+//					let maxImageSize = NSSize(width: 500, height: 500)
+//					let maxContainerWidth = maxImageSize.width + 8
+//
+//					if operatingWidth > maxContainerWidth {
+//						attachmentHeight += maxImageSize.height + 8
+//					}
+//					else {
+//						let aspectRatio = maxImageSize.height / maxImageSize.width
+//						let containerHeight = (operatingWidth * aspectRatio) + 8
+//
+//						attachmentHeight += containerHeight
+//					}
+//
+//				default:
+//					let attachment = message.attachments.first!
+//
+//					switch attachment.contentType {
+//					case .mentions:
+//						let mutableString = NSMutableAttributedString(string: message.text!)
+//						let mentions = attachment.content as! GroupMe.Attachment.Mentions
+//
+//						for location in mentions.loci {
+//							let range = NSRange(location: location.first!, length: location.last!)
+//
+//							mutableString.addAttribute(.font, value: Fonts.bold, range: range)
+//						}
+//
+//						let boundingBox = mutableString.boundingRect(with: restrictedSize, options: drawingOptions)
+//
+//						attachmentHeight += boundingBox.height - textEstimate!.height
+//
+//					default:
+//						let unsupportedMessage = UserMessageCell.unsupportedAttachmentMessage(for: attachment.contentType) as NSString
+//						let size = NSSize(width: operatingWidth - (2*spacing), height: .greatestFiniteMagnitude)
+//						let textEstimate: CGRect = unsupportedMessage.boundingRect(with: size, options: drawingOptions, attributes: [.font: Fonts.regularLarge])
+//
+//						attachmentHeight += textEstimate.height + 8
+//					}
+//				}
+//			}
+//
+//			return textHeight + attachmentHeight
+//		}()
+//		let resultHeight = desiredHeight > minimumHeight ? desiredHeight : minimumHeight
+//
+//		return NSSize(width: collectionView.bounds.width, height: resultHeight)
+//	}
+//
+//	// MARK: Scroll view
+//	private var runningTask: URLSessionDataTask?
+//	@objc private func scrollViewDidScroll(notification: NSNotification) {
+//		let percentScrolled = Int(scrollView.verticalScroller!.floatValue * 100)
+//
+//		if percentScrolled < 10, (runningTask == nil || runningTask?.state != .running) {
+//			let task = conversation.handleMessages(with: { (newMessages) in
+//				self.messages!.append(contentsOf: newMessages)
+//			}, beforeID: messages!.last!.id)
+//
+//			runningTask = task
+//		}
+//	}
 }
