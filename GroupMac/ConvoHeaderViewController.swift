@@ -8,6 +8,14 @@ import Cocoa
 
 final class ConvoHeaderViewController: NSViewController {
 
+	private let groupImageView: NSImageView = {
+		let image = NSImageView()
+
+		image.imageScaling = NSImageScaling.scaleAxesIndependently
+		image.image = #imageLiteral(resourceName: "Group Default Image")
+
+		return image
+	}()
 	private let titleLabel: NSTextField = {
 		let field = NSTextField(wrappingLabelWithString: "")
 
@@ -19,14 +27,6 @@ final class ConvoHeaderViewController: NSViewController {
 
 		return field
 	}()
-	private let groupImageView: NSImageView = {
-		let image = NSImageView()
-
-		image.imageScaling = NSImageScaling.scaleAxesIndependently
-		image.image = #imageLiteral(resourceName: "Group Default Image")
-
-		return image
-	}()
 
 	private func setupInitialLayout() {
 		view.addSubview(groupImageView)
@@ -34,11 +34,9 @@ final class ConvoHeaderViewController: NSViewController {
 
 		groupImageView.translatesAutoresizingMaskIntoConstraints = false
 		groupImageView.heightAnchor.constraint(equalToConstant: 30).isActive = true
-		groupImageView.heightAnchor.constraint(equalTo: groupImageView.widthAnchor).isActive = true
+		groupImageView.widthAnchor.constraint(equalTo: groupImageView.heightAnchor).isActive = true
 		groupImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
 		groupImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 4).isActive = true
-		groupImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 4).isActive = true
-		groupImageView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -4).isActive = true
 
 		titleLabel.translatesAutoresizingMaskIntoConstraints = false
 		titleLabel.heightAnchor.constraint(equalToConstant: titleLabel.intrinsicContentSize.height).isActive = true
