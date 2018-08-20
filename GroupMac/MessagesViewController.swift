@@ -34,7 +34,14 @@ final class MessagesViewController: NSViewController, NSCollectionViewDelegateFl
 	private let scrollView = NSScrollView()
 
 	override func loadView() {
-		view = scrollView
+//		view = scrollView
+		view = {
+			let view = NSView()
+
+			view.backColor = .white
+
+			return view
+		}()
 	}
 	override func viewDidLoad() {
 		super.viewDidLoad()

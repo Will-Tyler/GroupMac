@@ -32,16 +32,7 @@ final class ConvoViewController: NSViewController {
 	private let messageComposerController = MessageComposerViewController()
 
 	private func setupInitialLayout() {
-//		let headerView = convoHeaderViewController.view
-
-//		view.addSubview(headerView)
 		view.addSubview(welcomeLabel)
-
-//		headerView.translatesAutoresizingMaskIntoConstraints = false
-//		headerView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-//		headerView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-//		headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-//		headerView.heightAnchor.constraint(equalToConstant: 30 + 8).isActive = true
 
 		welcomeLabel.translatesAutoresizingMaskIntoConstraints = false
 		welcomeLabel.heightAnchor.constraint(equalToConstant: welcomeLabel.intrinsicContentSize.height).isActive = true
@@ -52,17 +43,25 @@ final class ConvoViewController: NSViewController {
 	private func setupDetailLayout() {
 		welcomeLabel.removeFromSuperview()
 
-		let messagesView = messagesViewController.view
+		let headerView = convoHeaderViewController.view
+//		let messagesView = messagesViewController.view
 		let composerView = messageComposerController.view
 
-		view.addSubview(messagesView)
+		view.addSubview(headerView)
+//		view.addSubview(messagesView)
 		view.addSubview(composerView)
 
-		messagesView.translatesAutoresizingMaskIntoConstraints = false
-		messagesView.topAnchor.constraint(equalTo: view.topAnchor, constant: 4).isActive = true // overlap borders
-		messagesView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-		messagesView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-		messagesView.bottomAnchor.constraint(equalTo: view.topAnchor, constant: 1).isActive = true // overlap borders
+		headerView.translatesAutoresizingMaskIntoConstraints = false
+		headerView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+		headerView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+		headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+		headerView.heightAnchor.constraint(equalToConstant: 38).isActive = true
+
+//		messagesView.translatesAutoresizingMaskIntoConstraints = false
+//		messagesView.topAnchor.constraint(equalTo: view.topAnchor, constant: 4).isActive = true // overlap borders
+//		messagesView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+//		messagesView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+//		messagesView.bottomAnchor.constraint(equalTo: view.topAnchor, constant: 1).isActive = true // overlap borders
 
 		composerView.translatesAutoresizingMaskIntoConstraints = false
 		composerView.heightAnchor.constraint(equalToConstant: 38).isActive = true
