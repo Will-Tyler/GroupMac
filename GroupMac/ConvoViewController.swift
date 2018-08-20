@@ -48,63 +48,11 @@ final class ConvoViewController: NSViewController {
 		return image
 	}()
 	private let messagesViewController = MessagesViewController()
-	private let inputTextField: NSTextField = {
-		let field = NSTextField()
-
-		field.font = Fonts.regular
-		field.placeholderString = "Send Message..."
-		field.isBezeled = false
-		field.backgroundColor = .clear
-		field.focusRingType = NSFocusRingType.none
-
-		return field
-	}()
-	private let sendButton: CursorButton = {
-		let button = CursorButton(title: "", target: self, action: #selector(sendButtonAction(sender:)))
-
-		button.attributedTitle = NSAttributedString(string: "Send", attributes: [.font: Fonts.bold, .foregroundColor: Colors.systemText])
-		button.font = Fonts.bold
-		button.isBordered = false
-		button.cursor = NSCursor.pointingHand
-
-		return button
-	}()
+	private let messageComposerController = MessageComposerViewController()
 
 	private func setupInitialLayout() {
-		let inputView: NSView = {
-			let view = NSView()
-
-			view.backColor = .white
-			view.wantsLayer = true
-			view.layer!.borderWidth = 1
-			view.layer!.borderColor = Colors.border
-
-			return view
-		}()
-
-		inputView.addSubview(inputTextField)
-		inputView.addSubview(sendButton)
-
-		inputTextField.translatesAutoresizingMaskIntoConstraints = false
-		inputTextField.heightAnchor.constraint(equalToConstant: inputTextField.intrinsicContentSize.height).isActive = true
-		inputTextField.leadingAnchor.constraint(equalTo: inputView.leadingAnchor, constant: 4).isActive = true
-		inputTextField.centerYAnchor.constraint(equalTo: inputView.centerYAnchor).isActive = true
-		inputTextField.trailingAnchor.constraint(equalTo: sendButton.leadingAnchor).isActive = true
-
-		sendButton.translatesAutoresizingMaskIntoConstraints = false
-		sendButton.heightAnchor.constraint(equalTo: inputTextField.heightAnchor).isActive = true
-		sendButton.widthAnchor.constraint(equalToConstant: sendButton.intrinsicContentSize.width).isActive = true
-		sendButton.trailingAnchor.constraint(equalTo: inputView.trailingAnchor, constant: -4).isActive = true
-		sendButton.centerYAnchor.constraint(equalTo: inputTextField.centerYAnchor).isActive = true
-
 		titleView.addSubview(groupImageView)
 		titleView.addSubview(titleLabel)
-
-		let messagesView = messagesViewController.view
-
-		containerView.addSubview(titleView)
-		containerView.addSubview(inputView)
-		containerView.addSubview(messagesView)
 
 		groupImageView.translatesAutoresizingMaskIntoConstraints = false
 		groupImageView.heightAnchor.constraint(equalToConstant: 30).isActive = true
@@ -120,6 +68,13 @@ final class ConvoViewController: NSViewController {
 		titleLabel.trailingAnchor.constraint(equalTo: titleView.trailingAnchor, constant: -4).isActive = true
 		titleLabel.centerYAnchor.constraint(equalTo: titleView.centerYAnchor).isActive = true
 
+		let messagesView = messagesViewController.view
+		let composerView = messageComposerController.view
+
+		containerView.addSubview(titleView)
+		containerView.addSubview(messagesView)
+		containerView.addSubview(composerView)
+
 		titleView.translatesAutoresizingMaskIntoConstraints = false
 		titleView.topAnchor.constraint(equalTo: containerView.topAnchor).isActive = true
 		titleView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor).isActive = true
@@ -130,36 +85,13 @@ final class ConvoViewController: NSViewController {
 		messagesView.topAnchor.constraint(equalTo: titleView.bottomAnchor, constant: -1).isActive = true // overlap borders
 		messagesView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor).isActive = true
 		messagesView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor).isActive = true
-		messagesView.bottomAnchor.constraint(equalTo: inputView.topAnchor, constant: 1).isActive = true // overlap borders
+		messagesView.bottomAnchor.constraint(equalTo: composerView.topAnchor, constant: 1).isActive = true // overlap borders
 
-		inputView.translatesAutoresizingMaskIntoConstraints = false
-		inputView.heightAnchor.constraint(equalTo: titleView.heightAnchor).isActive = true
-		inputView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor).isActive = true
-		inputView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor).isActive = true
-		inputView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor).isActive = true
-	}
-
-	@objc private func sendButtonAction(sender: NSButton) {
-		if conversation.convoType == .group {
-			let group = conversation as! GroupMe.Group
-
-			group.sendMessage(text: inputTextField.stringValue) {
-				DispatchQueue.main.async {
-					self.inputTextField.stringValue = ""
-					self.messages = self.conversation.blandMessages
-				}
-			}
-		}
-		else {
-			let chat = conversation as! GroupMe.Chat
-
-			chat.sendMessage(text: inputTextField.stringValue) {
-				DispatchQueue.main.async {
-					self.inputTextField.stringValue = ""
-					self.messages = self.conversation.blandMessages
-				}
-			}
-		}
+		composerView.translatesAutoresizingMaskIntoConstraints = false
+		composerView.heightAnchor.constraint(equalTo: titleView.heightAnchor).isActive = true
+		composerView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor).isActive = true
+		composerView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor).isActive = true
+		composerView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor).isActive = true
 	}
 
 	var conversation: GMConversation! {

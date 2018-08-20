@@ -50,6 +50,7 @@
 		9732A1827C76D1E7B72ADF77 /* NotificationSocketDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9732AC292DD2BE4DFA789A74 /* NotificationSocketDelegate.swift */; };
 		9732A2C9BA6651AEF167EB76 /* AttachmentContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9732A1EC1A8162F327B833DE /* AttachmentContent.swift */; };
 		9732A897C2C8F699E66989C0 /* APIResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9732ABDEEE4AA9F6324C7EFB /* APIResponse.swift */; };
+		9732AEF24DF4A5729B1BFA48 /* MessageComposerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9732A681295E00D3B85DBDC3 /* MessageComposerViewController.swift */; };
 		9732AFFDB30E91EA9A5CB26F /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9732A6673DB0DEC96B8F9E72 /* MessagesViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -116,6 +117,7 @@
 		831C8A87BAFE21A2FF9877CB /* Pods-GroupMac.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GroupMac.release.xcconfig"; path = "Pods/Target Support Files/Pods-GroupMac/Pods-GroupMac.release.xcconfig"; sourceTree = "<group>"; };
 		9732A1EC1A8162F327B833DE /* AttachmentContent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttachmentContent.swift; sourceTree = "<group>"; };
 		9732A6673DB0DEC96B8F9E72 /* MessagesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesViewController.swift; sourceTree = "<group>"; };
+		9732A681295E00D3B85DBDC3 /* MessageComposerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageComposerViewController.swift; sourceTree = "<group>"; };
 		9732ABDEEE4AA9F6324C7EFB /* APIResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIResponse.swift; sourceTree = "<group>"; };
 		9732AC292DD2BE4DFA789A74 /* NotificationSocketDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationSocketDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -213,6 +215,7 @@
 				4C78FD9320D8280F006385B2 /* Info.plist */,
 				4C78FD9420D8280F006385B2 /* GroupMac.entitlements */,
 				9732A6673DB0DEC96B8F9E72 /* MessagesViewController.swift */,
+				9732A681295E00D3B85DBDC3 /* MessageComposerViewController.swift */,
 			);
 			path = GroupMac;
 			sourceTree = "<group>";
@@ -487,6 +490,7 @@
 				9732A2C9BA6651AEF167EB76 /* AttachmentContent.swift in Sources */,
 				9732A1827C76D1E7B72ADF77 /* NotificationSocketDelegate.swift in Sources */,
 				9732AFFDB30E91EA9A5CB26F /* MessagesViewController.swift in Sources */,
+				9732AEF24DF4A5729B1BFA48 /* MessageComposerViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
