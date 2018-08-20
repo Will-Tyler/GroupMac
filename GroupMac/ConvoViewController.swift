@@ -33,12 +33,8 @@ final class ConvoViewController: NSViewController {
 
 	private func setupInitialLayout() {
 //		let headerView = convoHeaderViewController.view
-		let messagesView = messagesViewController.view
-		let composerView = messageComposerController.view
 
 //		view.addSubview(headerView)
-		view.addSubview(messagesView)
-		view.addSubview(composerView)
 		view.addSubview(welcomeLabel)
 
 //		headerView.translatesAutoresizingMaskIntoConstraints = false
@@ -47,8 +43,23 @@ final class ConvoViewController: NSViewController {
 //		headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
 //		headerView.heightAnchor.constraint(equalToConstant: 30 + 8).isActive = true
 
+		welcomeLabel.translatesAutoresizingMaskIntoConstraints = false
+		welcomeLabel.heightAnchor.constraint(equalToConstant: welcomeLabel.intrinsicContentSize.height).isActive = true
+		welcomeLabel.widthAnchor.constraint(equalToConstant: welcomeLabel.intrinsicContentSize.width).isActive = true
+		welcomeLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+		welcomeLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+	}
+	private func setupDetailLayout() {
+		welcomeLabel.removeFromSuperview()
+
+		let messagesView = messagesViewController.view
+		let composerView = messageComposerController.view
+
+		view.addSubview(messagesView)
+		view.addSubview(composerView)
+
 		messagesView.translatesAutoresizingMaskIntoConstraints = false
-		messagesView.topAnchor.constraint(equalTo: view.topAnchor, constant: -1).isActive = true // overlap borders
+		messagesView.topAnchor.constraint(equalTo: view.topAnchor, constant: 4).isActive = true // overlap borders
 		messagesView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
 		messagesView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
 		messagesView.bottomAnchor.constraint(equalTo: view.topAnchor, constant: 1).isActive = true // overlap borders
@@ -58,12 +69,6 @@ final class ConvoViewController: NSViewController {
 		composerView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
 		composerView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
 		composerView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-
-		welcomeLabel.translatesAutoresizingMaskIntoConstraints = false
-		welcomeLabel.heightAnchor.constraint(equalToConstant: welcomeLabel.intrinsicContentSize.height).isActive = true
-		welcomeLabel.widthAnchor.constraint(equalToConstant: welcomeLabel.intrinsicContentSize.width).isActive = true
-		welcomeLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-		welcomeLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
 	}
 
 	override func loadView() {
@@ -85,10 +90,12 @@ final class ConvoViewController: NSViewController {
 		setupInitialLayout()
 	}
 
+	private var hasSelectedConvo: Bool = false
 	var conversation: GMConversation! {
 		didSet {
-			if view.subviews.contains(welcomeLabel) {
-				welcomeLabel.removeFromSuperview()
+			if !hasSelectedConvo {
+				setupDetailLayout()
+				hasSelectedConvo = true
 			}
 
 			messages = conversation.blandMessages

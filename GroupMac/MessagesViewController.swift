@@ -33,19 +33,6 @@ final class MessagesViewController: NSViewController, NSCollectionViewDelegateFl
 	}()
 	private let scrollView = NSScrollView()
 
-	var messages: [GMMessage]! {
-		didSet {
-			DispatchQueue.main.async {
-				for cell in self.collectionView.visibleItems() {
-					if let userCell = cell as? UserMessageCell {
-						userCell.cancelRunningImageTasks()
-					}
-				}
-				self.collectionView.reloadData()
-			}
-		}
-	}
-
 	override func loadView() {
 		view = scrollView
 	}
@@ -68,6 +55,19 @@ final class MessagesViewController: NSViewController, NSCollectionViewDelegateFl
 		super.viewWillAppear()
 
 		scrollTranscriptToBottom()
+	}
+
+	var messages: [GMMessage]! {
+		didSet {
+			DispatchQueue.main.async {
+				for cell in self.collectionView.visibleItems() {
+					if let userCell = cell as? UserMessageCell {
+						userCell.cancelRunningImageTasks()
+					}
+				}
+				self.collectionView.reloadData()
+			}
+		}
 	}
 
 	func scrollTranscriptToBottom() {
