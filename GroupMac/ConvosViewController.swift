@@ -43,7 +43,6 @@ class ConvosViewController: NSViewController, NSCollectionViewDelegateFlowLayout
 		return collectionView
 	}()
 	private let scrollView = NSScrollView()
-	private var hasNotifiedViewController = false
 
 	private func setupInitialLayout() {
 		view.addSubview(scrollView)
@@ -55,8 +54,8 @@ class ConvosViewController: NSViewController, NSCollectionViewDelegateFlowLayout
 		scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -1).isActive = true
 	}
 
-	var messagesDelegate: ConvoViewController!
-	var viewDelegate: ViewController!
+	var convoViewController: ConvoViewController!
+	var viewController: ViewController!
 
 	override func loadView() {
 		view = borderView
@@ -99,6 +98,8 @@ class ConvosViewController: NSViewController, NSCollectionViewDelegateFlowLayout
 		// It is likely more efficient to hard code height than calculate it.
 		return NSSize(width: collectionView.bounds.width, height: 65)
 	}
+
+	private var hasNotifiedViewController = false
 	func collectionView(_ collectionView: NSCollectionView, didSelectItemsAt indexPaths: Set<IndexPath>) {
 		let indexPath = indexPaths.first!
 		let cell = collectionView.item(at: indexPath) as! ConversationCell
@@ -106,15 +107,16 @@ class ConvosViewController: NSViewController, NSCollectionViewDelegateFlowLayout
 
 		cell.view.backColor = .white
 
-		messagesDelegate.conversation = conversation
+		convoViewController.conversation = conversation
 		if !hasNotifiedViewController {
-			viewDelegate.hasSelectedConversation()
+			viewController.hasSelectedConversation()
 			hasNotifiedViewController = true
 		}
 	}
 	func collectionView(_ collectionView: NSCollectionView, didDeselectItemsAt indexPaths: Set<IndexPath>) {
 		for path in indexPaths {
 			let cell = collectionView.item(at: path) as! ConversationCell
+
 			cell.view.backColor = Colors.background
 		}
 	}

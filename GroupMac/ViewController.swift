@@ -29,15 +29,20 @@ class ViewController: NSViewController {
 		return field
 	}()
 	private let convosViewController = ConvosViewController()
-	private let messagesViewController = ConvoViewController()
+	private let convoViewController = ConvoViewController()
 
 	private func setupInitialLayout() {
-		addChildViewController(convosViewController)
+		detailView.addSubview(welcomeLabel)
+
+		welcomeLabel.translatesAutoresizingMaskIntoConstraints = false
+		welcomeLabel.heightAnchor.constraint(equalToConstant: welcomeLabel.intrinsicContentSize.height).isActive = true
+		welcomeLabel.widthAnchor.constraint(equalToConstant: welcomeLabel.intrinsicContentSize.width).isActive = true
+		welcomeLabel.centerXAnchor.constraint(equalTo: detailView.centerXAnchor).isActive = true
+		welcomeLabel.centerYAnchor.constraint(equalTo: detailView.centerYAnchor).isActive = true
 		
 		let convosView = convosViewController.view
 
 		view.addSubview(convosView)
-		detailView.addSubview(welcomeLabel)
 		view.addSubview(detailView)
 
 		convosView.translatesAutoresizingMaskIntoConstraints = false
@@ -51,31 +56,26 @@ class ViewController: NSViewController {
 		detailView.leadingAnchor.constraint(equalTo: convosView.trailingAnchor, constant: 4).isActive = true
 		detailView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -4).isActive = true
 		detailView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -4).isActive = true
-
-		welcomeLabel.translatesAutoresizingMaskIntoConstraints = false
-		welcomeLabel.heightAnchor.constraint(equalToConstant: welcomeLabel.intrinsicContentSize.height).isActive = true
-		welcomeLabel.widthAnchor.constraint(equalToConstant: welcomeLabel.intrinsicContentSize.width).isActive = true
-		welcomeLabel.centerXAnchor.constraint(equalTo: detailView.centerXAnchor).isActive = true
-		welcomeLabel.centerYAnchor.constraint(equalTo: detailView.centerYAnchor).isActive = true
 	}
 
 	override func loadView() {
-		self.view = NSView()
+		view = NSView()
 	}
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		// Do any additional setup after loading the view.
+		addChildViewController(convosViewController)
 
-		convosViewController.messagesDelegate = messagesViewController
-		convosViewController.viewDelegate = self
+		convosViewController.convoViewController = convoViewController
+		convosViewController.viewController = self
 
 		setupInitialLayout()
 	}
 
 	func hasSelectedConversation() {
-		addChildViewController(messagesViewController)
+		addChildViewController(convoViewController)
 
-		let conversationView = messagesViewController.view
+		let conversationView = convoViewController.view
 
 		detailView.addSubview(conversationView)
 
