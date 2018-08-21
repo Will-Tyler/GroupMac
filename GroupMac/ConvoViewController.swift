@@ -101,6 +101,7 @@ final class ConvoViewController: NSViewController {
 
 			messages = conversation.blandMessages
 			convoHeaderViewController.conversation = conversation
+			messageComposerController.conversation = conversation
 		}
 	}
 	private var messages: [GMMessage]? {

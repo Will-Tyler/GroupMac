@@ -8,7 +8,8 @@
 
 import Cocoa
 
-class HeartButton: CursorButton {
+
+final class HeartButton: CursorButton {
 
 	typealias Heart = NSAttributedString
 

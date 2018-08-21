@@ -16,6 +16,7 @@ protocol GMConversation {
 	var convoType: GMConversationType { get }
 	var imageURL: URL? { get }
 
+	func sendMessage(text: String, successHandler: @escaping ()->())
 	@discardableResult func handleMessages(with handler: @escaping ([GMMessage])->(), beforeID: String?) -> URLSessionDataTask
 }
 

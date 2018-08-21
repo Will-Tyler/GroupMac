@@ -68,26 +68,11 @@ final class MessageComposerViewController: NSViewController {
 	var conversation: GMConversation!
 
 	@objc private func sendButtonAction(sender: NSButton) {
-//		if conversation.convoType == .group {
-//			let group = conversation as! GroupMe.Group
-//
-//			group.sendMessage(text: inputTextField.stringValue) {
-//				DispatchQueue.main.async {
-//					self.inputTextField.stringValue = ""
-//					self.messages = self.conversation.blandMessages
-//				}
-//			}
-//		}
-//		else {
-//			let chat = conversation as! GroupMe.Chat
-//
-//			chat.sendMessage(text: inputTextField.stringValue) {
-//				DispatchQueue.main.async {
-//					self.inputTextField.stringValue = ""
-//					self.messages = self.conversation.blandMessages
-//				}
-//			}
-//		}
+		conversation.sendMessage(text: inputTextField.stringValue, successHandler: {
+			DispatchQueue.main.async {
+				self.inputTextField.stringValue = ""
+			}
+		})
 	}
 
 }
