@@ -1,0 +1,510 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="0d106fb3-489f-4a0c-8a67-1aaa868079f9" name="Default" comment="Convo header view is now working appropriately">
+      <change beforePath="$PROJECT_DIR$/GroupMac/ConvoHeaderViewController.swift" beforeDir="false" afterPath="$PROJECT_DIR$/GroupMac/ConvoHeaderViewController.swift" afterDir="false" />
+    </list>
+    <ignored path="$USER_HOME$/Library/Developer/Xcode/DerivedData/GroupMac-gjeigggrynyzhjdrxpbzinoraklg/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="macos_x86_64" />
+  <component name="FUSProjectUsageTrigger">
+    <session id="195046415">
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.closed" value="8" />
+          <entry key="project.open.time.10" value="4" />
+          <entry key="project.open.time.11" value="1" />
+          <entry key="project.open.time.2" value="1" />
+          <entry key="project.open.time.9" value="2" />
+          <entry key="project.opened" value="8" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.appcode.build">
+        <counts>
+          <entry key="buildservice" value="71" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.open">
+        <counts>
+          <entry key="swift" value="13" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.open">
+        <counts>
+          <entry key="Swift" value="13" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.edit">
+        <counts>
+          <entry key="swift" value="4697" />
+          <entry key="txt" value="716" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.edit">
+        <counts>
+          <entry key="PLAIN_TEXT" value="716" />
+          <entry key="Swift" value="4697" />
+        </counts>
+      </usages-collector>
+    </session>
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/GroupMac/ConvoViewController.swift">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="661">
+              <caret line="57" column="79" lean-forward="true" selection-start-line="57" selection-start-column="79" selection-end-line="57" selection-end-column="79" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/GroupMac/ConvoHeaderViewController.swift">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="900">
+              <caret line="60" column="27" lean-forward="true" selection-start-line="60" selection-start-column="27" selection-end-line="60" selection-end-column="27" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/GroupMac/MessagesViewController.swift">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="118">
+              <caret line="37" column="16" lean-forward="true" selection-start-line="37" selection-start-column="16" selection-end-line="43" selection-end-column="11" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/GroupMe/Me.swift" />
+        <option value="$PROJECT_DIR$/GroupMe/AttachmentContent.swift" />
+        <option value="$PROJECT_DIR$/GroupMe/Attachment.swift" />
+        <option value="$PROJECT_DIR$/GroupMe/Chat.swift" />
+        <option value="$PROJECT_DIR$/GroupMe/Group.swift" />
+        <option value="$PROJECT_DIR$/GroupMe/APIResponse.swift" />
+        <option value="$PROJECT_DIR$/GroupMe/NotificationSocketDelegate.swift" />
+        <option value="$PROJECT_DIR$/GroupMe/GroupMe.swift" />
+        <option value="$PROJECT_DIR$/GroupMac/AppDelegate.swift" />
+        <option value="$PROJECT_DIR$/GroupMac/MessageComposerViewController.swift" />
+        <option value="$PROJECT_DIR$/GroupMac/ConvosViewController.swift" />
+        <option value="$PROJECT_DIR$/GroupMac/ViewController.swift" />
+        <option value="$PROJECT_DIR$/GroupMac/MessagesViewController.swift" />
+        <option value="$PROJECT_DIR$/GroupMac/ConvoViewController.swift" />
+        <option value="$PROJECT_DIR$/GroupMac/ConvoHeaderViewController.swift" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="x" value="238" />
+    <option name="y" value="62" />
+    <option name="width" value="1440" />
+    <option name="height" value="821" />
+  </component>
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <manualOrder ProjectPane="true" />
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Cidr.FilesView" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="" type="efc3779f:XcodeRootNode" />
+              <item name="GroupMac" type="1d218c8b:XcodeProjectNode" />
+            </path>
+            <path>
+              <item name="" type="efc3779f:XcodeRootNode" />
+              <item name="GroupMac" type="1d218c8b:XcodeProjectNode" />
+              <item name="GroupMac" type="fcab9f18:XcodeViewNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="OBJC.PRESERVED_TARGET_SELECTION" value="GroupMac" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="settings.editor.selected.configurable" value="preferences.editor" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration name="GroupMac" type="AppleRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="GroupMac" TARGET_NAME="GroupMac" CONFIG_NAME="Debug" SCHEME_NAME="GroupMac" IS_LOCATION_SIMULATION_ALLOWED="true" RUN_TARGET_PROJECT_NAME="GroupMac" RUN_TARGET_NAME="GroupMac" MAKE_ACTIVE="TRUE">
+      <EXTENSION ID="org.jetbrains.appcode.reveal.RevealRunConfigurationExtension">
+        <REVEAL_SETTINGS autoInject="false" autoInstall="true" askToEnableAutoInstall="true" />
+      </EXTENSION>
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="0d106fb3-489f-4a0c-8a67-1aaa868079f9" name="Default" comment="" />
+      <created>1533414388192</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1533414388192</updated>
+      <workItem from="1533414391758" duration="2169000" />
+      <workItem from="1533478788181" duration="7734000" />
+      <workItem from="1533756091160" duration="2000" />
+      <workItem from="1533756291072" duration="2336000" />
+      <workItem from="1534162900143" duration="1335000" />
+      <workItem from="1534531057055" duration="3005000" />
+      <workItem from="1534627517154" duration="3932000" />
+      <workItem from="1534772134654" duration="3824000" />
+      <workItem from="1534787703537" duration="2180000" />
+      <workItem from="1534791285986" duration="1424000" />
+      <workItem from="1534861919684" duration="318000" />
+    </task>
+    <task id="LOCAL-00001" summary="Begin creating notification websocket, open GroupMac in AppCode">
+      <created>1533415764491</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1533415764491</updated>
+    </task>
+    <task id="LOCAL-00002" summary="This commit is mostly GroupMe Client API cleanup and improvement. Add APIResponse to better handle responses from the Groupme API, in addition to several other improvements.">
+      <created>1533483375947</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1533483375947</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Update main api request method to add an api response handler instead of a more generic data handler">
+      <created>1533500635248</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1533500635248</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Had success in getting response from push server, add notification socket delegate">
+      <created>1533757829570</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1533757829570</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Continue work on notification socket, renamed MessagesViewController to ConvoViewController to be more descriptive of use">
+      <created>1534532502687</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1534532502687</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Comment out collection / scroll view functionality, prepare to implement use of MessagesViewController">
+      <created>1534628513839</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1534628513840</updated>
+    </task>
+    <task id="LOCAL-00007" summary="messagesViewController in ConvoViewController is functional">
+      <created>1534629506129</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1534629506129</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Remove now unnecessary comments from convoviewcontroller">
+      <created>1534630750896</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1534630750896</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Create move message composer functionality to separate class">
+      <created>1534773075343</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1534773075343</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Clean up more code. BUG convo view not opening anymore">
+      <created>1534788334849</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1534788334849</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Clean up even more code. Unfortunately create more bugs as well">
+      <created>1534789846561</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1534789846561</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Correct initial welcome label">
+      <created>1534791950543</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1534791950544</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Convo header view is now working appropriately">
+      <created>1534792388784</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1534792388784</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="28259000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="238" y="62" width="1440" height="821" extended-state="0" />
+    <editor active="true" />
+    <layout>
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18955651" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Designer" order="2" />
+      <window_info id="Favorites" order="3" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32650602" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.20713305" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.39855072" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Terminal" order="7" />
+      <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
+      <window_info anchor="bottom" id="Version Control" order="9" weight="0.32921812" />
+      <window_info anchor="bottom" id="Messages" order="10" weight="0.32098764" />
+      <window_info anchor="bottom" id="Database Changes" order="11" show_stripe_button="false" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Palette&#9;" order="3" />
+      <window_info anchor="right" id="Database" order="4" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ORDER">
+      <list>
+        <option value="0" />
+        <option value="2" />
+        <option value="3" />
+        <option value="1" />
+      </list>
+    </option>
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="RECENTLY_FILTERED_USER_GROUPS">
+                <collection />
+              </option>
+              <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+                <collection />
+              </option>
+              <option name="COLUMN_ORDER">
+                <list>
+                  <option value="0" />
+                  <option value="1" />
+                  <option value="2" />
+                  <option value="3" />
+                </list>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
+    <MESSAGE value="Begin creating notification websocket, open GroupMac in AppCode" />
+    <MESSAGE value="This commit is mostly GroupMe Client API cleanup and improvement. Add APIResponse to better handle responses from the Groupme API, in addition to several other improvements." />
+    <MESSAGE value="Update main api request method to add an api response handler instead of a more generic data handler" />
+    <MESSAGE value="Had success in getting response from push server, add notification socket delegate" />
+    <MESSAGE value="Continue work on notification socket, renamed MessagesViewController to ConvoViewController to be more descriptive of use" />
+    <MESSAGE value="Comment out collection / scroll view functionality, prepare to implement use of MessagesViewController" />
+    <MESSAGE value="messagesViewController in ConvoViewController is functional" />
+    <MESSAGE value="Remove now unnecessary comments from convoviewcontroller" />
+    <MESSAGE value="Create move message composer functionality to separate class" />
+    <MESSAGE value="Clean up more code. BUG convo view not opening anymore" />
+    <MESSAGE value="Clean up even more code. Unfortunately create more bugs as well" />
+    <MESSAGE value="Correct initial welcome label" />
+    <MESSAGE value="Convo header view is now working appropriately" />
+    <option name="LAST_COMMIT_MESSAGE" value="Convo header view is now working appropriately" />
+    <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/GroupMe/token.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Resources/GMMessage.swift">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="19" column="8" selection-start-line="19" selection-start-column="8" selection-end-line="19" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/GroupMe/Me.swift">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="405">
+          <caret line="27" column="32" lean-forward="true" selection-start-line="27" selection-start-column="32" selection-end-line="27" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/GroupMe/AttachmentContent.swift">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" column="29" selection-start-line="8" selection-start-column="29" selection-end-line="8" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/GroupMe/Chat.swift">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="870">
+          <caret line="58" column="44" selection-start-line="58" selection-start-column="44" selection-end-line="58" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/GroupMe/Group.swift">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="615">
+          <caret line="41" column="32" selection-start-line="41" selection-start-column="32" selection-end-line="41" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/GroupMe/APIResponse.swift">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="18" column="43" selection-start-line="18" selection-start-column="43" selection-end-line="18" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/GroupMe/Attachment.swift">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="20" column="23" selection-start-line="20" selection-start-column="23" selection-end-line="20" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Resources/HTTP.swift">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/GroupMac/main.swift">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/GroupMe/NotificationSocketDelegate.swift">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="13" column="5" selection-start-line="13" selection-start-column="5" selection-end-line="13" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/GroupMac/AppDelegate.swift">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="482">
+          <caret line="39" column="58" selection-start-line="39" selection-start-column="58" selection-end-line="39" selection-end-column="58" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/GroupMe/GroupMe.swift">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3075">
+          <caret line="358" column="37" selection-start-line="358" selection-start-column="37" selection-end-line="358" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/GroupMac/MessageComposerViewController.swift">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="18" selection-start-line="18" selection-end-line="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/GroupMac/ViewController.swift">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="840">
+          <caret line="48" column="5" selection-start-line="48" selection-start-column="5" selection-end-line="48" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/GroupMac/ConvosViewController.swift">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="380">
+          <caret line="106" column="55" selection-start-line="106" selection-start-column="55" selection-end-line="106" selection-end-column="55" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/GroupMac/ConvoViewController.swift">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="661">
+          <caret line="57" column="79" lean-forward="true" selection-start-line="57" selection-start-column="79" selection-end-line="57" selection-end-column="79" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/GroupMac/ConvoHeaderViewController.swift">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="900">
+          <caret line="60" column="27" lean-forward="true" selection-start-line="60" selection-start-column="27" selection-end-line="60" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/GroupMac/MessagesViewController.swift">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="118">
+          <caret line="37" column="16" lean-forward="true" selection-start-line="37" selection-start-column="16" selection-end-line="43" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

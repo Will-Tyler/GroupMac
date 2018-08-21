@@ -9,6 +9,8 @@
 import Foundation
 
 
+protocol AttachmentContent {}
+
 extension GroupMe {
 
 	class Attachment: Decodable {
@@ -20,7 +22,7 @@ extension GroupMe {
 			let values = try! decoder.container(keyedBy: CodingKeys.self)
 			let contentString = try! values.decode(String.self, forKey: .contentType)
 
-			self.contentType = ContentType(rawValue: contentString) ?? .notSupported
+			self.contentType = ContentType(rawValue: contentString) ?? .unknown
 
 			switch contentType {
 			case .image:
@@ -45,7 +47,7 @@ extension GroupMe {
 			case .mentions:
 				content = Mentions(loci: try! values.decode([[Int]].self, forKey: .loci))
 
-			case .notSupported:
+			case .unknown:
 				content = nil
 			}
 		}
@@ -57,7 +59,7 @@ extension GroupMe {
 			case emoji
 			case poll
 			case mentions
-			case notSupported
+			case unknown
 		}
 
 		private enum CodingKeys: String, CodingKey {
@@ -103,47 +105,3 @@ extension GroupMe {
 	}
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

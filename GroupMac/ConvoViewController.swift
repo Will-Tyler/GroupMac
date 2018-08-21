@@ -44,11 +44,11 @@ final class ConvoViewController: NSViewController {
 		welcomeLabel.removeFromSuperview()
 
 		let headerView = convoHeaderViewController.view
-//		let messagesView = messagesViewController.view
+		let messagesView = messagesViewController.view
 		let composerView = messageComposerController.view
 
 		view.addSubview(headerView)
-//		view.addSubview(messagesView)
+		view.addSubview(messagesView)
 		view.addSubview(composerView)
 
 		headerView.translatesAutoresizingMaskIntoConstraints = false
@@ -57,11 +57,11 @@ final class ConvoViewController: NSViewController {
 		headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
 		headerView.heightAnchor.constraint(equalToConstant: 38).isActive = true
 
-//		messagesView.translatesAutoresizingMaskIntoConstraints = false
-//		messagesView.topAnchor.constraint(equalTo: view.topAnchor, constant: 4).isActive = true // overlap borders
-//		messagesView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-//		messagesView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-//		messagesView.bottomAnchor.constraint(equalTo: view.topAnchor, constant: 1).isActive = true // overlap borders
+		messagesView.translatesAutoresizingMaskIntoConstraints = false
+		messagesView.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: -1).isActive = true // overlap borders
+		messagesView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+		messagesView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+		messagesView.bottomAnchor.constraint(equalTo: composerView.topAnchor, constant: 1).isActive = true // overlap borders
 
 		composerView.translatesAutoresizingMaskIntoConstraints = false
 		composerView.heightAnchor.constraint(equalToConstant: 38).isActive = true

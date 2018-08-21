@@ -48,7 +48,6 @@
 		4CDC814220DB23CB004D8DD0 /* ConvosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDC814120DB23CB004D8DD0 /* ConvosViewController.swift */; };
 		5D786FECBEFA441532910443 /* Pods_GroupMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 415CC64559BA1B574C68A601 /* Pods_GroupMac.framework */; };
 		9732A1827C76D1E7B72ADF77 /* NotificationSocketDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9732AC292DD2BE4DFA789A74 /* NotificationSocketDelegate.swift */; };
-		9732A2C9BA6651AEF167EB76 /* AttachmentContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9732A1EC1A8162F327B833DE /* AttachmentContent.swift */; };
 		9732A897C2C8F699E66989C0 /* APIResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9732ABDEEE4AA9F6324C7EFB /* APIResponse.swift */; };
 		9732A948C22C52614A047EE4 /* ConvoHeaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9732A0C79F8EF2CDDA9D290D /* ConvoHeaderViewController.swift */; };
 		9732AEF24DF4A5729B1BFA48 /* MessageComposerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9732A681295E00D3B85DBDC3 /* MessageComposerViewController.swift */; };
@@ -117,7 +116,6 @@
 		4CDC814120DB23CB004D8DD0 /* ConvosViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvosViewController.swift; sourceTree = "<group>"; };
 		831C8A87BAFE21A2FF9877CB /* Pods-GroupMac.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GroupMac.release.xcconfig"; path = "Pods/Target Support Files/Pods-GroupMac/Pods-GroupMac.release.xcconfig"; sourceTree = "<group>"; };
 		9732A0C79F8EF2CDDA9D290D /* ConvoHeaderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConvoHeaderViewController.swift; sourceTree = "<group>"; };
-		9732A1EC1A8162F327B833DE /* AttachmentContent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttachmentContent.swift; sourceTree = "<group>"; };
 		9732A6673DB0DEC96B8F9E72 /* MessagesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesViewController.swift; sourceTree = "<group>"; };
 		9732A681295E00D3B85DBDC3 /* MessageComposerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageComposerViewController.swift; sourceTree = "<group>"; };
 		9732ABDEEE4AA9F6324C7EFB /* APIResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIResponse.swift; sourceTree = "<group>"; };
@@ -209,16 +207,16 @@
 				4C78FD8A20D8280D006385B2 /* AppDelegate.swift */,
 				4C334D3020F8DDC900DC48E9 /* Buttons */,
 				4C019D7D20F58297001282E3 /* ConversationCell.swift */,
+				9732A0C79F8EF2CDDA9D290D /* ConvoHeaderViewController.swift */,
 				4CDC814120DB23CB004D8DD0 /* ConvosViewController.swift */,
-				4CC32AC320ED70A30046ED1D /* MessageCells */,
 				4CDC813D20DAF9EC004D8DD0 /* ConvoViewController.swift */,
+				4CC32AC320ED70A30046ED1D /* MessageCells */,
+				9732A681295E00D3B85DBDC3 /* MessageComposerViewController.swift */,
+				9732A6673DB0DEC96B8F9E72 /* MessagesViewController.swift */,
 				4C78FD8C20D8280D006385B2 /* ViewController.swift */,
 				4C78FD8E20D8280F006385B2 /* Assets.xcassets */,
 				4C78FD9320D8280F006385B2 /* Info.plist */,
 				4C78FD9420D8280F006385B2 /* GroupMac.entitlements */,
-				9732A6673DB0DEC96B8F9E72 /* MessagesViewController.swift */,
-				9732A681295E00D3B85DBDC3 /* MessageComposerViewController.swift */,
-				9732A0C79F8EF2CDDA9D290D /* ConvoHeaderViewController.swift */,
 			);
 			path = GroupMac;
 			sourceTree = "<group>";
@@ -245,15 +243,14 @@
 		4C78FDBB20D82E34006385B2 /* GroupMe */ = {
 			isa = PBXGroup;
 			children = (
+				9732ABDEEE4AA9F6324C7EFB /* APIResponse.swift */,
 				4C78FDB620D82C8D006385B2 /* GroupMe.swift */,
 				4C3035FD20FA6B5500EDFBAB /* Attachment.swift */,
 				4C74BE7420DE95E100F765C8 /* Chat.swift */,
 				4CDC813520DAD169004D8DD0 /* Group.swift */,
 				4C019D7B20F57CB6001282E3 /* Me.swift */,
-				4C78FDB920D82E21006385B2 /* token.txt */,
-				9732ABDEEE4AA9F6324C7EFB /* APIResponse.swift */,
-				9732A1EC1A8162F327B833DE /* AttachmentContent.swift */,
 				9732AC292DD2BE4DFA789A74 /* NotificationSocketDelegate.swift */,
+				4C78FDB920D82E21006385B2 /* token.txt */,
 			);
 			path = GroupMe;
 			sourceTree = "<group>";
@@ -490,7 +487,6 @@
 				4CC32AC020ED18D30046ED1D /* CollectionLayout.swift in Sources */,
 				4C78FDB720D82C8D006385B2 /* GroupMe.swift in Sources */,
 				9732A897C2C8F699E66989C0 /* APIResponse.swift in Sources */,
-				9732A2C9BA6651AEF167EB76 /* AttachmentContent.swift in Sources */,
 				9732A1827C76D1E7B72ADF77 /* NotificationSocketDelegate.swift in Sources */,
 				9732AFFDB30E91EA9A5CB26F /* MessagesViewController.swift in Sources */,
 				9732AEF24DF4A5729B1BFA48 /* MessageComposerViewController.swift in Sources */,

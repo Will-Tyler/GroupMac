@@ -68,3 +68,5 @@ fastlane/screenshots/**/*.png
 fastlane/test_output
 
 GroupMe/token.txt
+Project.playground
+
