@@ -32,6 +32,8 @@ final class ConvoViewController: NSViewController {
 	private let messageComposerController = MessageComposerViewController()
 
 	private func setupInitialLayout() {
+		view.removeSubviews()
+
 		view.addSubview(welcomeLabel)
 
 		welcomeLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -41,14 +43,14 @@ final class ConvoViewController: NSViewController {
 		welcomeLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
 	}
 	private func setupDetailLayout() {
-		welcomeLabel.removeFromSuperview()
+		view.removeSubviews()
 
 		let headerView = convoHeaderViewController.view
 		let messagesView = messagesViewController.view
 		let composerView = messageComposerController.view
 
+		view.addSubview(messagesView) // add messages first because we want message to overlap header for border
 		view.addSubview(headerView)
-		view.addSubview(messagesView)
 		view.addSubview(composerView)
 
 		headerView.translatesAutoresizingMaskIntoConstraints = false
@@ -99,8 +101,6 @@ final class ConvoViewController: NSViewController {
 
 			messages = conversation.blandMessages
 			convoHeaderViewController.conversation = conversation
-
-			messagesViewController.scrollTranscriptToBottom()
 		}
 	}
 	private var messages: [GMMessage]? {

@@ -54,7 +54,7 @@ final class MessagesViewController: NSViewController, NSCollectionViewDelegateFl
 	override func viewWillAppear() {
 		super.viewWillAppear()
 
-		scrollTranscriptToBottom()
+		scrollToBottom()
 	}
 
 	var messages: [GMMessage]! {
@@ -66,11 +66,12 @@ final class MessagesViewController: NSViewController, NSCollectionViewDelegateFl
 					}
 				}
 				self.collectionView.reloadData()
+				self.scrollToBottom()
 			}
 		}
 	}
 
-	func scrollTranscriptToBottom() {
+	func scrollToBottom() {
 		let scrollPoint = NSPoint(x: 0, y: collectionView.bounds.height - scrollView.bounds.height)
 
 		DispatchQueue.main.async {
