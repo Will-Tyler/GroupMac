@@ -10,6 +10,7 @@ import Foundation
 
 
 protocol GMMessage {
+
 	var name: String { get }
 	var text: String? { get }
 	var avatarURL: URL? { get }
@@ -21,13 +22,16 @@ protocol GMMessage {
 
 	func like(successHandler: @escaping ()->())
 	func unlike(successHandler: @escaping ()->())
+
 }
 
 extension GroupMe.Chat.Message: GMMessage {
+
 	var isSystem: Bool {
 		get {
 			return false
 		}
 	}
+
 }
 extension GroupMe.Group.Message: GMMessage {}

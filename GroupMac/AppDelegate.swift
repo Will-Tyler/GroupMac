@@ -12,9 +12,8 @@ import Cocoa
 final class AppDelegate: NSObject, NSApplicationDelegate {
 
 	static let me = GroupMe.me
-	private let socket = GroupMe.notificationSocket;
 
-	let windowController: NSWindowController = {
+	private let windowController: NSWindowController = {
 		let window = NSWindow()
 		let screen = window.screen!
 		let screenSize = screen.size
@@ -38,7 +37,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
 	func applicationDidFinishLaunching(_ aNotification: Notification) {
 		// Insert code here to initialize your application
-		windowController.window!.makeKeyAndOrderFront(nil)
+		windowController.window!.makeKeyAndOrderFront(self)
 	}
 
 }

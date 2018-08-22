@@ -10,8 +10,6 @@ import Cocoa
 
 
 final class UserMessageCell: MessageCell {
-
-	static let cellIdentifier = NSUserInterfaceItemIdentifier(rawValue: "MessageCell")
 	
 	private let nameLabel: NSTextField = {
 		let field = NSTextField()
@@ -38,6 +36,8 @@ final class UserMessageCell: MessageCell {
 	}()
 
 	private func setupInitialLayout() {
+		view.removeSubviews()
+
 		view.addSubview(nameLabel)
 		view.addSubview(attachmentView)
 
@@ -59,6 +59,22 @@ final class UserMessageCell: MessageCell {
 		attachmentView.trailingAnchor.constraint(equalTo: textLabel.trailingAnchor).isActive = true
 	}
 
+	override func loadView() {
+		view = {
+			let view = NSView()
+
+			view.backColor = Colors.background
+
+			return view
+		}()
+	}
+	override func viewDidLoad() {
+		super.viewDidLoad()
+
+		setupInitialLayout()
+	}
+
+	static let cellIdentifier = NSUserInterfaceItemIdentifier(rawValue: "MessageCell")
 	private var runningImageTasks = Set<URLSessionDataTask>()
 	override var message: GMMessage! {
 		didSet {
@@ -173,82 +189,4 @@ final class UserMessageCell: MessageCell {
 		return "Attachments of type '\(contentType.rawValue)' are currently not supported."
 	}
 
-	override func loadView() {
-		view = {
-			let view = NSView()
-
-			view.backColor = Colors.background
-
-			return view
-		}()
-	}
-	override func viewDidLoad() {
-		super.viewDidLoad()
-
-		setupInitialLayout()
-	}
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

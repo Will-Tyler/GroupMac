@@ -10,6 +10,7 @@ import Cocoa
 
 
 struct Colors {
+
 	static let border: CGColor = CGColor(gray: 212 / 255, alpha: 1)
 	static let title: NSColor = NSColor(white: 0x3b / 255, alpha: 1)
 	static let background: CGColor = CGColor(gray: 247 / 255, alpha: 1)
@@ -20,4 +21,5 @@ struct Colors {
 	static let heartRed = NSColor(red: 0xf7 / 255, green: 0x70 / 255, blue: 0x70 / 255, alpha: 1)
 	static let personalBlue = CGColor(red: 229 / 255, green: 241 / 255, blue: 246 / 255, alpha: 1)
 	static let semiWhite = CGColor(gray: 251 / 255, alpha: 1)
+
 }

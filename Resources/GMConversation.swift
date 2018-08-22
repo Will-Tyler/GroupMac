@@ -10,6 +10,7 @@ import Foundation
 
 
 protocol GMConversation {
+
 	var name: String { get }
 	var updatedAt: Int { get }
 	var blandMessages: [GMMessage] { get }
@@ -18,9 +19,11 @@ protocol GMConversation {
 
 	func sendMessage(text: String, successHandler: @escaping ()->())
 	@discardableResult func handleMessages(with handler: @escaping ([GMMessage])->(), beforeID: String?) -> URLSessionDataTask
+
 }
 
 extension GroupMe.Chat: GMConversation {
+
 	var name: String {
 		get { return otherUser.name }
 	}
@@ -37,9 +40,11 @@ extension GroupMe.Chat: GMConversation {
 	func handleMessages(with handler: @escaping ([GMMessage])->(), beforeID: String?) -> URLSessionDataTask {
 		return handleMessages(with: handler as ([GroupMe.Chat.Message])->(), beforeID: beforeID)
 	}
+
 }
 
 extension GroupMe.Group: GMConversation {
+
 	var blandMessages: [GMMessage] {
 		get { return messages as [GMMessage] }
 	}
@@ -50,4 +55,5 @@ extension GroupMe.Group: GMConversation {
 	func handleMessages(with handler: @escaping ([GMMessage]) -> (), beforeID: String?) -> URLSessionDataTask {
 		return handleMessages(with: handler as ([GroupMe.Group.Message])->(), beforeID: beforeID)
 	}
+
 }

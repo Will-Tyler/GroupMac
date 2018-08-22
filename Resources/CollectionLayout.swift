@@ -10,7 +10,9 @@ import Cocoa
 
 
 final class CollectionLayout: NSCollectionViewFlowLayout {
+
 	override func shouldInvalidateLayout(forBoundsChange newBounds: NSRect) -> Bool {
 		return true
 	}
+
 }

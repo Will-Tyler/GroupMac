@@ -3,8 +3,26 @@
   <component name="ChangeListManager">
     <list default="true" id="0d106fb3-489f-4a0c-8a67-1aaa868079f9" name="Default" comment="Small fixes, get scroll to bottom working as before">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GroupMac/AppDelegate.swift" beforeDir="false" afterPath="$PROJECT_DIR$/GroupMac/AppDelegate.swift" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GroupMac/Buttons/HeartButton.swift" beforeDir="false" afterPath="$PROJECT_DIR$/GroupMac/Buttons/HeartButton.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GroupMac/ConversationCell.swift" beforeDir="false" afterPath="$PROJECT_DIR$/GroupMac/ConversationCell.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GroupMac/ConvoHeaderViewController.swift" beforeDir="false" afterPath="$PROJECT_DIR$/GroupMac/ConvoHeaderViewController.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GroupMac/ConvosViewController.swift" beforeDir="false" afterPath="$PROJECT_DIR$/GroupMac/ConvosViewController.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GroupMac/MessageCells/MessageCell.swift" beforeDir="false" afterPath="$PROJECT_DIR$/GroupMac/MessageCells/MessageCell.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GroupMac/MessageCells/SystemMessageCell.swift" beforeDir="false" afterPath="$PROJECT_DIR$/GroupMac/MessageCells/SystemMessageCell.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GroupMac/MessageCells/UserMessageCell.swift" beforeDir="false" afterPath="$PROJECT_DIR$/GroupMac/MessageCells/UserMessageCell.swift" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GroupMac/MessageComposerViewController.swift" beforeDir="false" afterPath="$PROJECT_DIR$/GroupMac/MessageComposerViewController.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GroupMac/ViewController.swift" beforeDir="false" afterPath="$PROJECT_DIR$/GroupMac/ViewController.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Resources/BinaryInteger.swift" beforeDir="false" afterPath="$PROJECT_DIR$/Resources/BinaryInteger.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Resources/CollectionLayout.swift" beforeDir="false" afterPath="$PROJECT_DIR$/Resources/CollectionLayout.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Resources/Colors.swift" beforeDir="false" afterPath="$PROJECT_DIR$/Resources/Colors.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Resources/Fonts.swift" beforeDir="false" afterPath="$PROJECT_DIR$/Resources/Fonts.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Resources/GMConversation.swift" beforeDir="false" afterPath="$PROJECT_DIR$/Resources/GMConversation.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Resources/GMConversationType.swift" beforeDir="false" afterPath="$PROJECT_DIR$/Resources/GMConversationType.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Resources/GMMessage.swift" beforeDir="false" afterPath="$PROJECT_DIR$/Resources/GMMessage.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Resources/HTTP.swift" beforeDir="false" afterPath="$PROJECT_DIR$/Resources/HTTP.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Resources/Hearts.swift" beforeDir="false" afterPath="$PROJECT_DIR$/Resources/Hearts.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Resources/NSScreen.swift" beforeDir="false" afterPath="$PROJECT_DIR$/Resources/NSScreen.swift" afterDir="false" />
     </list>
     <ignored path="$USER_HOME$/Library/Developer/Xcode/DerivedData/GroupMac-gjeigggrynyzhjdrxpbzinoraklg/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -19,82 +37,45 @@
       <usages-collector id="statistics.lifecycle.project">
         <counts>
           <entry key="project.closed" value="10" />
-          <entry key="project.open.time.10" value="4" />
+          <entry key="project.open.time.10" value="5" />
           <entry key="project.open.time.11" value="1" />
           <entry key="project.open.time.13" value="1" />
           <entry key="project.open.time.2" value="1" />
           <entry key="project.open.time.9" value="3" />
-          <entry key="project.opened" value="10" />
+          <entry key="project.opened" value="11" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.appcode.build">
         <counts>
-          <entry key="buildservice" value="76" />
+          <entry key="buildservice" value="79" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="swift" value="17" />
+          <entry key="swift" value="44" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="Swift" value="17" />
+          <entry key="Swift" value="44" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="swift" value="4893" />
+          <entry key="swift" value="5116" />
           <entry key="txt" value="776" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="PLAIN_TEXT" value="776" />
-          <entry key="Swift" value="4893" />
+          <entry key="Swift" value="5116" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/GroupMac/ConvoViewController.swift">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1530">
-              <caret line="102" column="65" selection-start-line="102" selection-start-column="65" selection-end-line="102" selection-end-column="65" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/GroupMac/ConvoHeaderViewController.swift">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="945">
-              <caret line="63" column="5" selection-start-line="63" selection-start-column="5" selection-end-line="63" selection-end-column="5" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/GroupMac/MessagesViewController.swift">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="80">
-              <caret line="79" column="9" lean-forward="true" selection-start-line="79" selection-start-column="9" selection-end-line="79" selection-end-column="9" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/GroupMac/MessageComposerViewController.swift">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="384">
-              <caret line="92" lean-forward="true" selection-start-line="92" selection-end-line="92" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -110,14 +91,29 @@
         <option value="$PROJECT_DIR$/GroupMe/APIResponse.swift" />
         <option value="$PROJECT_DIR$/GroupMe/NotificationSocketDelegate.swift" />
         <option value="$PROJECT_DIR$/GroupMe/GroupMe.swift" />
-        <option value="$PROJECT_DIR$/GroupMac/AppDelegate.swift" />
-        <option value="$PROJECT_DIR$/GroupMac/ConvosViewController.swift" />
-        <option value="$PROJECT_DIR$/GroupMac/ViewController.swift" />
-        <option value="$PROJECT_DIR$/GroupMac/ConvoHeaderViewController.swift" />
         <option value="$PROJECT_DIR$/GroupMac/ConvoViewController.swift" />
         <option value="$PROJECT_DIR$/GroupMac/MessagesViewController.swift" />
+        <option value="$PROJECT_DIR$/GroupMac/AppDelegate.swift" />
+        <option value="$PROJECT_DIR$/GroupMac/Buttons/CursorButton.swift" />
         <option value="$PROJECT_DIR$/GroupMac/Buttons/HeartButton.swift" />
+        <option value="$PROJECT_DIR$/GroupMac/ConversationCell.swift" />
+        <option value="$PROJECT_DIR$/GroupMac/ConvoHeaderViewController.swift" />
+        <option value="$PROJECT_DIR$/GroupMac/ConvosViewController.swift" />
+        <option value="$PROJECT_DIR$/GroupMac/MessageCells/MessageCell.swift" />
+        <option value="$PROJECT_DIR$/GroupMac/MessageCells/UserMessageCell.swift" />
+        <option value="$PROJECT_DIR$/GroupMac/MessageCells/SystemMessageCell.swift" />
         <option value="$PROJECT_DIR$/GroupMac/MessageComposerViewController.swift" />
+        <option value="$PROJECT_DIR$/GroupMac/ViewController.swift" />
+        <option value="$PROJECT_DIR$/Resources/BinaryInteger.swift" />
+        <option value="$PROJECT_DIR$/Resources/CollectionLayout.swift" />
+        <option value="$PROJECT_DIR$/Resources/Colors.swift" />
+        <option value="$PROJECT_DIR$/Resources/Fonts.swift" />
+        <option value="$PROJECT_DIR$/Resources/GMConversation.swift" />
+        <option value="$PROJECT_DIR$/Resources/GMConversationType.swift" />
+        <option value="$PROJECT_DIR$/Resources/GMMessage.swift" />
+        <option value="$PROJECT_DIR$/Resources/Hearts.swift" />
+        <option value="$PROJECT_DIR$/Resources/HTTP.swift" />
+        <option value="$PROJECT_DIR$/Resources/NSScreen.swift" />
       </list>
     </option>
   </component>
@@ -141,6 +137,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Cidr.FilesView" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -153,11 +150,27 @@
               <item name="GroupMac" type="1d218c8b:XcodeProjectNode" />
               <item name="GroupMac" type="fcab9f18:XcodeViewNode" />
             </path>
+            <path>
+              <item name="" type="efc3779f:XcodeRootNode" />
+              <item name="GroupMac" type="1d218c8b:XcodeProjectNode" />
+              <item name="GroupMac" type="fcab9f18:XcodeViewNode" />
+              <item name="Buttons" type="fcab9f18:XcodeViewNode" />
+            </path>
+            <path>
+              <item name="" type="efc3779f:XcodeRootNode" />
+              <item name="GroupMac" type="1d218c8b:XcodeProjectNode" />
+              <item name="GroupMac" type="fcab9f18:XcodeViewNode" />
+              <item name="MessageCells" type="fcab9f18:XcodeViewNode" />
+            </path>
+            <path>
+              <item name="" type="efc3779f:XcodeRootNode" />
+              <item name="GroupMac" type="1d218c8b:XcodeProjectNode" />
+              <item name="Resources" type="fcab9f18:XcodeViewNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Cidr.FilesView" />
       <pane id="Scope" />
     </panes>
   </component>
@@ -213,6 +226,7 @@
       <workItem from="1534861919684" duration="318000" />
       <workItem from="1534867799546" duration="770000" />
       <workItem from="1534874353264" duration="886000" />
+      <workItem from="1534949100749" duration="1701000" />
     </task>
     <task id="LOCAL-00001" summary="Begin creating notification websocket, open GroupMac in AppCode">
       <created>1533415764491</created>
@@ -316,13 +330,12 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="29915000" />
+    <option name="totallyTimeSpent" value="31616000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="22" width="1440" height="821" extended-state="6" />
-    <editor active="true" />
+    <frame x="0" y="22" width="1440" height="821" extended-state="0" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19456366" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19742489" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Favorites" order="3" side_tool="true" />
@@ -410,13 +423,6 @@
     <entry file="file://$PROJECT_DIR$/GroupMe/token.txt">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/Resources/GMMessage.swift">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="19" column="8" selection-start-line="19" selection-start-column="8" selection-end-line="19" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/GroupMe/Me.swift">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="405">
@@ -453,23 +459,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Resources/HTTP.swift">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/GroupMac/main.swift">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/GroupMe/NotificationSocketDelegate.swift">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
           <caret line="13" column="5" selection-start-line="13" selection-start-column="5" selection-end-line="13" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/GroupMac/AppDelegate.swift">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="482">
-          <caret line="39" column="58" selection-start-line="39" selection-start-column="58" selection-end-line="39" selection-end-column="58" />
         </state>
       </provider>
     </entry>
@@ -480,17 +473,48 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/GroupMac/ViewController.swift">
+    <entry file="file://$PROJECT_DIR$/GroupMac/main.swift">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/GroupMac/AppDelegate.swift">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="840">
-          <caret line="48" column="5" selection-start-line="48" selection-start-column="5" selection-end-line="48" selection-end-column="5" />
+        <state relative-caret-position="18">
+          <caret line="15" column="12" selection-start-line="15" selection-start-column="12" selection-end-line="15" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/GroupMac/Buttons/CursorButton.swift">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="12" lean-forward="true" selection-start-line="12" selection-end-line="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/GroupMac/Buttons/HeartButton.swift">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-40">
+          <caret line="13" column="48" selection-start-line="13" selection-start-column="48" selection-end-line="13" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/GroupMac/ConversationCell.swift">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2355">
+          <caret line="157" column="1" lean-forward="true" selection-start-line="157" selection-start-column="1" selection-end-line="157" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/GroupMac/ConvoHeaderViewController.swift">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="480">
+          <caret line="32" column="8" selection-start-line="32" selection-start-column="8" selection-end-line="32" selection-end-column="8" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/GroupMac/ConvosViewController.swift">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="380">
-          <caret line="106" column="55" selection-start-line="106" selection-start-column="55" selection-end-line="106" selection-end-column="55" />
+        <state relative-caret-position="105">
+          <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
         </state>
       </provider>
     </entry>
@@ -501,41 +525,125 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/GroupMac/ConvoHeaderViewController.swift">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="945">
-          <caret line="63" column="5" selection-start-line="63" selection-start-column="5" selection-end-line="63" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/GroupMac/Buttons/HeartButton.swift">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="57">
-          <caret line="11" column="6" selection-start-line="11" selection-start-column="6" selection-end-line="11" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/GroupMac/MessageCells/MessageCell.swift">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-93" />
+        <state relative-caret-position="2460">
+          <caret line="163" column="1" selection-start-line="163" selection-start-column="1" selection-end-line="163" selection-end-column="1" />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/GroupMac/Buttons/CursorButton.swift">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/GroupMac/MessagesViewController.swift">
+    <entry file="file://$PROJECT_DIR$/GroupMac/MessageCells/UserMessageCell.swift">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="80">
-          <caret line="79" column="9" lean-forward="true" selection-start-line="79" selection-start-column="9" selection-end-line="79" selection-end-column="9" />
+        <state relative-caret-position="796">
+          <caret line="74" column="5" selection-start-line="74" selection-start-column="5" selection-end-line="74" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/GroupMac/MessageCells/SystemMessageCell.swift">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="142">
+          <caret line="12" lean-forward="true" selection-start-line="12" selection-end-line="12" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/GroupMac/MessageComposerViewController.swift">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="384">
-          <caret line="92" lean-forward="true" selection-start-line="92" selection-end-line="92" />
+        <state relative-caret-position="975">
+          <caret line="65" lean-forward="true" selection-start-line="65" selection-end-line="65" />
         </state>
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/GroupMac/MessagesViewController.swift">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="674">
+          <caret line="79" column="9" selection-start-line="79" selection-start-column="9" selection-end-line="79" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/GroupMac/ViewController.swift">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="18" column="8" selection-start-line="18" selection-start-column="8" selection-end-line="18" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Resources/BinaryInteger.swift">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="684">
+          <caret line="48" column="31" lean-forward="true" selection-start-line="48" selection-start-column="31" selection-end-line="48" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Resources/CollectionLayout.swift">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="18" lean-forward="true" selection-start-line="18" selection-end-line="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Resources/Colors.swift">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="23" selection-start-line="23" selection-end-line="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Resources/Fonts.swift">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="405">
+          <caret line="27" selection-start-line="27" selection-end-line="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Resources/GMConversation.swift">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="388">
+          <caret line="57" selection-start-line="57" selection-end-line="57" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Resources/GMConversationType.swift">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Resources/GMMessage.swift">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="510">
+          <caret line="34" selection-start-line="34" selection-end-line="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Resources/Hearts.swift">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="17" selection-start-line="17" selection-end-line="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Resources/HTTP.swift">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="101">
+          <caret line="27" column="44" lean-forward="true" selection-start-line="27" selection-start-column="44" selection-end-line="27" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Resources/NSScreen.swift">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="18" selection-start-line="18" selection-end-line="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Resources/NSView.swift">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-87" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Resources/String.swift">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
   </component>
 </project>

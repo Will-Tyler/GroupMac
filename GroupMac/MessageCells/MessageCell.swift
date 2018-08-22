@@ -55,9 +55,9 @@ class MessageCell: NSCollectionViewItem {
 		return field
 	}()
 
-	var textLabelTopAnchorConstraint: NSLayoutConstraint!
-
 	private func setupInitialLayout() {
+		view.removeSubviews()
+
 		let likesView = NSView()
 
 		likesView.addSubview(likesCountLabel)
@@ -100,6 +100,13 @@ class MessageCell: NSCollectionViewItem {
 		likesView.bottomAnchor.constraint(equalTo: likesCountLabel.bottomAnchor).isActive = true
 	}
 
+	override func viewDidLoad() {
+		super.viewDidLoad()
+
+		setupInitialLayout()
+	}
+
+	var textLabelTopAnchorConstraint: NSLayoutConstraint!
 	private var likes: Set<String>!
 	var message: GMMessage! {
 		didSet {
@@ -122,12 +129,6 @@ class MessageCell: NSCollectionViewItem {
 			}
 		}
 	}
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-		setupInitialLayout()
-    }
 
 	func toggleLike() {
 		let myID = AppDelegate.me.id
@@ -161,44 +162,3 @@ class MessageCell: NSCollectionViewItem {
 	}
     
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

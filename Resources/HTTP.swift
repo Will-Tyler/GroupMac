@@ -14,8 +14,10 @@ class HTTP {
 	typealias Response = (data: Data?, response: URLResponse?, error: Error?)
 
 	enum RequestMethod: String {
+
 		case get = "GET"
 		case post = "POST"
+
 	}
 
 	static func syncRequest(request: URLRequest) -> Response {

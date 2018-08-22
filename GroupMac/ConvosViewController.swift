@@ -45,6 +45,8 @@ class ConvosViewController: NSViewController, NSCollectionViewDelegateFlowLayout
 	private let scrollView = NSScrollView()
 
 	private func setupInitialLayout() {
+		view.removeSubviews()
+
 		view.addSubview(scrollView)
 
 		scrollView.translatesAutoresizingMaskIntoConstraints = false

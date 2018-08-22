@@ -29,6 +29,8 @@ final class ConvoHeaderViewController: NSViewController {
 	}()
 
 	private func setupInitialLayout() {
+		view.removeSubviews()
+
 		view.addSubview(groupImageView)
 		view.addSubview(titleLabel)
 

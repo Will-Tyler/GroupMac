@@ -11,8 +11,6 @@ import Cocoa
 
 final class SystemMessageCell: MessageCell {
 
-	static let cellIdentifier = NSUserInterfaceItemIdentifier(rawValue: "SystemMessageCell")
-
 	override var message: GMMessage! {
 		didSet {
 			avatarImageView.image = #imageLiteral(resourceName: "System Default Image")
@@ -37,5 +35,7 @@ final class SystemMessageCell: MessageCell {
 		textLabel.font = Fonts.regularSmall
 		textLabel.textColor = Colors.systemText
 	}
+
+	static let cellIdentifier = NSUserInterfaceItemIdentifier(rawValue: "SystemMessageCell")
 	
 }

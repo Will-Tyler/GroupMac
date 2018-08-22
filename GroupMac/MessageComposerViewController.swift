@@ -31,6 +31,8 @@ final class MessageComposerViewController: NSViewController {
 	}()
 
 	private func setupInitialLayout() {
+		view.removeSubviews()
+
 		view.addSubview(inputTextField)
 		view.addSubview(sendButton)
 

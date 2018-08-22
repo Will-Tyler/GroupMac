@@ -15,6 +15,8 @@ final class ViewController: NSViewController {
 	private let convoViewController = ConvoViewController()
 
 	private func setupInitialLayout() {
+		view.removeSubviews()
+
 		let convosView = convosViewController.view
 		let convoView = convoViewController.view
 

@@ -10,6 +10,8 @@ import Foundation
 
 
 enum GMConversationType {
+
 	case group
 	case chat
+
 }
