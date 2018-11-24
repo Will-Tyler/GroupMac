@@ -23,7 +23,6 @@ final class ConvoViewController: NSViewController {
 		field.isEditable = false
 		field.alignment = .center
 		field.font = Fonts.regularLarge
-		field.textColor = NSColor(red: 0x3b / 255, green: 0x3b / 255, blue: 0x3b / 255, alpha: 1)
 
 		return field
 	}()
