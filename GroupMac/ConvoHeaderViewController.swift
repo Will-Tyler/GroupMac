@@ -3,7 +3,7 @@
 // Copyright (c) 2018 Will Tyler. All rights reserved.
 //
 
-import Cocoa
+import AppKit
 
 
 final class ConvoHeaderViewController: NSViewController {

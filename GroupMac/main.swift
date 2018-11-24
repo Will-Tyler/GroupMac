@@ -6,7 +6,7 @@
 //  Copyright © 2018 Will Tyler. All rights reserved.
 //
 
-import Cocoa
+import AppKit
 
 
 let delegate = AppDelegate()

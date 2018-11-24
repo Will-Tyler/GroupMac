@@ -6,7 +6,7 @@
 //  Copyright © 2018 Will Tyler. All rights reserved.
 //
 
-import Cocoa
+import AppKit
 
 
 final class ConvoViewController: NSViewController {
@@ -84,9 +84,9 @@ final class ConvoViewController: NSViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 
-		addChildViewController(convoHeaderViewController)
-		addChildViewController(messagesViewController)
-		addChildViewController(messageComposerController)
+		addChild(convoHeaderViewController)
+		addChild(messagesViewController)
+		addChild(messageComposerController)
 
 		setupInitialLayout()
 	}

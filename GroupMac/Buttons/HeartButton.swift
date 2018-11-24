@@ -11,7 +11,7 @@ import Cocoa
 
 final class HeartButton: CursorButton {
 
-	private typealias Heart = NSAttributedString
+	typealias Heart = NSAttributedString
 
 	private var previousTitle: NSAttributedString?
 	private var isLiked: Bool {

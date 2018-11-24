@@ -6,7 +6,7 @@
 //  Copyright © 2018 Will Tyler. All rights reserved.
 //
 
-import Cocoa
+import AppKit
 
 
 final class ViewController: NSViewController {
@@ -42,8 +42,8 @@ final class ViewController: NSViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		// Do any additional setup after loading the view.
-		addChildViewController(convosViewController)
-		addChildViewController(convoViewController)
+		addChild(convosViewController)
+		addChild(convoViewController)
 
 		convosViewController.convoViewController = convoViewController
 
