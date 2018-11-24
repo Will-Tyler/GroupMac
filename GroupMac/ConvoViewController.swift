@@ -29,7 +29,7 @@ final class ConvoViewController: NSViewController {
 	}()
 	private lazy var convoHeaderViewController = ConvoHeaderViewController()
 	private lazy var messagesViewController = MessagesViewController()
-	private lazy var messageComposerController = MessageComposerViewController()
+	private lazy var messageComposerView = MessageComposerView()
 
 	private func setupInitialLayout() {
 		view.removeSubviews()
@@ -47,7 +47,7 @@ final class ConvoViewController: NSViewController {
 
 		let headerView = convoHeaderViewController.view
 		let messagesView = messagesViewController.view
-		let composerView = messageComposerController.view
+		let composerView = messageComposerView
 
 		view.addSubview(messagesView) // add messages first because we want message to overlap header for border
 		view.addSubview(headerView)
@@ -86,7 +86,6 @@ final class ConvoViewController: NSViewController {
 
 		addChild(convoHeaderViewController)
 		addChild(messagesViewController)
-		addChild(messageComposerController)
 
 		setupInitialLayout()
 	}
@@ -101,7 +100,7 @@ final class ConvoViewController: NSViewController {
 
 			messages = conversation.blandMessages
 			convoHeaderViewController.conversation = conversation
-			messageComposerController.conversation = conversation
+			messageComposerView.conversation = conversation
 		}
 	}
 	private var messages: [GMMessage]? {
