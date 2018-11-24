@@ -1,12 +1,15 @@
 //
-// Created by Will Tyler on 8/20/18.
-// Copyright (c) 2018 Will Tyler. All rights reserved.
+//  ConvoHeaderView.swift
+//  GroupMac
+//
+//  Created by Will Tyler on 11/24/18.
+//  Copyright © 2018 Will Tyler. All rights reserved.
 //
 
 import AppKit
 
 
-final class ConvoHeaderViewController: NSViewController {
+final class ConvoHeaderView: NSView {
 
 	private lazy var groupImageView: NSImageView = {
 		let image = NSImageView()
@@ -22,41 +25,32 @@ final class ConvoHeaderViewController: NSViewController {
 		field.isEditable = false
 		field.isBezeled = false
 		field.font = Fonts.boldLarge
-		field.textColor = Colors.title
 		field.backgroundColor = .clear
 
 		return field
 	}()
 
 	private func setupInitialLayout() {
-		view.removeSubviews()
+		removeSubviews()
 
-		view.addSubview(groupImageView)
-		view.addSubview(titleLabel)
+		addSubview(groupImageView)
+		addSubview(titleLabel)
 
 		groupImageView.translatesAutoresizingMaskIntoConstraints = false
 		groupImageView.heightAnchor.constraint(equalToConstant: 30).isActive = true
 		groupImageView.widthAnchor.constraint(equalTo: groupImageView.heightAnchor).isActive = true
-		groupImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-		groupImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 4).isActive = true
+		groupImageView.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+		groupImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 4).isActive = true
 
 		titleLabel.translatesAutoresizingMaskIntoConstraints = false
 		titleLabel.heightAnchor.constraint(equalToConstant: titleLabel.intrinsicContentSize.height).isActive = true
 		titleLabel.leadingAnchor.constraint(equalTo: groupImageView.trailingAnchor, constant: 4).isActive = true
-		titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -4).isActive = true
-		titleLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+		titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -4).isActive = true
+		titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
 	}
 
-	override func loadView() {
-		view = NSView()
-
-		view.wantsLayer = true
-		view.layer!.backgroundColor = .white
-		view.layer!.borderWidth = 1
-		view.layer!.borderColor = Colors.border
-	}
-	override func viewDidLoad() {
-		super.viewDidLoad()
+	override func layout() {
+		super.layout()
 
 		setupInitialLayout()
 	}

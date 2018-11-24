@@ -27,7 +27,7 @@ final class ConvoViewController: NSViewController {
 
 		return field
 	}()
-	private lazy var convoHeaderViewController = ConvoHeaderViewController()
+	private lazy var convoHeaderView = ConvoHeaderView()
 	private lazy var messagesViewController = MessagesViewController()
 	private lazy var messageComposerView = MessageComposerView()
 
@@ -45,7 +45,7 @@ final class ConvoViewController: NSViewController {
 	private func setupDetailLayout() {
 		view.removeSubviews()
 
-		let headerView = convoHeaderViewController.view
+		let headerView = convoHeaderView
 		let messagesView = messagesViewController.view
 		let composerView = messageComposerView
 
@@ -84,7 +84,6 @@ final class ConvoViewController: NSViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 
-		addChild(convoHeaderViewController)
 		addChild(messagesViewController)
 
 		setupInitialLayout()
@@ -99,7 +98,7 @@ final class ConvoViewController: NSViewController {
 			}
 
 			messages = conversation.blandMessages
-			convoHeaderViewController.conversation = conversation
+			convoHeaderView.conversation = conversation
 			messageComposerView.conversation = conversation
 		}
 	}
