@@ -11,21 +11,19 @@ import AppKit
 
 final class SystemMessageCell: MessageCell {
 
+	static let cellID = NSUserInterfaceItemIdentifier(rawValue: "SystemMessageCell")
+
 	override var message: GMMessage! {
 		didSet {
-			avatarImageView.image = #imageLiteral(resourceName: "System Default Image")
+			avatarImageView.image = NSImage(named: "System Default Image")
 			view.backColor = Colors.systemBackground
 		}
 	}
 
 	override func loadView() {
-		view = {
-			let view = NSView()
+		view = NSView()
 
-			view.backColor = Colors.systemBackground
-
-			return view
-		}()
+		view.backColor = Colors.systemBackground
 	}
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -35,7 +33,5 @@ final class SystemMessageCell: MessageCell {
 		textLabel.font = Fonts.regularSmall
 		textLabel.textColor = Colors.systemText
 	}
-
-	static let cellIdentifier = NSUserInterfaceItemIdentifier(rawValue: "SystemMessageCell")
 	
 }

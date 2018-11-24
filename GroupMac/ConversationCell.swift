@@ -11,6 +11,8 @@ import AppKit
 
 final class ConversationCell: NSCollectionViewItem {
 
+	static let cellID = NSUserInterfaceItemIdentifier(rawValue: "ConversationCell")
+
 	private let nameLabel: NSTextField = {
 		let field = NSTextField()
 
@@ -101,7 +103,6 @@ final class ConversationCell: NSCollectionViewItem {
 		}
 	}
 
-	static let cellIdentifier = NSUserInterfaceItemIdentifier(rawValue: "ConversationCell")
 	var conversation: GMConversation! {
 		didSet {
 			nameLabel.stringValue = conversation.name

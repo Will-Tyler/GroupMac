@@ -10,6 +10,8 @@ import AppKit
 
 
 final class UserMessageCell: MessageCell {
+
+	static let cellID = NSUserInterfaceItemIdentifier(rawValue: "MessageCell")
 	
 	private let nameLabel: NSTextField = {
 		let field = NSTextField()
@@ -60,13 +62,9 @@ final class UserMessageCell: MessageCell {
 	}
 
 	override func loadView() {
-		view = {
-			let view = NSView()
+		view = NSView()
 
-			view.backColor = Colors.background
-
-			return view
-		}()
+		view.backColor = Colors.background
 	}
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -74,7 +72,6 @@ final class UserMessageCell: MessageCell {
 		setupInitialLayout()
 	}
 
-	static let cellIdentifier = NSUserInterfaceItemIdentifier(rawValue: "MessageCell")
 	private var runningImageTasks = Set<URLSessionDataTask>()
 	override var message: GMMessage! {
 		didSet {

@@ -11,14 +11,14 @@ import AppKit
 
 class ConvosViewController: NSViewController, NSCollectionViewDelegateFlowLayout, NSCollectionViewDataSource {
 
-	private let conversations: [GMConversation] = {
+	private lazy var conversations: [GMConversation] = {
 		var convos = GroupMe.groups as [GMConversation] + GroupMe.chats as [GMConversation]
 
-		convos.sort(by: { return $0.updatedAt > $1.updatedAt })
+		convos.sort(by: { $0.updatedAt > $1.updatedAt })
 
 		return convos
 	}()
-	private let borderView: NSView = {
+	private lazy var borderView: NSView = {
 		let view = NSView()
 
 		view.wantsLayer = true
@@ -27,7 +27,7 @@ class ConvosViewController: NSViewController, NSCollectionViewDelegateFlowLayout
 
 		return view
 	}()
-	private let convosCollectionView: NSCollectionView = {
+	private lazy var convosCollectionView: NSCollectionView = {
 		let collectionView = NSCollectionView()
 		let flowLayout: CollectionLayout = {
 			let layout = CollectionLayout()
@@ -42,7 +42,7 @@ class ConvosViewController: NSViewController, NSCollectionViewDelegateFlowLayout
 
 		return collectionView
 	}()
-	private let scrollView = NSScrollView()
+	private lazy var scrollView = NSScrollView()
 
 	private func setupInitialLayout() {
 		view.removeSubviews()
@@ -66,7 +66,7 @@ class ConvosViewController: NSViewController, NSCollectionViewDelegateFlowLayout
 
 		convosCollectionView.delegate = self
 		convosCollectionView.dataSource = self
-		convosCollectionView.register(ConversationCell.self, forItemWithIdentifier: ConversationCell.cellIdentifier)
+		convosCollectionView.register(ConversationCell.self, forItemWithIdentifier: ConversationCell.cellID)
 
 		setupInitialLayout()
 	}
@@ -83,7 +83,7 @@ class ConvosViewController: NSViewController, NSCollectionViewDelegateFlowLayout
 		return conversations.count
 	}
 	func collectionView(_ collectionView: NSCollectionView, itemForRepresentedObjectAt indexPath: IndexPath) -> NSCollectionViewItem {
-		let cell = collectionView.makeItem(withIdentifier: ConversationCell.cellIdentifier, for: indexPath) as! ConversationCell
+		let cell = collectionView.makeItem(withIdentifier: ConversationCell.cellID, for: indexPath) as! ConversationCell
 
 		cell.conversation = conversations[indexPath.item]
 		if indexPath.item != 0 { cell.addSeparatorToTop() }

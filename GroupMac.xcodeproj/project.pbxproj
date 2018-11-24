@@ -243,8 +243,8 @@
 		4C78FDBB20D82E34006385B2 /* GroupMe */ = {
 			isa = PBXGroup;
 			children = (
-				9732ABDEEE4AA9F6324C7EFB /* APIResponse.swift */,
 				4C78FDB620D82C8D006385B2 /* GroupMe.swift */,
+				9732ABDEEE4AA9F6324C7EFB /* APIResponse.swift */,
 				4C3035FD20FA6B5500EDFBAB /* Attachment.swift */,
 				4C74BE7420DE95E100F765C8 /* Chat.swift */,
 				4CDC813520DAD169004D8DD0 /* Group.swift */,

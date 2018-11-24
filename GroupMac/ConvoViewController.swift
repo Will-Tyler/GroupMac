@@ -27,9 +27,9 @@ final class ConvoViewController: NSViewController {
 
 		return field
 	}()
-	private let convoHeaderViewController = ConvoHeaderViewController()
-	private let messagesViewController = MessagesViewController()
-	private let messageComposerController = MessageComposerViewController()
+	private lazy var convoHeaderViewController = ConvoHeaderViewController()
+	private lazy var messagesViewController = MessagesViewController()
+	private lazy var messageComposerController = MessageComposerViewController()
 
 	private func setupInitialLayout() {
 		view.removeSubviews()
@@ -91,7 +91,7 @@ final class ConvoViewController: NSViewController {
 		setupInitialLayout()
 	}
 
-	private var hasSelectedConvo: Bool = false
+	private var hasSelectedConvo = false
 	var conversation: GMConversation! {
 		didSet {
 			if !hasSelectedConvo {

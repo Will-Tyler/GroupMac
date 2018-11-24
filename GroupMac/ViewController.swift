@@ -11,8 +11,8 @@ import AppKit
 
 final class ViewController: NSViewController {
 
-	private let convosViewController = ConvosViewController()
-	private let convoViewController = ConvoViewController()
+	private lazy var convosViewController = ConvosViewController()
+	private lazy var convoViewController = ConvoViewController()
 
 	private func setupInitialLayout() {
 		view.removeSubviews()
@@ -41,7 +41,7 @@ final class ViewController: NSViewController {
 	}
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		// Do any additional setup after loading the view.
+
 		addChild(convosViewController)
 		addChild(convoViewController)
 
@@ -51,4 +51,3 @@ final class ViewController: NSViewController {
 	}
 	
 }
-

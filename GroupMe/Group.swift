@@ -61,13 +61,14 @@ extension GroupMe.Group {
 
 		let userID: String
 		let nickname: String
-		let imageURL: URL?
+		let imageURL: String?
 		let id: String
 		let isMuted: Bool
 		let isAutokicked: Bool
 		let roles: [String]
+		let name: String
 
-		private init(userID: String, nickname: String, imageURL: URL?, id: String, isMuted: Bool, isAutokicked: Bool, roles: [String]) {
+		private init(userID: String, nickname: String, imageURL: String?, id: String, isMuted: Bool, isAutokicked: Bool, roles: [String], name: String) {
 			self.userID = userID
 			self.nickname = nickname
 			self.imageURL = imageURL
@@ -75,6 +76,7 @@ extension GroupMe.Group {
 			self.isMuted = isMuted
 			self.isAutokicked = isAutokicked
 			self.roles = roles
+			self.name = name
 		}
 
 		private enum CodingKeys: String, CodingKey {
@@ -85,6 +87,7 @@ extension GroupMe.Group {
 			case isMuted = "muted"
 			case isAutokicked = "autokicked"
 			case roles
+			case name
 		}
 
 	}

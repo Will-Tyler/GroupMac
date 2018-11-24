@@ -8,7 +8,7 @@ import AppKit
 
 final class ConvoHeaderViewController: NSViewController {
 
-	private let groupImageView: NSImageView = {
+	private lazy var groupImageView: NSImageView = {
 		let image = NSImageView()
 
 		image.imageScaling = NSImageScaling.scaleAxesIndependently
@@ -16,7 +16,7 @@ final class ConvoHeaderViewController: NSViewController {
 
 		return image
 	}()
-	private let titleLabel: NSTextField = {
+	private lazy var titleLabel: NSTextField = {
 		let field = NSTextField(wrappingLabelWithString: "")
 
 		field.isEditable = false
@@ -48,16 +48,12 @@ final class ConvoHeaderViewController: NSViewController {
 	}
 
 	override func loadView() {
-		view = {
-			let view = NSView()
+		view = NSView()
 
-			view.wantsLayer = true
-			view.layer!.backgroundColor = .white
-			view.layer!.borderWidth = 1
-			view.layer!.borderColor = Colors.border
-
-			return view
-		}()
+		view.wantsLayer = true
+		view.layer!.backgroundColor = .white
+		view.layer!.borderWidth = 1
+		view.layer!.borderColor = Colors.border
 	}
 	override func viewDidLoad() {
 		super.viewDidLoad()
