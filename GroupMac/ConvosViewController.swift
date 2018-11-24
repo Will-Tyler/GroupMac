@@ -104,16 +104,7 @@ class ConvosViewController: NSViewController, NSCollectionViewDelegateFlowLayout
 		let cell = collectionView.item(at: indexPath) as! ConversationCell
 		let conversation: GMConversation! = cell.conversation
 
-		cell.view.backColor = .white
-
 		convoViewController.conversation = conversation
-	}
-	func collectionView(_ collectionView: NSCollectionView, didDeselectItemsAt indexPaths: Set<IndexPath>) {
-		for path in indexPaths {
-			let cell = collectionView.item(at: path) as! ConversationCell
-
-			cell.view.backColor = Colors.background
-		}
 	}
 
 }

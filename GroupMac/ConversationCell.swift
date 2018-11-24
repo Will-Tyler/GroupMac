@@ -71,13 +71,7 @@ final class ConversationCell: NSCollectionViewItem {
 	}
 
 	override func loadView() {
-		view = {
-			let view = NSView()
-
-			view.backColor = Colors.background
-
-			return view
-		}()
+		view = NSView()
 	}
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -88,19 +82,11 @@ final class ConversationCell: NSCollectionViewItem {
 		super.mouseEntered(with: event)
 
 		NSCursor.pointingHand.push()
-
-		if !isSelected {
-			view.backColor = Colors.semiWhite
-		}
 	}
 	override func mouseExited(with event: NSEvent) {
 		super.mouseExited(with: event)
 
 		NSCursor.pop()
-
-		if !isSelected {
-			view.backColor = Colors.background
-		}
 	}
 
 	var conversation: GMConversation! {
