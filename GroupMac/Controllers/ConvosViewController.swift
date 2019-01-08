@@ -11,13 +11,6 @@ import AppKit
 
 class ConvosViewController: NSViewController, NSCollectionViewDelegateFlowLayout, NSCollectionViewDataSource {
 
-	private lazy var conversations: [GMConversation] = {
-		var convos = GroupMe.groups as [GMConversation] + GroupMe.chats as [GMConversation]
-
-		convos.sort(by: { $0.updatedAt > $1.updatedAt })
-
-		return convos
-	}()
 	private lazy var borderView: NSView = {
 		let view = NSView()
 
@@ -69,6 +62,7 @@ class ConvosViewController: NSViewController, NSCollectionViewDelegateFlowLayout
 		convosCollectionView.register(ConversationCell.self, forItemWithIdentifier: ConversationCell.cellID)
 
 		setupInitialLayout()
+		loadConversations()
 	}
 	override func viewDidLayout() {
 		super.viewDidLayout()
@@ -77,8 +71,30 @@ class ConvosViewController: NSViewController, NSCollectionViewDelegateFlowLayout
 	}
 
 	var convoViewController: ConvoViewController!
+	private var conversations = [GMConversation]()
 
-	//MARK: Collection view
+	private func loadConversations() {
+		GroupMe.handleGroups(with: { groups in
+			let newConvos = groups as [GMConversation]
+
+			for newConvo in newConvos {
+				self.insert(conversation: newConvo)
+			}
+		})
+	}
+	private func insert(conversation: GMConversation) {
+		let count = conversations.count
+		let path = IndexPath(item: count, section: 0)
+
+		DispatchQueue.main.async {
+			self.convosCollectionView.insertItems(at: [path])
+		}
+	}
+
+	// MARK: Collection view
+	func numberOfSections(in collectionView: NSCollectionView) -> Int {
+		return 1
+	}
 	func collectionView(_ collectionView: NSCollectionView, numberOfItemsInSection section: Int) -> Int {
 		return conversations.count
 	}
@@ -86,7 +102,10 @@ class ConvosViewController: NSViewController, NSCollectionViewDelegateFlowLayout
 		let cell = collectionView.makeItem(withIdentifier: ConversationCell.cellID, for: indexPath) as! ConversationCell
 
 		cell.conversation = conversations[indexPath.item]
-		if indexPath.item != 0 { cell.addSeparatorToTop() }
+
+		if indexPath.item != 0 {
+			cell.addSeparatorToTop()
+		}
 
 		let options = NSTrackingArea.Options.mouseEnteredAndExited.union(.activeInActiveApp)
 		let trackingArea = NSTrackingArea(rect: cell.view.bounds, options: options, owner: cell.view, userInfo: nil)

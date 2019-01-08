@@ -35,12 +35,38 @@ extension GroupMe {
 
 	}
 
+	private static var loadedMe: Me?
+
 	static var me: Me {
 		get {
-			let responseData = try! GroupMe.apiRequest(pathComponent: "/users/me")
+			if loadedMe != nil {
+				return loadedMe!
+			}
+			else {
+				let semaphore = DispatchSemaphore(value: 0)
 
-			return try! JSONDecoder().decode(Me.self, from: responseData)
+				handleMe(with: { me in
+					loadedMe = me
+					semaphore.signal()
+				})
+
+				semaphore.wait()
+
+				return loadedMe!
+			}
 		}
+	}
+
+	static func handleMe(with handler: @escaping (Me)->()) {
+		GroupMe.betterAPIRequest(appendingPathComponent: "/users/me", apiResponseHandler: { apiResponse in
+			guard apiResponse.meta.code == 200 else {
+				return
+			}
+
+			let me = try! JSONDecoder().decode(Me.self, from: apiResponse.contentData)
+
+			handler(me)
+		})
 	}
 
 }

@@ -11,9 +11,7 @@ import AppKit
 
 final class AppDelegate: NSObject, NSApplicationDelegate {
 
-	static let me = GroupMe.me
-
-	private let windowController: NSWindowController = {
+	private lazy var windowController: NSWindowController = {
 		let window = NSWindow()
 		let screen = window.screen!
 		let screenSize = screen.size

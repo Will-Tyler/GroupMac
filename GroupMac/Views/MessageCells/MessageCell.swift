@@ -116,7 +116,7 @@ class MessageCell: NSCollectionViewItem {
 
 			if message.favoritedBy.count > 0 {
 				likesCountLabel.stringValue = "\(message.favoritedBy.count)"
-				if message.favoritedBy.contains(AppDelegate.me.id) {
+				if message.favoritedBy.contains(GroupMe.me.id) {
 					heartButton.heart = Hearts.red
 				}
 				else {
@@ -131,11 +131,11 @@ class MessageCell: NSCollectionViewItem {
 	}
 
 	func toggleLike() {
-		let myID = AppDelegate.me.id
+		let myID = GroupMe.me.id
 		let isLiked = likes.contains(myID)
 		if isLiked {
 			message.unlike {
-				self.likes = self.likes.filter({ $0 != AppDelegate.me.id })
+				self.likes = self.likes.filter({ $0 != GroupMe.me.id })
 				if self.message.favoritedBy.count > 1 {
 					DispatchQueue.main.async {
 						self.heartButton.heart = Hearts.grey
@@ -152,7 +152,7 @@ class MessageCell: NSCollectionViewItem {
 		}
 		else {
 			message.like {
-				self.likes.insert(AppDelegate.me.id)
+				self.likes.insert(GroupMe.me.id)
 				DispatchQueue.main.async {
 					self.heartButton.heart = Hearts.red
 					self.likesCountLabel.stringValue = "\(self.likes.count)"

@@ -66,25 +66,12 @@ class GroupMe {
 			case maxMembers = "max_members"
 		}
 
-		var messages: [GroupMe.Group.Message] {
-			get {
-				let responseData = try! GroupMe.apiRequest(pathComponent: "/groups/\(id)/messages"/*, additionalParameters: ["limit": "100"]*/)
-				let countAndMessages = try! JSONSerialization.jsonObject(with: responseData) as! [String: Any]
-
-				let messages: [Group.Message] = {
-					let messageData = try! JSONSerialization.data(withJSONObject: countAndMessages["messages"]!)
-
-					return try! JSONDecoder().decode([Group.Message].self, from: messageData)
-				}()
-
-				return messages
-			}
-		}
-		@discardableResult func handleMessages(with handler: @escaping ([Group.Message])->(), beforeID: String? = nil) -> URLSessionDataTask {
+		@discardableResult
+		func handleMessages(with handler: @escaping ([Group.Message])->(), beforeID: String? = nil) -> URLSessionDataTask {
 			return GroupMe.betterAPIRequest(appendingPathComponent: "/groups/\(id)/messages", additionalParameters: beforeID == nil ? nil : ["before_id": beforeID!]) { (response: APIResponse) in
 				guard response.meta.code == 200 else { return }
 
-				let countAndMessages = response.content as! [String: Any]
+				let countAndMessages = try! JSONSerialization.jsonObject(with: response.contentData) as! [String: Any]
 				let messageData = try! JSONSerialization.data(withJSONObject: countAndMessages["messages"]!)
 				let messages = try! JSONDecoder().decode([Group.Message].self, from: messageData)
 
@@ -92,68 +79,8 @@ class GroupMe {
 			}
 		}
 
-		func updated(name: String? = nil, description: String? = nil, imageURL: URL? = nil, officeMode: Bool? = nil, share: Bool? = nil) -> Group? {
-			if name == nil, description == nil, imageURL == nil, officeMode == nil, share == nil { return nil }
-
-			let jsonDict: [String: Any] = {
-				var dict: [String: Any] = [:]
-
-				if let name = name {
-					dict["name"] = name
-				}
-				if let desc = description {
-					dict["description"] = desc
-				}
-				if let imageURL = imageURL {
-					dict["image_url"] = imageURL.absoluteString
-				}
-				if let office = officeMode {
-					dict["office_mode"] = office
-				}
-				if let share = share {
-					dict["share"] = share
-				}
-
-				return dict
-			}()
-			let jsonData = try! JSONSerialization.data(withJSONObject: jsonDict)
-
-			let responseData = try! GroupMe.apiRequest(pathComponent: "/groups/\(id)/update", requestMethod: .post, httpBody: jsonData)
-			let group = try! JSONDecoder().decode(Group.self, from: responseData)
-
-			return group
-		}
-
 		func destroy() {
 			GroupMe.apiContact(pathComponent: "/groups/\(id)/destroy")
-		}
-
-		static func show(id: String) -> Group {
-			let responseData = try! GroupMe.apiRequest(pathComponent: "/groups/\(id)")
-			let group = try! JSONDecoder().decode(Group.self, from: responseData)
-
-			return group
-		}
-
-		static func create(name: String, description: String? = nil, imageURL: URL? = nil, share: Bool = false) -> Group {
-			let jsonDict: [String: Any] = {
-				var dict: [String: Any] = ["name": name, "share": share]
-
-				if let desc = description {
-					dict["description"] = desc
-				}
-				if let imageURL = imageURL {
-					dict["image_url"] = imageURL.absoluteString
-				}
-
-				return dict
-			}()
-			let jsonData = try! JSONSerialization.data(withJSONObject: jsonDict)
-
-			let responseData = try! GroupMe.apiRequest(pathComponent: "/groups", requestMethod: .post, httpBody: jsonData)
-			let group = try! JSONDecoder().decode(Group.self, from: responseData)
-
-			return group
 		}
 
 		class Message: Decodable {
@@ -252,50 +179,11 @@ class GroupMe {
 	}
 	static func apiContact(pathComponent: String, requestMethod: HTTP.RequestMethod = .post) {
 		let request = URLRequest(url: baseURL.appendingPathComponent(pathComponent))
+
 		URLSession.shared.dataTask(with: request)
 	}
-	static func apiRequest(pathComponent: String, additionalParameters: [String: String] = [:], requestMethod: HTTP.RequestMethod = .get, httpBody: Data? = nil) throws -> Data {
-		let components: URLComponents = {
-			let url = baseURL.appendingPathComponent(pathComponent)
-			var comps = URLComponents(url: url, resolvingAgainstBaseURL: true)!
-			var params = additionalParameters
-			
-			params["token"] = accessToken
-			comps.queryItems = params.map({ return URLQueryItem(name: $0.key, value: $0.value) })
-
-			return comps
-		}()
-		print(requestMethod.rawValue, components.url!)
-		let request: URLRequest = {
-			var request = URLRequest(url: components.url!)
-
-			request.httpMethod = requestMethod.rawValue
-			if let body = httpBody {
-				request.httpBody = body
-			}
-
-			return request
-		}()
-
-		let results = HTTP.syncRequest(request: request)
-
-		guard results.error == nil else {
-			throw results.error!
-		}
-		guard let data = results.data else {
-			throw "Received nil data..."
-		}
-
-		let code = responseCode(from: data)
-		guard code == 200 else {
-			throw "Non-200 HTTP response code: \(code)"
-		}
-
-		let json = try JSONSerialization.jsonObject(with: data) as! [String: Any]
-
-		return try JSONSerialization.data(withJSONObject: json["response"]!)
-	}
-	@discardableResult static func betterAPIRequest(method: HTTP.RequestMethod = .get, appendingPathComponent extraPath: String, additionalParameters extraParams: [String: String]? = nil, jsonObject: Any? = nil, apiResponseHandler: @escaping (GroupMe.APIResponse)->()) -> URLSessionDataTask {
+	@discardableResult
+	static func betterAPIRequest(method: HTTP.RequestMethod = .get, appendingPathComponent extraPath: String, additionalParameters extraParams: [String: String]? = nil, jsonObject: Any? = nil, apiResponseHandler: @escaping (GroupMe.APIResponse)->()) -> URLSessionDataTask {
 		let components: URLComponents = {
 			let url = baseURL.appendingPathComponent(extraPath)
 			var comps = URLComponents(url: url, resolvingAgainstBaseURL: true)!
@@ -314,7 +202,7 @@ class GroupMe {
 			return comps
 		}()
 
-		print(components.url!)
+		print(method.rawValue, components.url!)
 
 		let request: URLRequest = {
 			var req = URLRequest(url: components.url!)
@@ -339,6 +227,15 @@ class GroupMe {
 		task.resume()
 
 		return task
+	}
+
+	static func handleGroups(with handler: @escaping ([GroupMe.Group])->()) {
+		GroupMe.betterAPIRequest(appendingPathComponent: "/groups", apiResponseHandler: { apiResponse in
+			var groups = try! JSONDecoder().decode([Group].self, from: apiResponse.contentData)
+
+			groups.sort(by: { $0.createdAt < $1.createdAt })
+			handler(groups)
+		})
 	}
 
 	private static var clientID = 1
@@ -376,32 +273,5 @@ class GroupMe {
 
 		return SRWebSocket()
 	}()
-
-	static var groups: [Group] {
-		get {
-			let data = try! apiRequest(pathComponent: "/groups")
-			let groups: [Group] = try! JSONDecoder().decode([Group].self, from: data)
-
-			return groups
-		}
-	}
-
-	static var formerGroups: [Group] {
-		get {
-			let responseData = try! apiRequest(pathComponent: "/groups/former")
-			let formerGroups = try! JSONDecoder().decode([Group].self, from: responseData)
-
-			return formerGroups
-		}
-	}
-
-	static var chats: [Chat] {
-		get {
-			let responseData = try! apiRequest(pathComponent: "/chats")
-			let chats: [Chat] = try! JSONDecoder().decode([Chat].self, from: responseData)
-
-			return chats
-		}
-	}
 
 }

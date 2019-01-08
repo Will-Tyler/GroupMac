@@ -10,13 +10,14 @@ extension GroupMe {
 
 	class APIResponse {
 
-		let content: Any
+		let contentData: Data
 		let meta: Meta
 
 		init(from data: Data) throws {
 			let jsonDict = try JSONSerialization.jsonObject(with: data) as! [String: Any]
+			let content = jsonDict["response"]!
 
-			content = jsonDict["response"]!
+			self.contentData = try! JSONSerialization.data(withJSONObject: content)
 
 			let metaDict = jsonDict["meta"] as! [String: Any]
 			let code = metaDict["code"] as! Int

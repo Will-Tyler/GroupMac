@@ -87,6 +87,9 @@ final class MessagesViewController: NSViewController, NSCollectionViewDelegateFl
 	}
 
 	//MARK: Collection view
+	func numberOfSections(in collectionView: NSCollectionView) -> Int {
+		return 1
+	}
 	func collectionView(_ collectionView: NSCollectionView, numberOfItemsInSection section: Int) -> Int {
 		return messages?.count ?? 0
 	}

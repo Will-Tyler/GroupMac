@@ -11,11 +11,10 @@ import AppKit
 
 final class ConvoViewController: NSViewController {
 
-	private let welcomeLabel: NSTextField = {
-		let firstName = AppDelegate.me.name.split(separator: " ").first!
+	private lazy var welcomeLabel: NSTextField = {
 		let welcome =
 				"""
-				You look great today, \(firstName).
+				You look great today.
 				Pop open a chat to start the conversation.
 				"""
 		let field = NSTextField(wrappingLabelWithString: welcome)
@@ -23,6 +22,18 @@ final class ConvoViewController: NSViewController {
 		field.isEditable = false
 		field.alignment = .center
 		field.font = Fonts.regularLarge
+
+		GroupMe.handleMe(with: { me in
+			if let firstName = me.name.split(separator: " ").first {
+				DispatchQueue.main.async {
+					field.stringValue =
+							"""
+							You look great today, \(firstName).
+							Pop open a chat to start the conversation.
+							"""
+				}
+			}
+		})
 
 		return field
 	}()
@@ -72,19 +83,13 @@ final class ConvoViewController: NSViewController {
 	}
 
 	override func loadView() {
-		view = {
-			let view = NSView()
-
-			view.wantsLayer = true
-
-			return view
-		}()
+		view = NSView()
+		view.wantsLayer = true
 	}
 	override func viewDidLoad() {
 		super.viewDidLoad()
 
 		addChild(messagesViewController)
-
 		setupInitialLayout()
 	}
 
@@ -96,7 +101,9 @@ final class ConvoViewController: NSViewController {
 				hasSelectedConvo = true
 			}
 
-			messages = conversation.blandMessages
+			conversation.handleMessages(with: { messages in
+				self.messages = messages
+			}, beforeID: nil)
 			convoHeaderView.conversation = conversation
 			messageComposerView.conversation = conversation
 		}

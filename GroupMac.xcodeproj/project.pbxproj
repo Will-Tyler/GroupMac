@@ -203,7 +203,6 @@
 			children = (
 				4C8736A221010D46007BAADF /* main.swift */,
 				4C78FD8A20D8280D006385B2 /* AppDelegate.swift */,
-				4C334D3020F8DDC900DC48E9 /* Buttons */,
 				4CE3E84A21A8E969001D258E /* Controllers */,
 				4CE3E84B21A8E990001D258E /* Views */,
 				4C78FD8E20D8280F006385B2 /* Assets.xcassets */,
@@ -270,6 +269,7 @@
 		4CE3E84B21A8E990001D258E /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				4C334D3020F8DDC900DC48E9 /* Buttons */,
 				4C019D7D20F58297001282E3 /* ConversationCell.swift */,
 				4CE3E84821A8E32E001D258E /* ConvoHeaderView.swift */,
 				4CC32AC320ED70A30046ED1D /* MessageCells */,

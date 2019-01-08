@@ -13,12 +13,12 @@ protocol GMConversation {
 
 	var name: String { get }
 	var updatedAt: Int { get }
-	var blandMessages: [GMMessage] { get }
 	var convoType: GMConversationType { get }
 	var imageURL: URL? { get }
 
 	func sendMessage(text: String, successHandler: @escaping ()->())
-	@discardableResult func handleMessages(with handler: @escaping ([GMMessage])->(), beforeID: String?) -> URLSessionDataTask
+	@discardableResult
+	func handleMessages(with handler: @escaping ([GMMessage])->(), beforeID: String?) -> URLSessionDataTask
 
 }
 
@@ -26,9 +26,6 @@ extension GroupMe.Chat: GMConversation {
 
 	var name: String {
 		get { return otherUser.name }
-	}
-	var blandMessages: [GMMessage] {
-		get { return messages as [GMMessage] }
 	}
 	var convoType: GMConversationType {
 		get { return .chat }
@@ -45,9 +42,6 @@ extension GroupMe.Chat: GMConversation {
 
 extension GroupMe.Group: GMConversation {
 
-	var blandMessages: [GMMessage] {
-		get { return messages as [GMMessage] }
-	}
 	var convoType: GMConversationType {
 		get { return .group }
 	}

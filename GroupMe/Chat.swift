@@ -31,24 +31,11 @@ extension GroupMe {
 			case messageCount = "messages_count"
 			case otherUser = "other_user"
 		}
-
-		var messages: [Chat.Message] {
-			get {
-				let params = ["other_user_id": otherUser.id]
-				let responseData = try! GroupMe.apiRequest(pathComponent: "/direct_messages", additionalParameters: params)
-				let countAndMessages = try! JSONSerialization.jsonObject(with: responseData) as! [String: Any]
-
-				let messages: [Chat.Message] = {
-					let data = try! JSONSerialization.data(withJSONObject: countAndMessages["direct_messages"]!)
-
-					return try! JSONDecoder().decode([Chat.Message].self, from: data)
-				}()
-
-				return messages
-			}
-		}
-		@discardableResult func handleMessages(with handler: @escaping ([Chat.Message])->(), beforeID: String? = nil) -> URLSessionDataTask {
+		
+		@discardableResult
+		func handleMessages(with handler: @escaping ([Chat.Message])->(), beforeID: String? = nil) -> URLSessionDataTask {
 			var params = ["other_user_id": otherUser.id]
+
 			if let before = beforeID {
 				params["before_id"] = before
 			}
@@ -56,7 +43,7 @@ extension GroupMe {
 			let runningTask = GroupMe.betterAPIRequest(appendingPathComponent: "direct_messages", additionalParameters: params) { (response: APIResponse) in
 				guard response.meta.code == 200 else { return }
 
-				let countAndMessages = response.content as! [String: Any]
+				let countAndMessages = try! JSONSerialization.jsonObject(with: response.contentData) as! [String: Any]
 				let messageData = try! JSONSerialization.data(withJSONObject: countAndMessages["direct_messages"]!)
 				let messages = try! JSONDecoder().decode([Chat.Message].self, from: messageData)
 
@@ -68,14 +55,17 @@ extension GroupMe {
 
 		func handlePreviewText(with handler: @escaping (String)->Void) {
 			GroupMe.betterAPIRequest(appendingPathComponent: "/direct_messages", additionalParameters: ["other_user_id": otherUser.id]) { (response: APIResponse) in
-				if response.meta.code == 200 {
-					let jsonMessages = (response.content as! [String: Any])["direct_messages"]!
-					let data = try! JSONSerialization.data(withJSONObject: jsonMessages)
-					let messages = try! JSONDecoder().decode([GroupMe.Chat.Message].self, from: data)
+				guard response.meta.code == 200 else {
+					return
+				}
 
-					if let text = messages.first!.text {
-						handler(text)
-					}
+				let json = try! JSONSerialization.jsonObject(with: response.contentData) as! [String: Any]
+				let jsonMessages = json["direct_messages"]!
+				let data = try! JSONSerialization.data(withJSONObject: jsonMessages)
+				let messages = try! JSONDecoder().decode([GroupMe.Chat.Message].self, from: data)
+
+				if let text = messages.first!.text {
+					handler(text)
 				}
 			}
 		}

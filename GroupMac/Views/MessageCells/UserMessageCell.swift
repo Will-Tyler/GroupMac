@@ -77,7 +77,7 @@ final class UserMessageCell: MessageCell {
 		didSet {
 			nameLabel.stringValue = message.name
 
-			view.backColor = AppDelegate.me.id == message.senderID ? Colors.personalBlue : Colors.background
+			view.backColor = GroupMe.me.id == message.senderID ? Colors.personalBlue : Colors.background
 
 			if let url = message.avatarURL {
 				let runningTask = HTTP.handleImage(at: url, with: { (image: NSImage) in
