@@ -265,7 +265,7 @@ class GroupMe {
 
 			return comps
 		}()
-		print(components.url!)
+		print(requestMethod.rawValue, components.url!)
 		let request: URLRequest = {
 			var request = URLRequest(url: components.url!)
 
