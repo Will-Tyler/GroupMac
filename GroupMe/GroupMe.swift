@@ -233,8 +233,17 @@ class GroupMe {
 		GroupMe.betterAPIRequest(appendingPathComponent: "/groups", apiResponseHandler: { apiResponse in
 			var groups = try! JSONDecoder().decode([Group].self, from: apiResponse.contentData)
 
-			groups.sort(by: { $0.createdAt < $1.createdAt })
+			groups.sort(by: { $0.updatedAt > $1.updatedAt })
 			handler(groups)
+		})
+	}
+
+	static func handleChats(with handler: @escaping ([GroupMe.Chat])->()) {
+		GroupMe.betterAPIRequest(appendingPathComponent: "/chats", apiResponseHandler: { apiResponse in
+			var chats = try! JSONDecoder().decode([Chat].self, from: apiResponse.contentData)
+
+			chats.sort(by: { $0.updatedAt > $1.updatedAt })
+			handler(chats)
 		})
 	}
 

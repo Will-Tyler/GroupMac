@@ -9,33 +9,31 @@
 import AppKit
 
 
-class ConvosViewController: NSViewController, NSCollectionViewDelegateFlowLayout, NSCollectionViewDataSource {
+final class ConvosViewController: NSViewController, NSCollectionViewDelegateFlowLayout, NSCollectionViewDataSource {
 
-	private lazy var borderView: NSView = {
-		let view = NSView()
+	private lazy var collectionView: NSCollectionView = {
+		let layout = CollectionLayout()
 
-		view.wantsLayer = true
-		view.layer!.borderWidth = 1
-		view.layer!.borderColor = Colors.border
+		layout.minimumLineSpacing = 0
 
-		return view
-	}()
-	private lazy var convosCollectionView: NSCollectionView = {
 		let collectionView = NSCollectionView()
-		let flowLayout: CollectionLayout = {
-			let layout = CollectionLayout()
 
-			layout.minimumLineSpacing = 0
-
-			return layout
-		}()
-
-		collectionView.collectionViewLayout = flowLayout
+		collectionView.collectionViewLayout = layout
 		collectionView.isSelectable = true
+
+		collectionView.delegate = self
+		collectionView.dataSource = self
+		collectionView.register(ConversationCell.self, forItemWithIdentifier: ConversationCell.cellID)
 
 		return collectionView
 	}()
-	private lazy var scrollView = NSScrollView()
+	private lazy var scrollView: NSScrollView = {
+		let scroll = NSScrollView()
+
+		scroll.documentView = collectionView
+
+		return scroll
+	}()
 
 	private func setupInitialLayout() {
 		view.removeSubviews()
@@ -50,16 +48,14 @@ class ConvosViewController: NSViewController, NSCollectionViewDelegateFlowLayout
 	}
 
 	override func loadView() {
-		view = borderView
+		view = NSView()
+
+		view.wantsLayer = true
+		view.layer!.borderWidth = 1
+		view.layer!.borderColor = Colors.border
 	}
 	override func viewDidLoad() {
 		super.viewDidLoad()
-
-		scrollView.documentView = convosCollectionView
-
-		convosCollectionView.delegate = self
-		convosCollectionView.dataSource = self
-		convosCollectionView.register(ConversationCell.self, forItemWithIdentifier: ConversationCell.cellID)
 
 		setupInitialLayout()
 		loadConversations()
@@ -67,28 +63,36 @@ class ConvosViewController: NSViewController, NSCollectionViewDelegateFlowLayout
 	override func viewDidLayout() {
 		super.viewDidLayout()
 
-		convosCollectionView.collectionViewLayout!.invalidateLayout()
+		collectionView.collectionViewLayout!.invalidateLayout()
 	}
 
 	var convoViewController: ConvoViewController!
 	private var conversations = [GMConversation]()
 
 	private func loadConversations() {
+		let group = DispatchGroup()
+		var convos = [GMConversation]()
+
+		group.enter()
 		GroupMe.handleGroups(with: { groups in
 			let newConvos = groups as [GMConversation]
 
-			for newConvo in newConvos {
-				self.insert(conversation: newConvo)
-			}
+			convos.append(contentsOf: newConvos)
+			group.leave()
 		})
-	}
-	private func insert(conversation: GMConversation) {
-		let count = conversations.count
-		let path = IndexPath(item: count, section: 0)
 
-		DispatchQueue.main.async {
-			self.convosCollectionView.insertItems(at: [path])
-		}
+		group.enter()
+		GroupMe.handleChats(with: { chats in
+			convos.append(contentsOf: chats as [GMConversation])
+			group.leave()
+		})
+
+		group.notify(queue: .main, execute: {
+			convos.sort(by: { $0.updatedAt > $1.updatedAt })
+			
+			self.conversations = convos
+			self.collectionView.reloadData()
+		})
 	}
 
 	// MARK: Collection view
