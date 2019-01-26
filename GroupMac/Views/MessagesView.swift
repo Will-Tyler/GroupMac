@@ -91,7 +91,76 @@ class MessagesView: NSScrollView, NSCollectionViewDelegateFlowLayout, NSCollecti
 		return item
 	}
 	func collectionView(_ collectionView: NSCollectionView, layout collectionViewLayout: NSCollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> NSSize {
-		return NSSize(width: collectionView.bounds.width, height: 64)
+		let collectionViewWidth = collectionView.bounds.width
+		let avatarImageWidth: CGFloat = 30
+		let spacing: CGFloat = 4
+		let likesViewWidth: CGFloat = 17
+		let minimumHeight: CGFloat = avatarImageWidth + 2*spacing
+
+		let count = messages.count
+		let message = messages[count-1 - indexPath.item]
+
+		let operatingWidth = collectionViewWidth - (avatarImageWidth + likesViewWidth + (4*spacing))
+		let labels = (name: message.name as NSString, text: message.text as NSString?)
+		let restrictedSize = CGSize(width: operatingWidth, height: .greatestFiniteMagnitude)
+		let drawingOptions = NSString.DrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
+
+		let nameEstimate: CGRect = labels.name.boundingRect(with: restrictedSize, options: drawingOptions, attributes: [.font: Fonts.boldSmall])
+		let textFont = message.isSystem ? Fonts.regularSmall : Fonts.regular
+		let textEstimate: CGRect? = labels.text?.boundingRect(with: restrictedSize, options: drawingOptions, attributes: [.font: textFont])
+
+		let textHeight = (message.isSystem ? 0 : nameEstimate.height) + (textEstimate?.height ?? 0)
+
+//		var attachmentHeight: CGFloat = 0
+//		if let attachment = message.attachments.first {
+//			switch attachment.contentType {
+//			case .image:
+//				let maxImageSize = NSSize(width: 500, height: 500)
+//				let maxContainerWidth = maxImageSize.width + 8
+//
+//				if operatingWidth > maxContainerWidth {
+//					attachmentHeight += maxImageSize.height + 8
+//				}
+//				else {
+//					let aspectRatio = maxImageSize.height / maxImageSize.width
+//					let containerHeight = (operatingWidth * aspectRatio) + 8
+//
+//					attachmentHeight += containerHeight
+//				}
+//
+//			default:
+//				let attachment = message.attachments.first!
+//
+//				switch attachment.contentType {
+//				case .mentions:
+//					let mutableString = NSMutableAttributedString(string: message.text!)
+//					let mentions = attachment.content as! GroupMe.Attachment.Mentions
+//
+//					for location in mentions.loci {
+//						let range = NSRange(location: location.first!, length: location.last!)
+//
+//						mutableString.addAttribute(.font, value: Fonts.bold, range: range)
+//					}
+//
+//					let boundingBox = mutableString.boundingRect(with: restrictedSize, options: drawingOptions)
+//
+//					attachmentHeight += boundingBox.height - textEstimate!.height
+//
+//				default:
+//					let unsupportedMessage = UserMessageCell.unsupportedAttachmentMessage(for: attachment.contentType) as NSString
+//					let size = NSSize(width: operatingWidth - (2*spacing), height: .greatestFiniteMagnitude)
+//					let textEstimate: CGRect = unsupportedMessage.boundingRect(with: size, options: drawingOptions, attributes: [.font: Fonts.regularLarge])
+//
+//					attachmentHeight += textEstimate.height + 8
+//				}
+//			}
+//		}
+
+//		let desiredHeight = textHeight + attachmentHeight
+		let desiredHeight = textHeight
+		let resultHeight = desiredHeight > minimumHeight ? desiredHeight : minimumHeight
+
+		return NSSize(width: collectionView.bounds.width, height: resultHeight)
 	}
 
 }
