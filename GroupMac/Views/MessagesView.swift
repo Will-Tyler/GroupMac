@@ -11,6 +11,15 @@ import AppKit
 
 class MessagesView: NSScrollView, NSCollectionViewDelegateFlowLayout, NSCollectionViewDataSource {
 
+	override init(frame frameRect: NSRect) {
+		super.init(frame: frameRect)
+
+		documentView = collectionView
+	}
+	required init?(coder: NSCoder) {
+		fatalError("init(coder:) has not been implemented")
+	}
+
 	private lazy var collectionView: NSCollectionView = {
 		let layout = NSCollectionViewFlowLayout()
 
@@ -36,7 +45,7 @@ class MessagesView: NSScrollView, NSCollectionViewDelegateFlowLayout, NSCollecti
 	override func layout() {
 		super.layout()
 
-		documentView = collectionView
+		collectionView.collectionViewLayout?.invalidateLayout()
 	}
 
 	var messages = [GMMessage]() {
