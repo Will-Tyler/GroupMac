@@ -11,7 +11,7 @@ import AppKit
 
 final class UserMessageCell: MessageCell {
 
-	static let cellID = NSUserInterfaceItemIdentifier(rawValue: "MessageCell")
+	static let cellID = NSUserInterfaceItemIdentifier(rawValue: "UserMessageCell")
 	
 	private let nameLabel: NSTextField = {
 		let field = NSTextField()
@@ -63,13 +63,12 @@ final class UserMessageCell: MessageCell {
 
 	override func loadView() {
 		view = NSView()
-
 		view.backColor = Colors.background
 	}
 	override func viewDidLoad() {
 		super.viewDidLoad()
 
-		setupInitialLayout()
+//		setupInitialLayout()
 	}
 
 	private var runningImageTasks = Set<URLSessionDataTask>()

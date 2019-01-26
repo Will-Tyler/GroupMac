@@ -11,16 +11,6 @@ import AppKit
 
 final class ConvosViewController: NSViewController, NSCollectionViewDelegateFlowLayout, NSCollectionViewDataSource {
 
-	private let delegate: ConvosViewControllerDelegate
-
-	init(delegate: ConvosViewControllerDelegate) {
-		self.delegate = delegate
-		super.init(nibName: nil, bundle: nil)
-	}
-	required init?(coder: NSCoder) {
-		fatalError("init(coder:) has not been implemented")
-	}
-
 	private lazy var collectionView: NSCollectionView = {
 		let layout = CollectionLayout()
 
@@ -76,6 +66,8 @@ final class ConvosViewController: NSViewController, NSCollectionViewDelegateFlow
 
 		collectionView.collectionViewLayout!.invalidateLayout()
 	}
+
+	var delegate: ConvosViewControllerDelegate?
 
 	private var conversations = [GMConversation]()
 
@@ -138,7 +130,7 @@ final class ConvosViewController: NSViewController, NSCollectionViewDelegateFlow
 		let cell = collectionView.item(at: indexPath) as! ConversationCell
 		let conversation: GMConversation! = cell.conversation
 
-		delegate.didSelect(conversation: conversation)
+		delegate?.didSelect(conversation: conversation)
 	}
 
 }
