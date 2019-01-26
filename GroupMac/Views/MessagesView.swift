@@ -24,8 +24,7 @@ class MessagesView: NSScrollView, NSCollectionViewDelegateFlowLayout, NSCollecti
 
 		collection.delegate = self
 		collection.dataSource = self
-		collection.register(UserMessageCell.self, forItemWithIdentifier: UserMessageCell.cellID)
-		collection.register(SystemMessageCell.self, forItemWithIdentifier: SystemMessageCell.cellID)
+		collection.register(MessageCell.self, forItemWithIdentifier: MessageCell.cellID)
 
 		collection.wantsLayer = true
 		collection.layer!.borderWidth = 1
@@ -63,14 +62,14 @@ class MessagesView: NSScrollView, NSCollectionViewDelegateFlowLayout, NSCollecti
 		return messages.count
 	}
 	func collectionView(_ collectionView: NSCollectionView, itemForRepresentedObjectAt indexPath: IndexPath) -> NSCollectionViewItem {
-//		let count = messages.count
-//		let message = messages[count-1 - indexPath.item]
-//
-//		let cellID = message.isSystem ? SystemMessageCell.cellID : UserMessageCell.cellID
-//		let item = collectionView.makeItem(withIdentifier: cellID, for: indexPath) as! MessageCell
-//
-//		item.message = message
-//
+		let count = messages.count
+		let message = messages[count-1 - indexPath.item]
+
+		let cellID = MessageCell.cellID
+		let item = collectionView.makeItem(withIdentifier: cellID, for: indexPath) as! MessageCell
+
+		item.message = message
+
 //		item.heartButton.tag = indexPath.item
 //		item.heartButton.target = self
 //		item.heartButton.action = #selector(heartButtonAction(sender:))
@@ -79,9 +78,11 @@ class MessagesView: NSScrollView, NSCollectionViewDelegateFlowLayout, NSCollecti
 //		let trackingArea = NSTrackingArea(rect: item.heartButton.bounds, options: trackingOptions, owner: item.heartButton, userInfo: nil)
 //
 //		item.heartButton.addTrackingArea(trackingArea)
-//
-//		return item
-		return collectionView.makeItem(withIdentifier: UserMessageCell.cellID, for: indexPath)
+
+		return item
+	}
+	func collectionView(_ collectionView: NSCollectionView, layout collectionViewLayout: NSCollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> NSSize {
+		return NSSize(width: collectionView.bounds.width, height: 64)
 	}
 
 }
