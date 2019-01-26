@@ -11,21 +11,32 @@ import AppKit
 
 final class ConvosViewController: NSViewController, NSCollectionViewDelegateFlowLayout, NSCollectionViewDataSource {
 
+	private let delegate: ConvosViewControllerDelegate
+
+	init(delegate: ConvosViewControllerDelegate) {
+		self.delegate = delegate
+		super.init(nibName: nil, bundle: nil)
+	}
+	required init?(coder: NSCoder) {
+		fatalError("init(coder:) has not been implemented")
+	}
+
 	private lazy var collectionView: NSCollectionView = {
 		let layout = CollectionLayout()
 
 		layout.minimumLineSpacing = 0
 
-		let collectionView = NSCollectionView()
+		let collection = NSCollectionView()
 
-		collectionView.collectionViewLayout = layout
-		collectionView.isSelectable = true
+		collection.collectionViewLayout = layout
+		collection.isSelectable = true
+		collection.allowsMultipleSelection = false
 
-		collectionView.delegate = self
-		collectionView.dataSource = self
-		collectionView.register(ConversationCell.self, forItemWithIdentifier: ConversationCell.cellID)
+		collection.delegate = self
+		collection.dataSource = self
+		collection.register(ConversationCell.self, forItemWithIdentifier: ConversationCell.cellID)
 
-		return collectionView
+		return collection
 	}()
 	private lazy var scrollView: NSScrollView = {
 		let scroll = NSScrollView()
@@ -66,7 +77,6 @@ final class ConvosViewController: NSViewController, NSCollectionViewDelegateFlow
 		collectionView.collectionViewLayout!.invalidateLayout()
 	}
 
-	var convoViewController: ConvoViewController!
 	private var conversations = [GMConversation]()
 
 	private func loadConversations() {
@@ -112,22 +122,30 @@ final class ConvosViewController: NSViewController, NSCollectionViewDelegateFlow
 		}
 
 		let options = NSTrackingArea.Options.mouseEnteredAndExited.union(.activeInActiveApp)
-		let trackingArea = NSTrackingArea(rect: cell.view.bounds, options: options, owner: cell.view, userInfo: nil)
+		let trackingArea = NSTrackingArea(rect: cell.view.frame, options: options, owner: cell.view, userInfo: nil)
 
 		cell.view.addTrackingArea(trackingArea)
 
 		return cell
 	}
 	func collectionView(_ collectionView: NSCollectionView, layout collectionViewLayout: NSCollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> NSSize {
-		// It is likely more efficient to hard code height than calculate it.
 		return NSSize(width: collectionView.bounds.width, height: 65)
 	}
 	func collectionView(_ collectionView: NSCollectionView, didSelectItemsAt indexPaths: Set<IndexPath>) {
+		assert(indexPaths.count == 1)
+		
 		let indexPath = indexPaths.first!
 		let cell = collectionView.item(at: indexPath) as! ConversationCell
 		let conversation: GMConversation! = cell.conversation
 
-		convoViewController.conversation = conversation
+		delegate.didSelect(conversation: conversation)
 	}
+
+}
+
+
+protocol ConvosViewControllerDelegate {
+
+	func didSelect(conversation: GMConversation)
 
 }

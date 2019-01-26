@@ -9,9 +9,9 @@
 import AppKit
 
 
-final class ViewController: NSViewController {
+final class ViewController: NSViewController, ConvosViewControllerDelegate {
 
-	private lazy var convosViewController = ConvosViewController()
+	private lazy var convosViewController = ConvosViewController(delegate: self)
 	private lazy var convoViewController = ConvoViewController()
 
 	private func setupInitialLayout() {
@@ -45,9 +45,11 @@ final class ViewController: NSViewController {
 		addChild(convosViewController)
 		addChild(convoViewController)
 
-		convosViewController.convoViewController = convoViewController
-
 		setupInitialLayout()
+	}
+
+	func didSelect(conversation: GMConversation) {
+		convoViewController.conversation = conversation
 	}
 	
 }

@@ -11,7 +11,7 @@ import AppKit
 
 final class AppDelegate: NSObject, NSApplicationDelegate {
 
-	private lazy var windowController: NSWindowController = {
+	func applicationDidFinishLaunching(_ aNotification: Notification) {
 		let window = NSWindow()
 		let screen = window.screen!
 		let screenSize = screen.size
@@ -27,16 +27,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 		window.contentViewController = ViewController()
 
 		let windowController = NSWindowController(window: window)
-		
+
 		windowController.shouldCascadeWindows = true
-
-		return windowController
-	}()
-
-	func applicationDidFinishLaunching(_ aNotification: Notification) {
-		// Insert code here to initialize your application
 		windowController.window!.makeKeyAndOrderFront(self)
 	}
 
 }
-
