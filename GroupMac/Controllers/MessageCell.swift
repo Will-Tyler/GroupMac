@@ -139,14 +139,25 @@ class MessageCell: NSCollectionViewItem {
 
 	static let cellID = NSUserInterfaceItemIdentifier(rawValue: "MessageCell")
 
+	private let systemDefaultImage = NSImage(named: "System Default Image")
+	private let personDefaultImage = NSImage(named: "Person Default Image")
+	private var runningImageTasks: Set<URLSessionDataTask> = []
+
+	private func cancelRunningImageTasks() {
+		runningImageTasks.forEach({ $0.cancel() })
+		runningImageTasks.removeAll()
+	}
+
 	private var nameLabelHeightContraint: NSLayoutConstraint!
 	private var likes: Set<String>!
 	var message: GMMessage! {
 		didSet {
+			cancelRunningImageTasks()
+			
 			if message.isSystem {
 				nameLabelHeightContraint.constant = 0
 
-				avatarImageView.image = NSImage(named: "System Default Image")
+				avatarImageView.image = systemDefaultImage
 
 				textLabel.font = Fonts.regularSmall
 				textLabel.textColor = Colors.systemText
@@ -154,14 +165,17 @@ class MessageCell: NSCollectionViewItem {
 				view.backColor = Colors.systemBackground
 			}
 			else {
-//				if let url = message.avatarURL {
-//					let runningTask = HTTP.handleImage(at: url, with: { (image: NSImage) in
-//						DispatchQueue.main.async {
-//							self.avatarImageView.image = image
-//						}
-//					})
-//					runningImageTasks.insert(runningTask)
-//				}
+				avatarImageView.image = personDefaultImage
+
+				if let url = message.avatarURL {
+					let imageTask = HTTP.handleImage(at: url, with: { (image: NSImage) in
+						DispatchQueue.main.async {
+							self.avatarImageView.image = image
+						}
+					})
+
+					runningImageTasks.insert(imageTask)
+				}
 //
 //				// Reset attachment view
 //				attachmentView.removeSubviews()
@@ -219,7 +233,7 @@ class MessageCell: NSCollectionViewItem {
 	func toggleLike() {
 		let myID = GroupMe.me.id
 		let isLikedByMe = likes.contains(myID)
-		
+
 		if isLikedByMe {
 			message.unlike {
 				self.likes = self.likes.filter({ $0 != GroupMe.me.id })

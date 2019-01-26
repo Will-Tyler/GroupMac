@@ -101,13 +101,14 @@ class MessagesView: NSScrollView, NSCollectionViewDelegateFlowLayout, NSCollecti
 		let message = messages[count-1 - indexPath.item]
 
 		let operatingWidth = collectionViewWidth - (avatarImageWidth + likesViewWidth + (4*spacing))
-		let labels = (name: message.name as NSString, text: message.text as NSString?)
-		let restrictedSize = CGSize(width: operatingWidth, height: .greatestFiniteMagnitude)
-		let drawingOptions = NSString.DrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
-
-		let nameEstimate: CGRect = labels.name.boundingRect(with: restrictedSize, options: drawingOptions, attributes: [.font: Fonts.boldSmall])
+		let name = message.name as NSString
+		let text = message.text as NSString?
 		let textFont = message.isSystem ? Fonts.regularSmall : Fonts.regular
-		let textEstimate: CGRect? = labels.text?.boundingRect(with: restrictedSize, options: drawingOptions, attributes: [.font: textFont])
+		let restrictedSize = CGSize(width: operatingWidth, height: .greatestFiniteMagnitude)
+		let drawingOptions: NSString.DrawingOptions = [.usesFontLeading, .usesLineFragmentOrigin]
+
+		let nameEstimate: CGRect = name.boundingRect(with: restrictedSize, options: drawingOptions, attributes: [.font: Fonts.boldSmall])
+		let textEstimate: CGRect? = text?.boundingRect(with: restrictedSize, options: drawingOptions, attributes: [.font: textFont])
 
 		let textHeight = (message.isSystem ? 0 : nameEstimate.height) + (textEstimate?.height ?? 0)
 
