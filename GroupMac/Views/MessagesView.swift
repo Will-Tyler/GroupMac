@@ -18,6 +18,7 @@ class MessagesView: NSScrollView, NSCollectionViewDelegateFlowLayout, NSCollecti
 	override init(frame frameRect: NSRect) {
 		super.init(frame: frameRect)
 
+		contentView = FlippedCV()
 		documentView = collectionView
 		contentView.postsBoundsChangedNotifications = true
 
