@@ -58,8 +58,8 @@ final class ConvoHeaderView: NSView {
 	var conversation: GMConversation! {
 		didSet {
 			titleLabel.stringValue = conversation.name
-
 			groupImageView.image = #imageLiteral(resourceName: "Group Default Image")
+
 			if let url = conversation.imageURL {
 				HTTP.handleImage(at: url, with: { (image: NSImage) in
 					DispatchQueue.main.async {

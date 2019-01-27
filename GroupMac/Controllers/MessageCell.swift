@@ -16,6 +16,7 @@ class MessageCell: NSCollectionViewItem {
 
 		view.image = #imageLiteral(resourceName: "Person Default Image")
 		view.imageScaling = NSImageScaling.scaleAxesIndependently
+
 		view.wantsLayer = true
 		view.layer!.cornerRadius = 15
 		view.layer!.masksToBounds = true
@@ -135,6 +136,9 @@ class MessageCell: NSCollectionViewItem {
 		super.viewDidLoad()
 
 		setupInitialLayout()
+
+		heartButton.target = self
+		heartButton.action = #selector(toggleLike)
 	}
 
 	static let cellID = NSUserInterfaceItemIdentifier(rawValue: "MessageCell")
@@ -153,7 +157,7 @@ class MessageCell: NSCollectionViewItem {
 	var message: GMMessage! {
 		didSet {
 			cancelRunningImageTasks()
-			
+
 			if message.isSystem {
 				nameLabelHeightContraint.constant = 0
 
@@ -230,7 +234,8 @@ class MessageCell: NSCollectionViewItem {
 		}
 	}
 
-	func toggleLike() {
+	@objc
+	private func toggleLike() {
 		let myID = GroupMe.me.id
 		let isLikedByMe = likes.contains(myID)
 

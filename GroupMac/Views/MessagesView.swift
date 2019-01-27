@@ -56,13 +56,6 @@ class MessagesView: NSScrollView, NSCollectionViewDelegateFlowLayout, NSCollecti
 		}
 	}
 
-//	@objc
-//	private func heartButtonAction(sender: HeartButton) {
-//		let messageCell = collectionView.item(at: sender.tag)! as! MessageCell
-//
-//		messageCell.toggleLike()
-//	}
-
 	// Collection view
 	func numberOfSections(in collectionView: NSCollectionView) -> Int {
 		return 1
@@ -71,22 +64,11 @@ class MessagesView: NSScrollView, NSCollectionViewDelegateFlowLayout, NSCollecti
 		return messages.count
 	}
 	func collectionView(_ collectionView: NSCollectionView, itemForRepresentedObjectAt indexPath: IndexPath) -> NSCollectionViewItem {
+		let item = collectionView.makeItem(withIdentifier: MessageCell.cellID, for: indexPath) as! MessageCell
 		let count = messages.count
 		let message = messages[count-1 - indexPath.item]
 
-		let cellID = MessageCell.cellID
-		let item = collectionView.makeItem(withIdentifier: cellID, for: indexPath) as! MessageCell
-
 		item.message = message
-
-//		item.heartButton.tag = indexPath.item
-//		item.heartButton.target = self
-//		item.heartButton.action = #selector(heartButtonAction(sender:))
-//
-//		let trackingOptions = NSTrackingArea.Options.mouseEnteredAndExited.union(.activeInActiveApp)
-//		let trackingArea = NSTrackingArea(rect: item.heartButton.bounds, options: trackingOptions, owner: item.heartButton, userInfo: nil)
-//
-//		item.heartButton.addTrackingArea(trackingArea)
 
 		return item
 	}
@@ -156,7 +138,7 @@ class MessagesView: NSScrollView, NSCollectionViewDelegateFlowLayout, NSCollecti
 //				}
 //			}
 //		}
-
+//
 //		let desiredHeight = textHeight + attachmentHeight
 		let desiredHeight = textHeight
 		let resultHeight = desiredHeight > minimumHeight ? desiredHeight : minimumHeight

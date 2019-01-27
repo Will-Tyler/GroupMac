@@ -43,7 +43,7 @@ extension GroupMe {
 			let runningTask = GroupMe.betterAPIRequest(appendingPathComponent: "direct_messages", additionalParameters: params) { (response: APIResponse) in
 				guard response.meta.code == 200 else { return }
 
-				let countAndMessages = try! JSONSerialization.jsonObject(with: response.contentData) as! [String: Any]
+				let countAndMessages = try! JSONSerialization.jsonObject(with: response.contentData!) as! [String: Any]
 				let messageData = try! JSONSerialization.data(withJSONObject: countAndMessages["direct_messages"]!)
 				let messages = try! JSONDecoder().decode([Chat.Message].self, from: messageData)
 
@@ -59,7 +59,7 @@ extension GroupMe {
 					return
 				}
 
-				let json = try! JSONSerialization.jsonObject(with: response.contentData) as! [String: Any]
+				let json = try! JSONSerialization.jsonObject(with: response.contentData!) as! [String: Any]
 				let jsonMessages = json["direct_messages"]!
 				let data = try! JSONSerialization.data(withJSONObject: jsonMessages)
 				let messages = try! JSONDecoder().decode([GroupMe.Chat.Message].self, from: data)

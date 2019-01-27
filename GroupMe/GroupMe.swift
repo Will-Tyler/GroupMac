@@ -71,7 +71,7 @@ class GroupMe {
 			return GroupMe.betterAPIRequest(appendingPathComponent: "/groups/\(id)/messages", additionalParameters: beforeID == nil ? nil : ["before_id": beforeID!]) { (response: APIResponse) in
 				guard response.meta.code == 200 else { return }
 
-				let countAndMessages = try! JSONSerialization.jsonObject(with: response.contentData) as! [String: Any]
+				let countAndMessages = try! JSONSerialization.jsonObject(with: response.contentData!) as! [String: Any]
 				let messageData = try! JSONSerialization.data(withJSONObject: countAndMessages["messages"]!)
 				let messages = try! JSONDecoder().decode([Group.Message].self, from: messageData)
 
@@ -231,7 +231,7 @@ class GroupMe {
 
 	static func handleGroups(with handler: @escaping ([GroupMe.Group])->()) {
 		GroupMe.betterAPIRequest(appendingPathComponent: "/groups", apiResponseHandler: { apiResponse in
-			var groups = try! JSONDecoder().decode([Group].self, from: apiResponse.contentData)
+			var groups = try! JSONDecoder().decode([Group].self, from: apiResponse.contentData!)
 
 			groups.sort(by: { $0.updatedAt > $1.updatedAt })
 			handler(groups)
@@ -240,7 +240,7 @@ class GroupMe {
 
 	static func handleChats(with handler: @escaping ([GroupMe.Chat])->()) {
 		GroupMe.betterAPIRequest(appendingPathComponent: "/chats", apiResponseHandler: { apiResponse in
-			var chats = try! JSONDecoder().decode([Chat].self, from: apiResponse.contentData)
+			var chats = try! JSONDecoder().decode([Chat].self, from: apiResponse.contentData!)
 
 			chats.sort(by: { $0.updatedAt > $1.updatedAt })
 			handler(chats)

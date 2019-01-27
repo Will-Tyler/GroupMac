@@ -63,7 +63,7 @@ extension GroupMe {
 				return
 			}
 
-			let me = try! JSONDecoder().decode(Me.self, from: apiResponse.contentData)
+			let me = try! JSONDecoder().decode(Me.self, from: apiResponse.contentData!)
 
 			handler(me)
 		})
