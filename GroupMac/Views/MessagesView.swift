@@ -52,6 +52,7 @@ class MessagesView: NSScrollView, NSCollectionViewDelegateFlowLayout, NSCollecti
 		didSet {
 			DispatchQueue.main.async {
 				self.collectionView.reloadData()
+				self.collectionView.scrollToBottom()
 			}
 		}
 	}
