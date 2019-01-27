@@ -58,7 +58,7 @@ extension GroupMe {
 	}
 
 	static func handleMe(with handler: @escaping (Me)->()) {
-		GroupMe.betterAPIRequest(appendingPathComponent: "/users/me", apiResponseHandler: { apiResponse in
+		GroupMe.request(appendingPathComponent: "/users/me", apiResponseHandler: { apiResponse in
 			guard apiResponse.meta.code == 200 else {
 				return
 			}

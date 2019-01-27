@@ -104,7 +104,7 @@ extension GroupMe.Group {
 
 		let jsonDict = ["message": ["source_guid": "\(GroupMe.Group.GUIDcount++)", "text": text]]
 
-		GroupMe.betterAPIRequest(method: .post, appendingPathComponent: "/groups/\(id)/messages", jsonObject: jsonDict) { (response: GroupMe.APIResponse) in
+		GroupMe.request(method: .post, appendingPathComponent: "/groups/\(id)/messages", jsonObject: jsonDict) { (response: GroupMe.APIResponse) in
 			if response.meta.code == 201 { successHandler() }
 		}
 	}

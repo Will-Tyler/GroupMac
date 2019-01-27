@@ -40,7 +40,7 @@ extension GroupMe {
 				params["before_id"] = before
 			}
 
-			let runningTask = GroupMe.betterAPIRequest(appendingPathComponent: "direct_messages", additionalParameters: params) { (response: APIResponse) in
+			let runningTask = GroupMe.request(appendingPathComponent: "direct_messages", additionalParameters: params) { (response: APIResponse) in
 				guard response.meta.code == 200 else { return }
 
 				let countAndMessages = try! JSONSerialization.jsonObject(with: response.contentData!) as! [String: Any]
@@ -54,7 +54,7 @@ extension GroupMe {
 		}
 
 		func handlePreviewText(with handler: @escaping (String)->Void) {
-			GroupMe.betterAPIRequest(appendingPathComponent: "/direct_messages", additionalParameters: ["other_user_id": otherUser.id]) { (response: APIResponse) in
+			GroupMe.request(appendingPathComponent: "/direct_messages", additionalParameters: ["other_user_id": otherUser.id]) { (response: APIResponse) in
 				guard response.meta.code == 200 else {
 					return
 				}
@@ -77,7 +77,7 @@ extension GroupMe {
 
 			let jsonDict = ["direct_message": ["source_guid": "\(GroupMe.Chat.GUIDcount++)", "recipient_id": otherUser.id, "text": text]]
 
-			GroupMe.betterAPIRequest(method: .post, appendingPathComponent: "/direct_messages", jsonObject: jsonDict) { (response: APIResponse) in
+			GroupMe.request(method: .post, appendingPathComponent: "/direct_messages", jsonObject: jsonDict) { (response: APIResponse) in
 				if response.meta.code == 201 { successHandler() }
 			}
 		}
@@ -175,12 +175,12 @@ extension GroupMe.Chat {
 		}
 
 		func like(successHandler: @escaping ()->() = {}) {
-			GroupMe.betterAPIRequest(method: .post, appendingPathComponent: "/messages/\(chatID)/\(id)/like") { (response: GroupMe.APIResponse) in
+			GroupMe.request(method: .post, appendingPathComponent: "/messages/\(chatID)/\(id)/like") { (response: GroupMe.APIResponse) in
 				if response.meta.code == 200 { successHandler() }
 			}
 		}
 		func unlike(successHandler: @escaping ()->() = {}) {
-			GroupMe.betterAPIRequest(method: .post, appendingPathComponent: "/messages/\(chatID)/\(id)/unlike") { (response: GroupMe.APIResponse) in
+			GroupMe.request(method: .post, appendingPathComponent: "/messages/\(chatID)/\(id)/unlike") { (response: GroupMe.APIResponse) in
 				if response.meta.code == 200 { successHandler() }
 			}
 		}

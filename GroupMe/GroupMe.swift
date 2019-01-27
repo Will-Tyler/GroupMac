@@ -30,24 +30,6 @@ class GroupMe {
 		let messagesInfo: GroupMe.Group.MessagesInfo
 		let maxMembers: Int
 
-//		private init(id: String, name: String, phoneNumber: String?, type: String, description: String, imageURL: URL?, creatorUserID: String, createdAt: Int, updatedAt: Int, officeMode: Bool, shareURL: URL?, shareQRCodeURL: URL?, members: [Group.Member], messagesInfo: MessagesInfo, maxMembers: Int) {
-//			self.id = id
-//			self.name = name
-//			self.phoneNumber = phoneNumber
-//			self.type = type
-//			self.description = description
-//			self.imageURL = imageURL
-//			self.creatorUserID = creatorUserID
-//			self.createdAt = createdAt
-//			self.updatedAt = updatedAt
-//			self.officeMode = officeMode
-//			self.shareURL = shareURL
-//			self.shareQRCodeURL = shareQRCodeURL
-//			self.members = members
-//			self.messagesInfo = messagesInfo
-//			self.maxMembers = maxMembers
-//		}
-
 		private enum CodingKeys: String, CodingKey {
 			case id
 			case name
@@ -68,7 +50,7 @@ class GroupMe {
 
 		@discardableResult
 		func handleMessages(with handler: @escaping ([Group.Message])->(), beforeID: String? = nil) -> URLSessionDataTask {
-			return GroupMe.betterAPIRequest(appendingPathComponent: "/groups/\(id)/messages", additionalParameters: beforeID == nil ? nil : ["before_id": beforeID!]) { (response: APIResponse) in
+			return GroupMe.request(appendingPathComponent: "/groups/\(id)/messages", additionalParameters: beforeID == nil ? nil : ["before_id": beforeID!]) { (response: APIResponse) in
 				guard response.meta.code == 200 else { return }
 
 				let countAndMessages = try! JSONSerialization.jsonObject(with: response.contentData!) as! [String: Any]
@@ -77,10 +59,6 @@ class GroupMe {
 
 				handler(messages)
 			}
-		}
-
-		func destroy() {
-			GroupMe.apiContact(pathComponent: "/groups/\(id)/destroy")
 		}
 
 		class Message: Decodable {
@@ -98,22 +76,6 @@ class GroupMe {
 			let isSystem: Bool
 			let text: String?
 			let userID: String
-
-//			private init(attachments: [[String: Data]], avatarURL: URL?, createdAt: Int, favoritedBy: [String], groupID: String, id: String, name: String, senderID: String, senderType: String, sourceGUID: String, isSystem: Bool, text: String?, userID: String) {
-//				self.attachments = attachments
-//				self.avatarURL = avatarURL
-//				self.createdAt = createdAt
-//				self.favoritedBy = favoritedBy
-//				self.groupID = groupID
-//				self.id = id
-//				self.name = name
-//				self.senderID = senderID
-//				self.senderType = senderType
-//				self.sourceGUID = sourceGUID
-//				self.isSystem = isSystem
-//				self.text = text
-//				self.userID = userID
-//			}
 
 			required init(from decoder: Decoder) throws {
 				let values = try decoder.container(keyedBy: CodingKeys.self)
@@ -150,12 +112,12 @@ class GroupMe {
 			}
 
 			func like(successHandler: @escaping ()->()) {
-				GroupMe.betterAPIRequest(method: .post, appendingPathComponent: "/messages/\(groupID)/\(id)/like") { (response: APIResponse) in
+				GroupMe.request(method: .post, appendingPathComponent: "/messages/\(groupID)/\(id)/like") { (response: APIResponse) in
 					if response.meta.code == 200 { successHandler() }
 				}
 			}
 			func unlike(successHandler: @escaping ()->()) {
-				GroupMe.betterAPIRequest(method: .post, appendingPathComponent: "/messages/\(groupID)/\(id)/unlike") { (response: APIResponse) in
+				GroupMe.request(method: .post, appendingPathComponent: "/messages/\(groupID)/\(id)/unlike") { (response: APIResponse) in
 					if response.meta.code == 200 { successHandler() }
 				}
 			}
@@ -172,18 +134,8 @@ class GroupMe {
 		return token
 	}()
 
-	static func responseCode(from data: Data) -> Int {
-		let response = try! APIResponse(from: data)
-
-		return response.meta.code
-	}
-	static func apiContact(pathComponent: String, requestMethod: HTTP.RequestMethod = .post) {
-		let request = URLRequest(url: baseURL.appendingPathComponent(pathComponent))
-
-		URLSession.shared.dataTask(with: request)
-	}
 	@discardableResult
-	static func betterAPIRequest(method: HTTP.RequestMethod = .get, appendingPathComponent extraPath: String, additionalParameters extraParams: [String: String]? = nil, jsonObject: Any? = nil, apiResponseHandler: @escaping (GroupMe.APIResponse)->()) -> URLSessionDataTask {
+	static func request(method: HTTP.RequestMethod = .get, appendingPathComponent extraPath: String, additionalParameters extraParams: [String: String]? = nil, jsonObject: Any? = nil, apiResponseHandler: @escaping (GroupMe.APIResponse)->()) -> URLSessionDataTask {
 		let components: URLComponents = {
 			let url = baseURL.appendingPathComponent(extraPath)
 			var comps = URLComponents(url: url, resolvingAgainstBaseURL: true)!
@@ -230,7 +182,7 @@ class GroupMe {
 	}
 
 	static func handleGroups(with handler: @escaping ([GroupMe.Group])->()) {
-		GroupMe.betterAPIRequest(appendingPathComponent: "/groups", apiResponseHandler: { apiResponse in
+		GroupMe.request(appendingPathComponent: "/groups", apiResponseHandler: { apiResponse in
 			var groups = try! JSONDecoder().decode([Group].self, from: apiResponse.contentData!)
 
 			groups.sort(by: { $0.updatedAt > $1.updatedAt })
@@ -239,7 +191,7 @@ class GroupMe {
 	}
 
 	static func handleChats(with handler: @escaping ([GroupMe.Chat])->()) {
-		GroupMe.betterAPIRequest(appendingPathComponent: "/chats", apiResponseHandler: { apiResponse in
+		GroupMe.request(appendingPathComponent: "/chats", apiResponseHandler: { apiResponse in
 			var chats = try! JSONDecoder().decode([Chat].self, from: apiResponse.contentData!)
 
 			chats.sort(by: { $0.updatedAt > $1.updatedAt })
@@ -247,40 +199,40 @@ class GroupMe {
 		})
 	}
 
-	private static var clientID = 1
-	static let notificationSocket: SRWebSocket = {
-		print("Creating notification socket...")
-		defer {
-			print("Finished setting up socket...")
-		}
-
-		let handshake = [
-			[
-				"channel": "/meta/handshake",
-				"version": "1.0",
-				"supportedConnectionTypes": ["long-polling"],
-				"id": "\(clientID++)"
-			]
-		]
-		let handshakeData = try! JSONSerialization.data(withJSONObject: handshake)
-		let url = URL(string: "https://push.groupme.com/faye")!
-		let request: URLRequest = {
-			var req = URLRequest(url: url)
-
-			req.setValue("application/json", forHTTPHeaderField: "Content-Type")
-			req.httpMethod = HTTP.RequestMethod.post.rawValue
-			req.httpBody = handshakeData
-
-			return req
-		}()
-
-		let results = HTTP.syncRequest(request: request)
-
-		guard results.error == nil, let data = results.data, !data.isEmpty else {
-			fatalError()
-		}
-
-		return SRWebSocket()
-	}()
+//	private static var clientID = 1
+//	static let notificationSocket: SRWebSocket = {
+//		print("Creating notification socket...")
+//		defer {
+//			print("Finished setting up socket...")
+//		}
+//
+//		let handshake = [
+//			[
+//				"channel": "/meta/handshake",
+//				"version": "1.0",
+//				"supportedConnectionTypes": ["long-polling"],
+//				"id": "\(clientID++)"
+//			]
+//		]
+//		let handshakeData = try! JSONSerialization.data(withJSONObject: handshake)
+//		let url = URL(string: "https://push.groupme.com/faye")!
+//		let request: URLRequest = {
+//			var req = URLRequest(url: url)
+//
+//			req.setValue("application/json", forHTTPHeaderField: "Content-Type")
+//			req.httpMethod = HTTP.RequestMethod.post.rawValue
+//			req.httpBody = handshakeData
+//
+//			return req
+//		}()
+//
+//		let results = HTTP.syncRequest(request: request)
+//
+//		guard results.error == nil, let data = results.data, !data.isEmpty else {
+//			fatalError()
+//		}
+//
+//		return SRWebSocket()
+//	}()
 
 }
