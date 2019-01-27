@@ -11,6 +11,12 @@ import AppKit
 
 final class ConvoHeaderView: NSView {
 
+	override init(frame frameRect: NSRect) {
+		super.init(frame: frameRect)
+
+		setupInitialLayout()
+	}
+
 	private lazy var groupImageView: NSImageView = {
 		let image = NSImageView()
 
@@ -47,12 +53,6 @@ final class ConvoHeaderView: NSView {
 		titleLabel.leadingAnchor.constraint(equalTo: groupImageView.trailingAnchor, constant: 4).isActive = true
 		titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -4).isActive = true
 		titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-	}
-
-	override func layout() {
-		super.layout()
-
-		setupInitialLayout()
 	}
 
 	var conversation: GMConversation! {

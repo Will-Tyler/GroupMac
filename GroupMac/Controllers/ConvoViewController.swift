@@ -9,7 +9,7 @@
 import AppKit
 
 
-final class ConvoViewController: NSViewController {
+final class ConvoViewController: NSViewController, MessagesViewDelegate {
 
 	private lazy var welcomeLabel: NSTextField = {
 		let welcome =
@@ -38,7 +38,7 @@ final class ConvoViewController: NSViewController {
 		return field
 	}()
 	private lazy var convoHeaderView = ConvoHeaderView()
-	private lazy var messagesView = MessagesView()
+	private lazy var messagesView = MessagesView(delegate: self)
 	private lazy var messageComposerView = MessageComposerView()
 
 	private func setupInitialLayout() {
@@ -104,6 +104,15 @@ final class ConvoViewController: NSViewController {
 			}, beforeID: nil)
 			convoHeaderView.conversation = conversation
 			messageComposerView.conversation = conversation
+		}
+	}
+
+	// MessagesViewDelegate
+	func shouldInsertMoreMessages() {
+		if let oldestMessage = messagesView.messages.first {
+			conversation.handleMessages(with: { messages in
+				self.messagesView.messages.insert(contentsOf: messages, at: 0)
+			}, beforeID: oldestMessage.id)
 		}
 	}
 

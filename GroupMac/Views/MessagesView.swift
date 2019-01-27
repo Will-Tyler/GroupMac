@@ -11,10 +11,17 @@ import AppKit
 
 class MessagesView: NSScrollView, NSCollectionViewDelegateFlowLayout, NSCollectionViewDataSource {
 
+	convenience init(delegate: MessagesViewDelegate) {
+		self.init()
+		self.delegate = delegate
+	}
 	override init(frame frameRect: NSRect) {
 		super.init(frame: frameRect)
 
 		documentView = collectionView
+		contentView.postsBoundsChangedNotifications = true
+
+		NotificationCenter.default.addObserver(self, selector: #selector(didScroll), name: NSView.boundsDidChangeNotification, object: contentView)
 	}
 	required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
@@ -48,12 +55,33 @@ class MessagesView: NSScrollView, NSCollectionViewDelegateFlowLayout, NSCollecti
 		collectionView.collectionViewLayout?.invalidateLayout()
 	}
 
+	var delegate: MessagesViewDelegate?
 	var messages = [GMMessage]() {
 		didSet {
 			DispatchQueue.main.async {
+				self.shouldAllowLoadMoreMessages = false
 				self.collectionView.reloadData()
-				self.collectionView.scrollToBottom()
+
+				if !self.hasSetMessages {
+					self.collectionView.scrollToBottom()
+				}
+
+				self.shouldAllowLoadMoreMessages = true
+				self.hasSetMessages = true
 			}
+		}
+	}
+
+	private var hasSetMessages = false
+	private var shouldAllowLoadMoreMessages = false
+
+	@objc
+	private func didScroll() {
+		let y = documentVisibleRect.origin.y
+
+		if y < 16, shouldAllowLoadMoreMessages {
+			shouldAllowLoadMoreMessages = false
+			delegate?.shouldInsertMoreMessages()
 		}
 	}
 
@@ -146,5 +174,12 @@ class MessagesView: NSScrollView, NSCollectionViewDelegateFlowLayout, NSCollecti
 
 		return NSSize(width: collectionView.bounds.width, height: resultHeight)
 	}
+
+}
+
+
+protocol MessagesViewDelegate {
+
+	func shouldInsertMoreMessages()
 
 }

@@ -247,6 +247,7 @@
 		4CE3E84A21A8E969001D258E /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				4C019D7D20F58297001282E3 /* ConversationCell.swift */,
 				4CDC813D20DAF9EC004D8DD0 /* ConvoViewController.swift */,
 				4CDC814120DB23CB004D8DD0 /* ConvosViewController.swift */,
 				4C8736A021010279007BAADF /* MessageCell.swift */,
@@ -259,7 +260,6 @@
 			isa = PBXGroup;
 			children = (
 				4C334D3020F8DDC900DC48E9 /* Buttons */,
-				4C019D7D20F58297001282E3 /* ConversationCell.swift */,
 				4CE3E84821A8E32E001D258E /* ConvoHeaderView.swift */,
 				4CE3E84621A8E0BE001D258E /* MessageComposerView.swift */,
 				4C56A09A21FBBA83003518B2 /* MessagesView.swift */,

@@ -11,6 +11,12 @@ import AppKit
 
 final class MessageComposerView: NSView {
 
+	override init(frame frameRect: NSRect) {
+		super.init(frame: frameRect)
+
+		setupInitialLayout()
+	}
+
 	private lazy var inputTextField: NSTextField = {
 		let field = NSTextField()
 
@@ -50,12 +56,6 @@ final class MessageComposerView: NSView {
 		sendButton.widthAnchor.constraint(equalToConstant: sendButton.intrinsicContentSize.width).isActive = true
 		sendButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -4).isActive = true
 		sendButton.centerYAnchor.constraint(equalTo: inputTextField.centerYAnchor).isActive = true
-	}
-
-	override func layout() {
-		super.layout()
-		
-		setupInitialLayout()
 	}
 
 	var conversation: GMConversation!
