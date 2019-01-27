@@ -158,8 +158,6 @@
 			children = (
 				4CC0B19620F6836A0077E795 /* BinaryInteger.swift */,
 				4CC32ABF20ED18D30046ED1D /* CollectionLayout.swift */,
-				4CB55E3C20EC055100924F87 /* Colors.swift */,
-				4C0C821B20E6F94900C13361 /* Fonts.swift */,
 				4CA03B6020E289630000EA78 /* GMConversation.swift */,
 				4C7D73D820E6C65E005DF911 /* GMConversationType.swift */,
 				4CA03B6320E28F0A0000EA78 /* GMMessage.swift */,
@@ -202,6 +200,8 @@
 			children = (
 				4C8736A221010D46007BAADF /* main.swift */,
 				4C78FD8A20D8280D006385B2 /* AppDelegate.swift */,
+				4CB55E3C20EC055100924F87 /* Colors.swift */,
+				4C0C821B20E6F94900C13361 /* Fonts.swift */,
 				4CE3E84A21A8E969001D258E /* Controllers */,
 				4CE3E84B21A8E990001D258E /* Views */,
 				4C78FD8E20D8280F006385B2 /* Assets.xcassets */,
