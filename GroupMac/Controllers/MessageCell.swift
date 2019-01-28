@@ -171,6 +171,8 @@ class MessageCell: NSCollectionViewItem {
 			else {
 				avatarImageView.image = personDefaultImage
 
+				view.backColor = .clear
+
 				if let url = message.avatarURL {
 					let imageTask = HTTP.handleImage(at: url, with: { (image: NSImage) in
 						DispatchQueue.main.async {

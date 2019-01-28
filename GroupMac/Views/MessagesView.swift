@@ -56,6 +56,12 @@ class MessagesView: NSScrollView, NSCollectionViewDelegateFlowLayout, NSCollecti
 		collectionView.collectionViewLayout?.invalidateLayout()
 	}
 
+	override var isFlipped: Bool {
+		get {
+			return true
+		}
+	}
+
 	var delegate: MessagesViewDelegate?
 	var messages = [GMMessage]() {
 		didSet {
@@ -63,9 +69,9 @@ class MessagesView: NSScrollView, NSCollectionViewDelegateFlowLayout, NSCollecti
 				self.shouldAllowLoadMoreMessages = false
 				self.collectionView.reloadData()
 
-				if !self.hasSetMessages {
-					self.collectionView.scrollToBottom()
-				}
+//				if !self.hasSetMessages {
+//					self.collectionView.scrollToBottom()
+//				}
 
 				self.shouldAllowLoadMoreMessages = true
 				self.hasSetMessages = true
@@ -78,9 +84,7 @@ class MessagesView: NSScrollView, NSCollectionViewDelegateFlowLayout, NSCollecti
 
 	@objc
 	private func didScroll() {
-		let y = documentVisibleRect.origin.y
-
-		if y < 16, shouldAllowLoadMoreMessages {
+		if verticalScroller?.floatValue == 1, shouldAllowLoadMoreMessages {
 			shouldAllowLoadMoreMessages = false
 			delegate?.shouldInsertMoreMessages()
 		}
