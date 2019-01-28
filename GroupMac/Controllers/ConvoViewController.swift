@@ -109,9 +109,9 @@ final class ConvoViewController: NSViewController, MessagesViewDelegate {
 
 	// MessagesViewDelegate
 	func shouldInsertMoreMessages() {
-		if let oldestMessage = messagesView.messages.first {
+		if let oldestMessage = messagesView.messages.last {
 			conversation.handleMessages(with: { messages in
-				self.messagesView.messages.insert(contentsOf: messages, at: 0)
+				self.messagesView.messages.append(contentsOf: messages)
 			}, beforeID: oldestMessage.id)
 		}
 	}

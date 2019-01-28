@@ -1,15 +1,15 @@
 //
-//  FlippedCV.swift
+//  FlippedCollectionView.swift
 //  GroupMac
 //
-//  Created by Will Tyler on 1/27/19.
+//  Created by Will Tyler on 1/28/19.
 //  Copyright © 2019 Will Tyler. All rights reserved.
 //
 
 import AppKit
 
 
-class FlippedCV: NSClipView {
+class FlippedCollectionView: NSCollectionView {
 
 	override var isFlipped: Bool {
 		get {

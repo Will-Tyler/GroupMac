@@ -18,7 +18,7 @@ class MessagesView: NSScrollView, NSCollectionViewDelegateFlowLayout, NSCollecti
 	override init(frame frameRect: NSRect) {
 		super.init(frame: frameRect)
 
-		contentView = FlippedCV()
+		contentView = FlippedClipView()
 		documentView = collectionView
 		contentView.postsBoundsChangedNotifications = true
 
@@ -28,13 +28,13 @@ class MessagesView: NSScrollView, NSCollectionViewDelegateFlowLayout, NSCollecti
 		fatalError("init(coder:) has not been implemented")
 	}
 
-	private lazy var collectionView: NSCollectionView = {
+	private lazy var collectionView: FlippedCollectionView = {
 		let layout = NSCollectionViewFlowLayout()
 
 		layout.minimumLineSpacing = 0
 		layout.scrollDirection = .vertical
 
-		let collection = NSCollectionView()
+		let collection = FlippedCollectionView()
 
 		collection.collectionViewLayout = layout
 		collection.isSelectable = false
@@ -95,8 +95,7 @@ class MessagesView: NSScrollView, NSCollectionViewDelegateFlowLayout, NSCollecti
 	}
 	func collectionView(_ collectionView: NSCollectionView, itemForRepresentedObjectAt indexPath: IndexPath) -> NSCollectionViewItem {
 		let item = collectionView.makeItem(withIdentifier: MessageCell.cellID, for: indexPath) as! MessageCell
-		let count = messages.count
-		let message = messages[count-1 - indexPath.item]
+		let message = messages[indexPath.item]
 
 		item.message = message
 
@@ -109,8 +108,7 @@ class MessagesView: NSScrollView, NSCollectionViewDelegateFlowLayout, NSCollecti
 		let likesViewWidth: CGFloat = 17
 		let minimumHeight: CGFloat = avatarImageWidth + 2*spacing
 
-		let count = messages.count
-		let message = messages[count-1 - indexPath.item]
+		let message = messages[indexPath.item]
 
 		let operatingWidth = collectionViewWidth - (avatarImageWidth + likesViewWidth + (4*spacing))
 		let name = message.name as NSString

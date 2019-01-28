@@ -10,7 +10,8 @@
 		4C019D7C20F57CB6001282E3 /* Me.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C019D7B20F57CB6001282E3 /* Me.swift */; };
 		4C019D7E20F58297001282E3 /* ConversationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C019D7D20F58297001282E3 /* ConversationCell.swift */; };
 		4C0C821C20E6F94900C13361 /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C0C821B20E6F94900C13361 /* Fonts.swift */; };
-		4C2A0F8221FE6E3E00378F63 /* FlippedCV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C2A0F8121FE6E3E00378F63 /* FlippedCV.swift */; };
+		4C18D4E521FFB22D0087A852 /* FlippedCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C18D4E421FFB22D0087A852 /* FlippedCollectionView.swift */; };
+		4C2A0F8221FE6E3E00378F63 /* FlippedClipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C2A0F8121FE6E3E00378F63 /* FlippedClipView.swift */; };
 		4C3035FE20FA6B5500EDFBAB /* Attachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3035FD20FA6B5500EDFBAB /* Attachment.swift */; };
 		4C334D2D20F8CC6100DC48E9 /* Hearts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C334D2C20F8CC6100DC48E9 /* Hearts.swift */; };
 		4C334D2F20F8DD6600DC48E9 /* HeartButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C334D2E20F8DD6600DC48E9 /* HeartButton.swift */; };
@@ -76,7 +77,8 @@
 		4C019D7B20F57CB6001282E3 /* Me.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Me.swift; sourceTree = "<group>"; };
 		4C019D7D20F58297001282E3 /* ConversationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationCell.swift; sourceTree = "<group>"; };
 		4C0C821B20E6F94900C13361 /* Fonts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
-		4C2A0F8121FE6E3E00378F63 /* FlippedCV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlippedCV.swift; sourceTree = "<group>"; };
+		4C18D4E421FFB22D0087A852 /* FlippedCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlippedCollectionView.swift; sourceTree = "<group>"; };
+		4C2A0F8121FE6E3E00378F63 /* FlippedClipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlippedClipView.swift; sourceTree = "<group>"; };
 		4C3035FD20FA6B5500EDFBAB /* Attachment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Attachment.swift; sourceTree = "<group>"; };
 		4C334D2C20F8CC6100DC48E9 /* Hearts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hearts.swift; sourceTree = "<group>"; };
 		4C334D2E20F8DD6600DC48E9 /* HeartButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartButton.swift; sourceTree = "<group>"; };
@@ -263,9 +265,10 @@
 			children = (
 				4C334D3020F8DDC900DC48E9 /* Buttons */,
 				4CE3E84821A8E32E001D258E /* ConvoHeaderView.swift */,
+				4C2A0F8121FE6E3E00378F63 /* FlippedClipView.swift */,
+				4C18D4E421FFB22D0087A852 /* FlippedCollectionView.swift */,
 				4CE3E84621A8E0BE001D258E /* MessageComposerView.swift */,
 				4C56A09A21FBBA83003518B2 /* MessagesView.swift */,
-				4C2A0F8121FE6E3E00378F63 /* FlippedCV.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -471,13 +474,14 @@
 				4C334D2D20F8CC6100DC48E9 /* Hearts.swift in Sources */,
 				4CC0B19520F659570077E795 /* NSView.swift in Sources */,
 				4C3035FE20FA6B5500EDFBAB /* Attachment.swift in Sources */,
-				4C2A0F8221FE6E3E00378F63 /* FlippedCV.swift in Sources */,
+				4C2A0F8221FE6E3E00378F63 /* FlippedClipView.swift in Sources */,
 				4C0C821C20E6F94900C13361 /* Fonts.swift in Sources */,
 				4CB55E3D20EC055100924F87 /* Colors.swift in Sources */,
 				4CD221EF20E180E900A13AE6 /* String.swift in Sources */,
 				4C8736A321010D46007BAADF /* main.swift in Sources */,
 				4C500F4A20D976F600C1646D /* HTTP.swift in Sources */,
 				4C7D73D920E6C65E005DF911 /* GMConversationType.swift in Sources */,
+				4C18D4E521FFB22D0087A852 /* FlippedCollectionView.swift in Sources */,
 				4C8736A5210133C6007BAADF /* NSScreen.swift in Sources */,
 				4C78FD8D20D8280D006385B2 /* ViewController.swift in Sources */,
 				4CDC814220DB23CB004D8DD0 /* ConvosViewController.swift in Sources */,
